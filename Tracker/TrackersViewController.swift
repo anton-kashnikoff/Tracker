@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CollectionViewController: UIViewController {
+final class TrackersViewController: UIViewController {
     let collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -121,15 +121,15 @@ final class CollectionViewController: UIViewController {
     }
 }
 
-extension CollectionViewController: UICollectionViewDelegate {
+extension TrackersViewController: UICollectionViewDelegate {
     
 }
 
-extension CollectionViewController: UICollectionViewDelegateFlowLayout {
+extension TrackersViewController: UICollectionViewDelegateFlowLayout {
     
 }
 
-extension CollectionViewController: UICollectionViewDataSource {
+extension TrackersViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         1
     }
@@ -139,6 +139,6 @@ extension CollectionViewController: UICollectionViewDataSource {
     }
 }
 
-extension CollectionViewController: UITextFieldDelegate {
+extension TrackersViewController: UITextFieldDelegate {
     
 }

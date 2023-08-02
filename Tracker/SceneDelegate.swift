@@ -16,8 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         let tabBarController = UITabBarController()
-        let collectionViewController = CollectionViewController()
-        let navigationController = UINavigationController(rootViewController: collectionViewController)
+        let trackersViewController = TrackersViewController()
+        let navigationController = UINavigationController(rootViewController: trackersViewController)
         
         navigationController.tabBarItem = UITabBarItem(title: "Трекеры", image: UIImage(named: "tracker tab bar icon"), selectedImage: nil)
         tabBarController.viewControllers = [navigationController]
