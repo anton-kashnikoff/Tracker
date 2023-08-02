@@ -25,6 +25,7 @@ final class CollectionViewController: UIViewController {
         collectionView.dataSource = self
         
         setupNavigationBar()
+        setupSearchTextField()
     }
     
     private func setupNavigationBar() {
@@ -52,6 +53,21 @@ final class CollectionViewController: UIViewController {
         return barButtonItem
     }
     
+    private func setupSearchTextField() {
+        let searchTextField = UISearchTextField()
+        searchTextField.placeholder = "Поиск"
+        searchTextField.backgroundColor = UIColor(red: 118, green: 118, blue: 128, alpha: 0.12)
+        searchTextField.delegate = self
+        searchTextField.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(searchTextField)
+        
+        NSLayoutConstraint.activate([
+            searchTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            searchTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
+        ])
+    }
+    
     @objc
     private func addTracker() {
         
@@ -74,4 +90,8 @@ extension CollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         UICollectionViewCell()
     }
+}
+
+extension CollectionViewController: UITextFieldDelegate {
+    
 }
