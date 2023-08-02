@@ -34,7 +34,7 @@ final class TrackersViewController: UIViewController {
     let searchTextField: UISearchTextField = {
         let searchTextField = UISearchTextField()
         searchTextField.placeholder = "Поиск"
-        searchTextField.backgroundColor = UIColor(red: 118, green: 118, blue: 128, alpha: 0.12)
+        searchTextField.backgroundColor = .searchTextFieldColor
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         return searchTextField
     }()
