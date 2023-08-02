@@ -13,6 +13,10 @@
 		CB846D792A74533E00128231 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB846D782A74533E00128231 /* Assets.xcassets */; };
 		CB846D7C2A74533E00128231 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB846D7A2A74533E00128231 /* LaunchScreen.storyboard */; };
 		CBD46B2C2A7AF24F00AB4F88 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD46B2B2A7AF24F00AB4F88 /* UIColor+Extensions.swift */; };
+		CBD46B2E2A7AF4F400AB4F88 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD46B2D2A7AF4F400AB4F88 /* Tracker.swift */; };
+		CBD46B302A7AF68200AB4F88 /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD46B2F2A7AF68200AB4F88 /* TrackerCategory.swift */; };
+		CBD46B322A7AF78100AB4F88 /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD46B312A7AF78100AB4F88 /* TrackerRecord.swift */; };
+		CBD46B342A7AF83F00AB4F88 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD46B332A7AF83E00AB4F88 /* Schedule.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +28,10 @@
 		CB846D7B2A74533E00128231 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CB846D7D2A74533E00128231 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CBD46B2B2A7AF24F00AB4F88 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
+		CBD46B2D2A7AF4F400AB4F88 /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
+		CBD46B2F2A7AF68200AB4F88 /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
+		CBD46B312A7AF78100AB4F88 /* TrackerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
+		CBD46B332A7AF83E00AB4F88 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +67,10 @@
 				CB846D6F2A74533B00128231 /* AppDelegate.swift */,
 				CB846D712A74533B00128231 /* SceneDelegate.swift */,
 				CB846D732A74533B00128231 /* TrackersViewController.swift */,
+				CBD46B2D2A7AF4F400AB4F88 /* Tracker.swift */,
+				CBD46B332A7AF83E00AB4F88 /* Schedule.swift */,
+				CBD46B2F2A7AF68200AB4F88 /* TrackerCategory.swift */,
+				CBD46B312A7AF78100AB4F88 /* TrackerRecord.swift */,
 				CBD46B2A2A7AF23800AB4F88 /* Extensions */,
 				CB846D782A74533E00128231 /* Assets.xcassets */,
 				CB846D7A2A74533E00128231 /* LaunchScreen.storyboard */,
@@ -145,9 +157,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CBD46B302A7AF68200AB4F88 /* TrackerCategory.swift in Sources */,
 				CB846D742A74533B00128231 /* TrackersViewController.swift in Sources */,
 				CB846D702A74533B00128231 /* AppDelegate.swift in Sources */,
+				CBD46B322A7AF78100AB4F88 /* TrackerRecord.swift in Sources */,
+				CBD46B2E2A7AF4F400AB4F88 /* Tracker.swift in Sources */,
 				CB846D722A74533B00128231 /* SceneDelegate.swift in Sources */,
+				CBD46B342A7AF83F00AB4F88 /* Schedule.swift in Sources */,
 				CBD46B2C2A7AF24F00AB4F88 /* UIColor+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
