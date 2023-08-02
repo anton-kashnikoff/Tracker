@@ -48,6 +48,7 @@ final class CollectionViewController: UIViewController {
     let label: UILabel = {
         let label = UILabel()
         label.text = "Что будем отслеживать?"
+        label.font = UIFont.systemFont(ofSize: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
