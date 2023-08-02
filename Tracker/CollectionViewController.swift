@@ -23,6 +23,38 @@ final class CollectionViewController: UIViewController {
         
         collectionView.delegate = self
         collectionView.dataSource = self
+        
+        setupNavigationBar()
+    }
+    
+    private func setupNavigationBar() {
+        title = "Трекеры"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        
+        navigationItem.leftBarButtonItem = getAddTrackerButtonItem()
+        navigationItem.rightBarButtonItem = getDatePickerItem()
+    }
+    
+    private func getAddTrackerButtonItem() -> UIBarButtonItem {
+        let barButtonItem = UIBarButtonItem()
+        barButtonItem.image = UIImage(named: "Add tracker icon")
+        barButtonItem.tintColor = .black
+        barButtonItem.action = #selector(addTracker)
+        return barButtonItem
+    }
+    
+    private func getDatePickerItem() -> UIBarButtonItem {
+        let datePicker = UIDatePicker()
+        datePicker.preferredDatePickerStyle = .compact
+        datePicker.datePickerMode = .date
+        
+        let barButtonItem = UIBarButtonItem(customView: datePicker)
+        return barButtonItem
+    }
+    
+    @objc
+    private func addTracker() {
+        
     }
 }
 
@@ -36,10 +68,10 @@ extension CollectionViewController: UICollectionViewDelegateFlowLayout {
 
 extension CollectionViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        <#code#>
+        1
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        <#code#>
+        UICollectionViewCell()
     }
 }
