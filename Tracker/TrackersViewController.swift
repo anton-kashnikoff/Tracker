@@ -82,7 +82,14 @@ final class TrackersViewController: UIViewController {
         title = "Трекеры"
         navigationController?.navigationBar.prefersLargeTitles = true
         
-        navigationItem.leftBarButtonItem = barButtonItem
+//        let barButtonItem = UIBarButtonItem()
+//        barButtonItem.image = UIImage(named: "Add tracker icon")
+//        barButtonItem.tintColor = .black
+//        barButtonItem.action = #selector(addTracker())
+        
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "Add tracker icon"), style: .plain, target: self, action: #selector(addTracker))
+//        navigationItem.leftBarButtonItem = barButtonItem
+//        navigationItem.leftBarButtonItem?.tintColor = .ypBlack
         navigationItem.rightBarButtonItem = datePickerItem
     }
     
@@ -117,7 +124,9 @@ final class TrackersViewController: UIViewController {
     
     @objc
     private func addTracker() {
-        
+        let navigationController = UINavigationController(rootViewController: TrackerTypeViewController())
+        print("sdhvksdjvbwdv")
+        present(navigationController, animated: true)
     }
 }
 

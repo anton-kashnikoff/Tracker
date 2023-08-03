@@ -17,6 +17,7 @@
 		CBD46B302A7AF68200AB4F88 /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD46B2F2A7AF68200AB4F88 /* TrackerCategory.swift */; };
 		CBD46B322A7AF78100AB4F88 /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD46B312A7AF78100AB4F88 /* TrackerRecord.swift */; };
 		CBD46B342A7AF83F00AB4F88 /* Schedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD46B332A7AF83E00AB4F88 /* Schedule.swift */; };
+		CBD46B362A7AFAB500AB4F88 /* TrackerTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD46B352A7AFAB500AB4F88 /* TrackerTypeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -32,6 +33,7 @@
 		CBD46B2F2A7AF68200AB4F88 /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
 		CBD46B312A7AF78100AB4F88 /* TrackerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
 		CBD46B332A7AF83E00AB4F88 /* Schedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Schedule.swift; sourceTree = "<group>"; };
+		CBD46B352A7AFAB500AB4F88 /* TrackerTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerTypeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -69,6 +71,7 @@
 				CB846D732A74533B00128231 /* TrackersViewController.swift */,
 				CBD46B2D2A7AF4F400AB4F88 /* Tracker.swift */,
 				CBD46B332A7AF83E00AB4F88 /* Schedule.swift */,
+				CBD46B352A7AFAB500AB4F88 /* TrackerTypeViewController.swift */,
 				CBD46B2F2A7AF68200AB4F88 /* TrackerCategory.swift */,
 				CBD46B312A7AF78100AB4F88 /* TrackerRecord.swift */,
 				CBD46B2A2A7AF23800AB4F88 /* Extensions */,
@@ -164,6 +167,7 @@
 				CBD46B2E2A7AF4F400AB4F88 /* Tracker.swift in Sources */,
 				CB846D722A74533B00128231 /* SceneDelegate.swift in Sources */,
 				CBD46B342A7AF83F00AB4F88 /* Schedule.swift in Sources */,
+				CBD46B362A7AFAB500AB4F88 /* TrackerTypeViewController.swift in Sources */,
 				CBD46B2C2A7AF24F00AB4F88 /* UIColor+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
