@@ -8,6 +8,18 @@
 import UIKit
 
 final class NewHabitViewController: UIViewController {
+    let scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
+    
+    let contentView: UIView = {
+        let contentView = UIView()
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        return contentView
+    }()
+    
     let textField: TextField = {
         let textField = TextField()
         textField.placeholder = "Введите название трекера"
@@ -30,7 +42,6 @@ final class NewHabitViewController: UIViewController {
     let emojiCollectionView: UICollectionView = {
         let emojiCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         emojiCollectionView.contentInset = UIEdgeInsets(top: 24, left: 18, bottom: 24, right: 18)
-        emojiCollectionView.backgroundColor = .red
         emojiCollectionView.translatesAutoresizingMaskIntoConstraints = false
         emojiCollectionView.register(EmojiCollectionViewCell.self, forCellWithReuseIdentifier: EmojiCollectionViewCell.reuseIdentifier)
         return emojiCollectionView
@@ -55,7 +66,6 @@ final class NewHabitViewController: UIViewController {
     let colorCollectionView: UICollectionView = {
         let colorCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         colorCollectionView.contentInset = UIEdgeInsets(top: 24, left: 18, bottom: 24, right: 18)
-        colorCollectionView.backgroundColor = .blue
         colorCollectionView.translatesAutoresizingMaskIntoConstraints = false
         colorCollectionView.register(ColorCollectionViewCell.self, forCellWithReuseIdentifier: ColorCollectionViewCell.reuseIdentifier)
         return colorCollectionView
@@ -71,6 +81,8 @@ final class NewHabitViewController: UIViewController {
         
         navigationItem.title = "Новая привычка"
         
+        setupScrollView()
+        setupContentView()
         setupTextField()
         setupTableView()
         setupEmojiLabel()
@@ -79,38 +91,63 @@ final class NewHabitViewController: UIViewController {
         setupColorCollectionView()
     }
     
+    private func setupScrollView() {
+        view.addSubview(scrollView)
+        
+        NSLayoutConstraint.activate([
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
+    
+    private func setupContentView() {
+        scrollView.addSubview(contentView)
+        
+        NSLayoutConstraint.activate([
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.heightAnchor.constraint(equalToConstant: 841)
+        ])
+        
+    }
+    
     private func setupTextField() {
-        view.addSubview(textField)
+        contentView.addSubview(textField)
         
         NSLayoutConstraint.activate([
             textField.heightAnchor.constraint(equalToConstant: 75),
-            textField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
-            textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            textField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
+            textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
     }
     
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        view.addSubview(tableView)
+        contentView.addSubview(tableView)
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 24),
             tableView.heightAnchor.constraint(equalToConstant: 150),
-            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+            tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
     }
     
     private func setupEmojiLabel() {
-        view.addSubview(emojiLabel)
+        contentView.addSubview(emojiLabel)
         
         NSLayoutConstraint.activate([
             emojiLabel.heightAnchor.constraint(equalToConstant: 18),
             emojiLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
-            emojiLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
-            emojiLabel.trailingAnchor.constraint(greaterThanOrEqualTo: view.trailingAnchor, constant: 295)
+            emojiLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            emojiLabel.trailingAnchor.constraint(greaterThanOrEqualTo: contentView.trailingAnchor, constant: 295)
         ])
     }
     
@@ -118,37 +155,37 @@ final class NewHabitViewController: UIViewController {
         emojiCollectionView.delegate = self
         emojiCollectionView.dataSource = self
         
-        view.addSubview(emojiCollectionView)
+        contentView.addSubview(emojiCollectionView)
         
         NSLayoutConstraint.activate([
             emojiCollectionView.topAnchor.constraint(equalTo: emojiLabel.bottomAnchor),
             emojiCollectionView.heightAnchor.constraint(equalToConstant: 204),
-            emojiCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            emojiCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            emojiCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            emojiCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
     }
     
     private func setupColorLabel() {
-        view.addSubview(colorLabel)
+        contentView.addSubview(colorLabel)
         
         NSLayoutConstraint.activate([
             colorLabel.heightAnchor.constraint(equalToConstant: 18),
             colorLabel.topAnchor.constraint(equalTo: emojiCollectionView.bottomAnchor, constant: 16),
-            colorLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
-            colorLabel.trailingAnchor.constraint(greaterThanOrEqualTo: view.trailingAnchor, constant: 295)
+            colorLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 28),
+            colorLabel.trailingAnchor.constraint(greaterThanOrEqualTo: contentView.trailingAnchor, constant: 295)
         ])
     }
     
     private func setupColorCollectionView() {
         colorCollectionView.delegate = self
         colorCollectionView.dataSource = self
-        view.addSubview(colorCollectionView)
+        contentView.addSubview(colorCollectionView)
         
         NSLayoutConstraint.activate([
             colorCollectionView.topAnchor.constraint(equalTo: colorLabel.bottomAnchor),
             colorCollectionView.heightAnchor.constraint(equalToConstant: 204),
-            colorCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            colorCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            colorCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            colorCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
         ])
     }
 }
