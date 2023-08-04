@@ -29,6 +29,15 @@ final class NewHabitViewController: UIViewController {
         return textField
     }()
     
+    let restrictionLabel: UILabel = {
+        let restrictionLabel = UILabel()
+        restrictionLabel.isHidden = true
+        restrictionLabel.textAlignment = .center
+        restrictionLabel.textColor = .ypRed
+        restrictionLabel.translatesAutoresizingMaskIntoConstraints = false
+        return restrictionLabel
+    }()
+    
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.layer.cornerRadius = 16
@@ -114,6 +123,7 @@ final class NewHabitViewController: UIViewController {
         setupScrollView()
         setupContentView()
         setupTextField()
+        setupRestrictionLabel()
         setupTableView()
         setupEmojiLabel()
         setupEmojiCollectionView()
@@ -150,6 +160,7 @@ final class NewHabitViewController: UIViewController {
     }
     
     private func setupTextField() {
+        textField.newHabitViewController = self
         contentView.addSubview(textField)
         
         NSLayoutConstraint.activate([
@@ -160,13 +171,23 @@ final class NewHabitViewController: UIViewController {
         ])
     }
     
+    func setupRestrictionLabel() {
+        contentView.addSubview(restrictionLabel)
+        
+        NSLayoutConstraint.activate([
+            restrictionLabel.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 8),
+            restrictionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 44),
+            restrictionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -45)
+        ])
+    }
+    
     private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         contentView.addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 24),
+            tableView.topAnchor.constraint(equalTo: restrictionLabel.bottomAnchor, constant: 24),
             tableView.heightAnchor.constraint(equalToConstant: 150),
             tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
@@ -253,6 +274,18 @@ final class NewHabitViewController: UIViewController {
             cancelButton.trailingAnchor.constraint(equalTo: createButton.leadingAnchor, constant: -8),
             cancelButton.leadingAnchor.constraint(equalTo: buttonsStackView.leadingAnchor)
         ])
+    }
+    
+    func showRestrictionLabel() {
+        restrictionLabel.text = "Ограничение 38 символов"
+        restrictionLabel.isHidden = false
+        setupTableView()
+    }
+    
+    func hideRestrictionLabel() {
+        restrictionLabel.text = nil
+        restrictionLabel.isHidden = true
+        setupTableView()
     }
 }
 
