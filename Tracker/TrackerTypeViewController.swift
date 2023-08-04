@@ -43,6 +43,7 @@ final class TrackerTypeViewController: UIViewController {
     }
     
     private func setupHabitButton() {
+        habitButton.addTarget(self, action: #selector(didTapHabitButton), for: .touchUpInside)
         view.addSubview(habitButton)
         
         NSLayoutConstraint.activate([
@@ -62,5 +63,11 @@ final class TrackerTypeViewController: UIViewController {
             irregularEventButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             irregularEventButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
+    }
+    
+    @objc
+    private func didTapHabitButton() {
+        let navigationController = UINavigationController(rootViewController: NewHabitViewController())
+        present(navigationController, animated: true)
     }
 }

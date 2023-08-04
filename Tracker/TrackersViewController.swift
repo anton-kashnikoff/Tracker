@@ -18,7 +18,8 @@ final class TrackersViewController: UIViewController {
         let barButtonItem = UIBarButtonItem()
         barButtonItem.image = UIImage(named: "Add tracker icon")
         barButtonItem.tintColor = .black
-        barButtonItem.action = #selector(addTracker)
+//        barButtonItem.target = TrackersViewController.self
+//        barButtonItem.action = #selector(addTracker)
         return barButtonItem
     }()
     
@@ -56,7 +57,7 @@ final class TrackersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .ypWhite
         
 //        setupCollectionView()
         setupNavigationBar()
@@ -82,14 +83,10 @@ final class TrackersViewController: UIViewController {
         title = "Трекеры"
         navigationController?.navigationBar.prefersLargeTitles = true
         
-//        let barButtonItem = UIBarButtonItem()
-//        barButtonItem.image = UIImage(named: "Add tracker icon")
-//        barButtonItem.tintColor = .black
-//        barButtonItem.action = #selector(addTracker())
+        barButtonItem.target = self
+        barButtonItem.action = #selector(addTracker)
         
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "Add tracker icon"), style: .plain, target: self, action: #selector(addTracker))
-//        navigationItem.leftBarButtonItem = barButtonItem
-//        navigationItem.leftBarButtonItem?.tintColor = .ypBlack
+        navigationItem.leftBarButtonItem = barButtonItem
         navigationItem.rightBarButtonItem = datePickerItem
     }
     
@@ -125,7 +122,6 @@ final class TrackersViewController: UIViewController {
     @objc
     private func addTracker() {
         let navigationController = UINavigationController(rootViewController: TrackerTypeViewController())
-        print("sdhvksdjvbwdv")
         present(navigationController, animated: true)
     }
 }
