@@ -44,6 +44,14 @@ final class NewHabitViewController: UIViewController {
         return emojiLabel
     }()
     
+    let colorLabel: UILabel = {
+        let colorLabel = UILabel()
+        colorLabel.text = "Цвет"
+        colorLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
+        colorLabel.translatesAutoresizingMaskIntoConstraints = false
+        return colorLabel
+    }()
+    
     private let tableViewCells = ["Категория", "Расписание"]
     private let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     
@@ -57,6 +65,7 @@ final class NewHabitViewController: UIViewController {
         setupTableView()
         setupEmojiLabel()
         setupEmojiCollectionView()
+        setupColorLabel()
     }
     
     private func setupTextField() {
@@ -91,6 +100,17 @@ final class NewHabitViewController: UIViewController {
             emojiLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
             emojiLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
             emojiLabel.trailingAnchor.constraint(greaterThanOrEqualTo: view.trailingAnchor, constant: 295)
+        ])
+    }
+    
+    private func setupColorLabel() {
+        view.addSubview(colorLabel)
+        
+        NSLayoutConstraint.activate([
+            colorLabel.heightAnchor.constraint(equalToConstant: 18),
+            colorLabel.topAnchor.constraint(equalTo: emojiCollectionView.bottomAnchor, constant: 16),
+            colorLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            colorLabel.trailingAnchor.constraint(greaterThanOrEqualTo: view.trailingAnchor, constant: 295)
         ])
     }
     
