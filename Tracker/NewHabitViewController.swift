@@ -27,7 +27,17 @@ final class NewHabitViewController: UIViewController {
         return tableView
     }()
     
+    let emojiCollectionView: UICollectionView = {
+        let emojiCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        emojiCollectionView.contentInset = UIEdgeInsets(top: 24, left: 18, bottom: 24, right: 18)
+        emojiCollectionView.backgroundColor = .red
+        emojiCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        emojiCollectionView.register(EmojiCollectionViewCell.self, forCellWithReuseIdentifier: EmojiCollectionViewCell.reuseIdentifier)
+        return emojiCollectionView
+    }()
+    
     private let tableViewCells = ["Категория", "Расписание"]
+    private let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,6 +47,7 @@ final class NewHabitViewController: UIViewController {
         
         setupTextField()
         setupTableView()
+        setupEmojiCollectionView()
     }
     
     private func setupTextField() {
@@ -57,9 +68,22 @@ final class NewHabitViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 24),
-            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 24),
+            tableView.heightAnchor.constraint(equalToConstant: 150),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+    }
+    
+    private func setupEmojiCollectionView() {
+        emojiCollectionView.delegate = self
+        emojiCollectionView.dataSource = self
+        view.addSubview(emojiCollectionView)
+        
+        NSLayoutConstraint.activate([
+            emojiCollectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 50),
+            emojiCollectionView.heightAnchor.constraint(equalToConstant: 204),
+            emojiCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            emojiCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
 }
@@ -89,5 +113,41 @@ extension NewHabitViewController: UITableViewDataSource {
         }
         
         return cell
+    }
+}
+
+extension NewHabitViewController: UICollectionViewDelegate {
+    
+}
+
+extension NewHabitViewController: UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        emoji.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCollectionViewCell.reuseIdentifier, for: indexPath) as? EmojiCollectionViewCell else {
+            print("Unable to create EmojiCollectionViewCell")
+            return UICollectionViewCell()
+        }
+        
+        cell.label.text = emoji[indexPath.row]
+        cell.label.font = UIFont.systemFont(ofSize: 32)
+        
+        return cell
+    }
+}
+
+extension NewHabitViewController: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        CGSize(width: 52, height: 52)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        5
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        0
     }
 }
