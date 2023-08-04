@@ -71,6 +71,36 @@ final class NewHabitViewController: UIViewController {
         return colorCollectionView
     }()
     
+    let buttonsStackView: UIStackView = {
+        let buttonsStackView = UIStackView()
+        buttonsStackView.translatesAutoresizingMaskIntoConstraints = false
+        return buttonsStackView
+    }()
+    
+    let cancelButton: UIButton = {
+        let cancelButton = UIButton()
+        cancelButton.backgroundColor = .ypWhite
+        cancelButton.setTitle("Отменить", for: .normal)
+        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        cancelButton.setTitleColor(.ypRed, for: .normal)
+        cancelButton.layer.borderWidth = 1
+        cancelButton.layer.borderColor = UIColor.ypRed.cgColor
+        cancelButton.layer.cornerRadius = 16
+        cancelButton.translatesAutoresizingMaskIntoConstraints = false
+        return cancelButton
+    }()
+    
+    let createButton: UIButton = {
+        let createButton = UIButton()
+        createButton.backgroundColor = .ypGray
+        createButton.setTitle("Создать", for: .normal)
+        createButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        createButton.setTitleColor(.ypWhite, for: .normal)
+        createButton.layer.cornerRadius = 16
+        createButton.translatesAutoresizingMaskIntoConstraints = false
+        return createButton
+    }()
+    
     private let tableViewCells = ["Категория", "Расписание"]
     let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     let colors: [UIColor] = [.colorSelection1, .colorSelection2, .colorSelection3, .colorSelection4, .colorSelection5, .colorSelection6, .colorSelection7, .colorSelection8, .colorSelection9, .colorSelection10, .colorSelection11, .colorSelection12, .colorSelection13, .colorSelection14, .colorSelection15, .colorSelection16, .colorSelection17, .colorSelection18]
@@ -89,6 +119,9 @@ final class NewHabitViewController: UIViewController {
         setupEmojiCollectionView()
         setupColorLabel()
         setupColorCollectionView()
+        setupButtonsStackView()
+        setupCreateButton()
+        setupCancelButton()
     }
     
     private func setupScrollView() {
@@ -186,6 +219,39 @@ final class NewHabitViewController: UIViewController {
             colorCollectionView.heightAnchor.constraint(equalToConstant: 204),
             colorCollectionView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             colorCollectionView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+        ])
+    }
+    
+    private func setupButtonsStackView() {
+        contentView.addSubview(buttonsStackView)
+        
+        NSLayoutConstraint.activate([
+            buttonsStackView.heightAnchor.constraint(equalToConstant: 60),
+            buttonsStackView.topAnchor.constraint(equalTo: colorCollectionView.bottomAnchor, constant: 16),
+            buttonsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            buttonsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+        ])
+    }
+    
+    private func setupCreateButton() {
+        buttonsStackView.addSubview(createButton)
+        
+        NSLayoutConstraint.activate([
+            createButton.widthAnchor.constraint(equalToConstant: 161),
+            createButton.topAnchor.constraint(equalTo: buttonsStackView.topAnchor),
+            createButton.bottomAnchor.constraint(equalTo: buttonsStackView.bottomAnchor),
+            createButton.trailingAnchor.constraint(equalTo: buttonsStackView.trailingAnchor)
+        ])
+    }
+    
+    private func setupCancelButton() {
+        buttonsStackView.addSubview(cancelButton)
+        
+        NSLayoutConstraint.activate([
+            cancelButton.topAnchor.constraint(equalTo: buttonsStackView.topAnchor),
+            cancelButton.bottomAnchor.constraint(equalTo: buttonsStackView.bottomAnchor),
+            cancelButton.trailingAnchor.constraint(equalTo: createButton.leadingAnchor, constant: -8),
+            cancelButton.leadingAnchor.constraint(equalTo: buttonsStackView.leadingAnchor)
         ])
     }
 }
