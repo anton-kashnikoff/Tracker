@@ -20,7 +20,6 @@
 		CBD46B362A7AFAB500AB4F88 /* TrackerTypeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD46B352A7AFAB500AB4F88 /* TrackerTypeViewController.swift */; };
 		CBD46B382A7C0CF700AB4F88 /* NewHabitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD46B372A7C0CF700AB4F88 /* NewHabitViewController.swift */; };
 		CBF3B2782A7CFCB200A540CA /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF3B2772A7CFCB200A540CA /* TextField.swift */; };
-		CBF3B27A2A7D016200A540CA /* HabitCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF3B2792A7D016200A540CA /* HabitCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,7 +38,6 @@
 		CBD46B352A7AFAB500AB4F88 /* TrackerTypeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerTypeViewController.swift; sourceTree = "<group>"; };
 		CBD46B372A7C0CF700AB4F88 /* NewHabitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHabitViewController.swift; sourceTree = "<group>"; };
 		CBF3B2772A7CFCB200A540CA /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
-		CBF3B2792A7D016200A540CA /* HabitCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +74,6 @@
 				CB846D712A74533B00128231 /* SceneDelegate.swift */,
 				CB846D732A74533B00128231 /* TrackersViewController.swift */,
 				CBD46B372A7C0CF700AB4F88 /* NewHabitViewController.swift */,
-				CBF3B2792A7D016200A540CA /* HabitCell.swift */,
 				CBF3B2772A7CFCB200A540CA /* TextField.swift */,
 				CBD46B2D2A7AF4F400AB4F88 /* Tracker.swift */,
 				CBD46B332A7AF83E00AB4F88 /* Schedule.swift */,
@@ -171,7 +168,6 @@
 			files = (
 				CBD46B302A7AF68200AB4F88 /* TrackerCategory.swift in Sources */,
 				CBF3B2782A7CFCB200A540CA /* TextField.swift in Sources */,
-				CBF3B27A2A7D016200A540CA /* HabitCell.swift in Sources */,
 				CB846D742A74533B00128231 /* TrackersViewController.swift in Sources */,
 				CB846D702A74533B00128231 /* AppDelegate.swift in Sources */,
 				CBD46B322A7AF78100AB4F88 /* TrackerRecord.swift in Sources */,

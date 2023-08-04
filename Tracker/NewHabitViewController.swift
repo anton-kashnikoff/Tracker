@@ -27,7 +27,7 @@ final class NewHabitViewController: UIViewController {
         return tableView
     }()
     
-    let tableViewCells = ["Категория", "Расписание"]
+    private let tableViewCells = ["Категория", "Расписание"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
