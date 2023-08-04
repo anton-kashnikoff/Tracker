@@ -12,5 +12,6 @@ extension UIColor {
     static let ypBlue = UIColor(named: "YPBlue") ?? .systemBlue
     static let ypBlack = UIColor(named: "YPBlack") ?? .black
     static let ypWhite = UIColor(named: "YPWhite") ?? .white
-    static let ypBackground = UIColor(named: "YPBackground") ?? .systemGray
+    static let ypBackground = UIColor(named: "YPBackground") ?? .lightGray
+    static let ypGray = UIColor(named: "YPGray") ?? .systemGray
 }
