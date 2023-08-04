@@ -36,6 +36,14 @@ final class NewHabitViewController: UIViewController {
         return emojiCollectionView
     }()
     
+    let emojiLabel: UILabel = {
+        let emojiLabel = UILabel()
+        emojiLabel.text = "Emoji"
+        emojiLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
+        emojiLabel.translatesAutoresizingMaskIntoConstraints = false
+        return emojiLabel
+    }()
+    
     private let tableViewCells = ["Категория", "Расписание"]
     private let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     
@@ -47,6 +55,7 @@ final class NewHabitViewController: UIViewController {
         
         setupTextField()
         setupTableView()
+        setupEmojiLabel()
         setupEmojiCollectionView()
     }
     
@@ -74,13 +83,24 @@ final class NewHabitViewController: UIViewController {
         ])
     }
     
+    private func setupEmojiLabel() {
+        view.addSubview(emojiLabel)
+        
+        NSLayoutConstraint.activate([
+            emojiLabel.heightAnchor.constraint(equalToConstant: 18),
+            emojiLabel.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 32),
+            emojiLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 28),
+            emojiLabel.trailingAnchor.constraint(greaterThanOrEqualTo: view.trailingAnchor, constant: 295)
+        ])
+    }
+    
     private func setupEmojiCollectionView() {
         emojiCollectionView.delegate = self
         emojiCollectionView.dataSource = self
         view.addSubview(emojiCollectionView)
         
         NSLayoutConstraint.activate([
-            emojiCollectionView.topAnchor.constraint(equalTo: tableView.bottomAnchor, constant: 50),
+            emojiCollectionView.topAnchor.constraint(equalTo: emojiLabel.bottomAnchor),
             emojiCollectionView.heightAnchor.constraint(equalToConstant: 204),
             emojiCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             emojiCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
