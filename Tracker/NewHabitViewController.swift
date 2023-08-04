@@ -52,8 +52,18 @@ final class NewHabitViewController: UIViewController {
         return colorLabel
     }()
     
+    let colorCollectionView: UICollectionView = {
+        let colorCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        colorCollectionView.contentInset = UIEdgeInsets(top: 24, left: 18, bottom: 24, right: 18)
+        colorCollectionView.backgroundColor = .blue
+        colorCollectionView.translatesAutoresizingMaskIntoConstraints = false
+        colorCollectionView.register(ColorCollectionViewCell.self, forCellWithReuseIdentifier: ColorCollectionViewCell.reuseIdentifier)
+        return colorCollectionView
+    }()
+    
     private let tableViewCells = ["Категория", "Расписание"]
-    private let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
+    let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
+    let colors: [UIColor] = [.colorSelection1, .colorSelection2, .colorSelection3, .colorSelection4, .colorSelection5, .colorSelection6, .colorSelection7, .colorSelection8, .colorSelection9, .colorSelection10, .colorSelection11, .colorSelection12, .colorSelection13, .colorSelection14, .colorSelection15, .colorSelection16, .colorSelection17, .colorSelection18]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +76,7 @@ final class NewHabitViewController: UIViewController {
         setupEmojiLabel()
         setupEmojiCollectionView()
         setupColorLabel()
+        setupColorCollectionView()
     }
     
     private func setupTextField() {
@@ -103,6 +114,20 @@ final class NewHabitViewController: UIViewController {
         ])
     }
     
+    private func setupEmojiCollectionView() {
+        emojiCollectionView.delegate = self
+        emojiCollectionView.dataSource = self
+        
+        view.addSubview(emojiCollectionView)
+        
+        NSLayoutConstraint.activate([
+            emojiCollectionView.topAnchor.constraint(equalTo: emojiLabel.bottomAnchor),
+            emojiCollectionView.heightAnchor.constraint(equalToConstant: 204),
+            emojiCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            emojiCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+        ])
+    }
+    
     private func setupColorLabel() {
         view.addSubview(colorLabel)
         
@@ -114,16 +139,16 @@ final class NewHabitViewController: UIViewController {
         ])
     }
     
-    private func setupEmojiCollectionView() {
-        emojiCollectionView.delegate = self
-        emojiCollectionView.dataSource = self
-        view.addSubview(emojiCollectionView)
+    private func setupColorCollectionView() {
+        colorCollectionView.delegate = self
+        colorCollectionView.dataSource = self
+        view.addSubview(colorCollectionView)
         
         NSLayoutConstraint.activate([
-            emojiCollectionView.topAnchor.constraint(equalTo: emojiLabel.bottomAnchor),
-            emojiCollectionView.heightAnchor.constraint(equalToConstant: 204),
-            emojiCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            emojiCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            colorCollectionView.topAnchor.constraint(equalTo: colorLabel.bottomAnchor),
+            colorCollectionView.heightAnchor.constraint(equalToConstant: 204),
+            colorCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            colorCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
         ])
     }
 }
@@ -157,24 +182,43 @@ extension NewHabitViewController: UITableViewDataSource {
 }
 
 extension NewHabitViewController: UICollectionViewDelegate {
-    
+
 }
 
 extension NewHabitViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        emoji.count
+        switch collectionView {
+        case emojiCollectionView:
+            return emoji.count
+        case colorCollectionView:
+            return colors.count
+        default:
+            return 0
+        }
     }
-    
+
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCollectionViewCell.reuseIdentifier, for: indexPath) as? EmojiCollectionViewCell else {
-            print("Unable to create EmojiCollectionViewCell")
-            return UICollectionViewCell()
+        if collectionView == emojiCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCollectionViewCell.reuseIdentifier, for: indexPath) as? EmojiCollectionViewCell else {
+                print("Unable to create EmojiCollectionViewCell")
+                return UICollectionViewCell()
+            }
+
+            cell.label.text = emoji[indexPath.row]
+            cell.label.font = UIFont.systemFont(ofSize: 32)
+            return cell
+        } else if collectionView == colorCollectionView {
+            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCollectionViewCell.reuseIdentifier, for: indexPath) as? ColorCollectionViewCell else {
+                print("Unable to create ColorCollectionViewCell")
+                return UICollectionViewCell()
+            }
+            
+            cell.view.backgroundColor = colors[indexPath.row]
+            cell.view.layer.cornerRadius = 8
+            return cell
         }
         
-        cell.label.text = emoji[indexPath.row]
-        cell.label.font = UIFont.systemFont(ofSize: 32)
-        
-        return cell
+        return UICollectionViewCell()
     }
 }
 

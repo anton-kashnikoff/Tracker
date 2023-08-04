@@ -21,6 +21,7 @@
 		CBD46B382A7C0CF700AB4F88 /* NewHabitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD46B372A7C0CF700AB4F88 /* NewHabitViewController.swift */; };
 		CBF3B2782A7CFCB200A540CA /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF3B2772A7CFCB200A540CA /* TextField.swift */; };
 		CBF3B27C2A7D0DCD00A540CA /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF3B27B2A7D0DCD00A540CA /* EmojiCollectionViewCell.swift */; };
+		CBF3B2802A7D27C300A540CA /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF3B27F2A7D27C300A540CA /* ColorCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		CBD46B372A7C0CF700AB4F88 /* NewHabitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewHabitViewController.swift; sourceTree = "<group>"; };
 		CBF3B2772A7CFCB200A540CA /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		CBF3B27B2A7D0DCD00A540CA /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
+		CBF3B27F2A7D27C300A540CA /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -77,6 +79,7 @@
 				CB846D732A74533B00128231 /* TrackersViewController.swift */,
 				CBD46B372A7C0CF700AB4F88 /* NewHabitViewController.swift */,
 				CBF3B27B2A7D0DCD00A540CA /* EmojiCollectionViewCell.swift */,
+				CBF3B27F2A7D27C300A540CA /* ColorCollectionViewCell.swift */,
 				CBF3B2772A7CFCB200A540CA /* TextField.swift */,
 				CBD46B2D2A7AF4F400AB4F88 /* Tracker.swift */,
 				CBD46B332A7AF83E00AB4F88 /* Schedule.swift */,
@@ -170,6 +173,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CBD46B302A7AF68200AB4F88 /* TrackerCategory.swift in Sources */,
+				CBF3B2802A7D27C300A540CA /* ColorCollectionViewCell.swift in Sources */,
 				CBF3B2782A7CFCB200A540CA /* TextField.swift in Sources */,
 				CB846D742A74533B00128231 /* TrackersViewController.swift in Sources */,
 				CB846D702A74533B00128231 /* AppDelegate.swift in Sources */,
