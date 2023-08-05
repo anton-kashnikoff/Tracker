@@ -118,7 +118,9 @@ final class NewHabitViewController: UIViewController {
     
     var habitTracker = Tracker(id: UUID(), name: nil, color: nil, emoji: nil, schedule: nil)
     var category: TrackerCategory?
+    var daysOfWeek = [Schedule.DayOfWeek: Bool]()
     private var categoryObserver: NSObjectProtocol?
+    private var scheduleObserver: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -127,6 +129,10 @@ final class NewHabitViewController: UIViewController {
         navigationItem.title = "Новая привычка"
         
         categoryObserver = NotificationCenter.default.addObserver(forName: CategoryViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
+            self?.tableView.reloadData()
+        })
+        
+        scheduleObserver = NotificationCenter.default.addObserver(forName: ScheduleViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
             self?.tableView.reloadData()
         })
         
@@ -286,6 +292,17 @@ final class NewHabitViewController: UIViewController {
         ])
     }
     
+    // TODO: Сделать сокращения дней недели
+    private func getDaysOfWeekString() -> String {
+        var text = ""
+        for (key, value) in daysOfWeek {
+            if value {
+                text += key.rawValue
+            }
+        }
+        return text
+    }
+    
     func showRestrictionLabel() {
         restrictionLabel.text = "Ограничение 38 символов"
         restrictionLabel.isHidden = false
@@ -311,7 +328,10 @@ extension NewHabitViewController: UITableViewDelegate {
             let navigationController = UINavigationController(rootViewController: categoryViewController)
             present(navigationController, animated: true)
         } else if indexPath.row == 1 {
-            
+            let scheduleViewController = ScheduleViewController()
+            scheduleViewController.newHabitViewController = self
+            let navigationController = UINavigationController(rootViewController: scheduleViewController)
+            present(navigationController, animated: true)
         }
     }
 }
@@ -329,19 +349,27 @@ extension NewHabitViewController: UITableViewDataSource {
         if #available(iOS 14.0, *) {
             var content = cell.defaultContentConfiguration()
             content.text = tableViewCells[indexPath.row]
+            
             if tableViewCells[indexPath.row] == "Категория" {
                 content.secondaryText = category?.name
-                content.secondaryTextProperties.font = UIFont.systemFont(ofSize: 17)
-                content.secondaryTextProperties.color = .ypGray
+            } else if tableViewCells[indexPath.row] == "Расписание" {
+                content.secondaryText = getDaysOfWeekString()
             }
+            
+            content.secondaryTextProperties.font = UIFont.systemFont(ofSize: 17)
+            content.secondaryTextProperties.color = .ypGray
+            
             cell.contentConfiguration = content
         } else {
             cell.textLabel?.text = tableViewCells[indexPath.row]
             if tableViewCells[indexPath.row] == "Категория" {
                 cell.detailTextLabel?.text = category?.name
-                cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17)
-                cell.detailTextLabel?.textColor = .ypGray
+            } else if tableViewCells[indexPath.row] == "Расписание" {
+                cell.detailTextLabel?.text = getDaysOfWeekString()
             }
+            
+            cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17)
+            cell.detailTextLabel?.textColor = .ypGray
         }
         
         return cell
