@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CB10365B2A7E693000CD06DB /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB10365A2A7E693000CD06DB /* CategoryViewController.swift */; };
 		CB846D702A74533B00128231 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB846D6F2A74533B00128231 /* AppDelegate.swift */; };
 		CB846D722A74533B00128231 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB846D712A74533B00128231 /* SceneDelegate.swift */; };
 		CB846D742A74533B00128231 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB846D732A74533B00128231 /* TrackersViewController.swift */; };
@@ -25,6 +26,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CB10365A2A7E693000CD06DB /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		CB846D6C2A74533B00128231 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB846D6F2A74533B00128231 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB846D712A74533B00128231 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -78,6 +80,7 @@
 				CB846D712A74533B00128231 /* SceneDelegate.swift */,
 				CB846D732A74533B00128231 /* TrackersViewController.swift */,
 				CBD46B372A7C0CF700AB4F88 /* NewHabitViewController.swift */,
+				CB10365A2A7E693000CD06DB /* CategoryViewController.swift */,
 				CBF3B27B2A7D0DCD00A540CA /* EmojiCollectionViewCell.swift */,
 				CBF3B27F2A7D27C300A540CA /* ColorCollectionViewCell.swift */,
 				CBF3B2772A7CFCB200A540CA /* TextField.swift */,
@@ -174,6 +177,7 @@
 			files = (
 				CBD46B302A7AF68200AB4F88 /* TrackerCategory.swift in Sources */,
 				CBF3B2802A7D27C300A540CA /* ColorCollectionViewCell.swift in Sources */,
+				CB10365B2A7E693000CD06DB /* CategoryViewController.swift in Sources */,
 				CBF3B2782A7CFCB200A540CA /* TextField.swift in Sources */,
 				CB846D742A74533B00128231 /* TrackersViewController.swift in Sources */,
 				CB846D702A74533B00128231 /* AppDelegate.swift in Sources */,

@@ -294,6 +294,15 @@ extension NewHabitViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         75
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if indexPath.row == 0 {
+            let navigationController = UINavigationController(rootViewController: CategoryViewController())
+            present(navigationController, animated: true)
+        } else if indexPath.row == 1 {
+            
+        }
+    }
 }
 
 extension NewHabitViewController: UITableViewDataSource {
