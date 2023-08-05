@@ -54,6 +54,8 @@ final class TrackersViewController: UIViewController {
         return label
     }()
     
+    var categories = [TrackerCategory]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

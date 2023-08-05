@@ -22,6 +22,7 @@ final class NewHabitViewController: UIViewController {
     
     let textField: TextField = {
         let textField = TextField()
+//        textField.identifier = "newHabit"
         textField.placeholder = "Введите название трекера"
         textField.clearButtonMode = .whileEditing
         textField.layer.cornerRadius = 16
@@ -115,11 +116,19 @@ final class NewHabitViewController: UIViewController {
     let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     let colors: [UIColor] = [.colorSelection1, .colorSelection2, .colorSelection3, .colorSelection4, .colorSelection5, .colorSelection6, .colorSelection7, .colorSelection8, .colorSelection9, .colorSelection10, .colorSelection11, .colorSelection12, .colorSelection13, .colorSelection14, .colorSelection15, .colorSelection16, .colorSelection17, .colorSelection18]
     
+    var habitTracker = Tracker(id: UUID(), name: nil, color: nil, emoji: nil, schedule: nil)
+    var category: TrackerCategory?
+    private var categoryObserver: NSObjectProtocol?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
         
         navigationItem.title = "Новая привычка"
+        
+        categoryObserver = NotificationCenter.default.addObserver(forName: CategoryViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
+            self?.tableView.reloadData()
+        })
         
         setupScrollView()
         setupContentView()
@@ -297,7 +306,9 @@ extension NewHabitViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
-            let navigationController = UINavigationController(rootViewController: CategoryViewController())
+            let categoryViewController = CategoryViewController()
+            categoryViewController.newHabitViewController = self
+            let navigationController = UINavigationController(rootViewController: categoryViewController)
             present(navigationController, animated: true)
         } else if indexPath.row == 1 {
             
@@ -318,9 +329,19 @@ extension NewHabitViewController: UITableViewDataSource {
         if #available(iOS 14.0, *) {
             var content = cell.defaultContentConfiguration()
             content.text = tableViewCells[indexPath.row]
+            if tableViewCells[indexPath.row] == "Категория" {
+                content.secondaryText = category?.name
+                content.secondaryTextProperties.font = UIFont.systemFont(ofSize: 17)
+                content.secondaryTextProperties.color = .ypGray
+            }
             cell.contentConfiguration = content
         } else {
             cell.textLabel?.text = tableViewCells[indexPath.row]
+            if tableViewCells[indexPath.row] == "Категория" {
+                cell.detailTextLabel?.text = category?.name
+                cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17)
+                cell.detailTextLabel?.textColor = .ypGray
+            }
         }
         
         return cell

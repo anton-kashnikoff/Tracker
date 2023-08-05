@@ -7,5 +7,5 @@
 
 struct TrackerCategory {
     let name: String
-    let trackers: [Tracker]
+    let trackers: [Tracker]?
 }
