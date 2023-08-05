@@ -23,6 +23,7 @@ final class NewHabitViewController: UIViewController {
     let textField: TextField = {
         let textField = TextField()
         textField.placeholder = "Введите название трекера"
+        textField.clearButtonMode = .whileEditing
         textField.layer.cornerRadius = 16
         textField.backgroundColor = .ypBackground
         textField.translatesAutoresizingMaskIntoConstraints = false
