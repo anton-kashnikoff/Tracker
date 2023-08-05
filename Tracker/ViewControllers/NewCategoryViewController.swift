@@ -74,7 +74,7 @@ final class NewCategoryViewController: UIViewController {
         let categoryName = textField.text ?? ""
         let category = TrackerCategory(name: categoryName, trackers: nil)
         categoryViewController?.categories.append(category)
-        print("doneButtonDidTap \(categoryViewController?.categories)")
+//        print("doneButtonDidTap \(categoryViewController?.categories)")
         NotificationCenter.default.post(name: NewCategoryViewController.didChangeNotification, object: self)
         dismiss(animated: true)
     }

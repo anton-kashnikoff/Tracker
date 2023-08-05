@@ -21,13 +21,6 @@ final class ScheduleViewController: UIViewController {
         return tableView
     }()
     
-//    let switchView: UISwitch = {
-//        let switchView = UISwitch(frame: .zero)
-//        switchView.setOn(false, animated: true)
-//        switchView.onTintColor = .ypBlue
-//        return switchView
-//    }()
-    
     let button: UIButton = {
         let button = UIButton()
         button.backgroundColor = .ypBlack
@@ -81,8 +74,7 @@ final class ScheduleViewController: UIViewController {
         let switchView = UISwitch(frame: .zero)
         switchView.setOn(false, animated: true)
         switchView.onTintColor = .ypBlue
-        switchView.tag = indexPath.row // for detect which row switch changed
-        print(switchView.tag)
+        switchView.tag = indexPath.row
         switchView.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
         return switchView
     }
@@ -95,7 +87,8 @@ final class ScheduleViewController: UIViewController {
     
     @objc
     private func switchChanged(_ sender: UISwitch) {
-        newHabitViewController?.daysOfWeek[Schedule.DayOfWeek.allCases[sender.tag]] = sender.isOn
+        let index = sender.tag
+        newHabitViewController?.daysOfWeek.append((index, Schedule.BriefDayOfWeek.allCases[index], sender.isOn))
     }
 }
 

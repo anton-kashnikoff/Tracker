@@ -118,7 +118,7 @@ final class NewHabitViewController: UIViewController {
     
     var habitTracker = Tracker(id: UUID(), name: nil, color: nil, emoji: nil, schedule: nil)
     var category: TrackerCategory?
-    var daysOfWeek = [Schedule.DayOfWeek: Bool]()
+    var daysOfWeek = [(Int, Schedule.BriefDayOfWeek, Bool)]()
     private var categoryObserver: NSObjectProtocol?
     private var scheduleObserver: NSObjectProtocol?
     
@@ -292,15 +292,19 @@ final class NewHabitViewController: UIViewController {
         ])
     }
     
-    // TODO: Сделать сокращения дней недели
     private func getDaysOfWeekString() -> String {
-        var text = ""
-        for (key, value) in daysOfWeek {
+        var selectedDays = [String]()
+        let daysOfWeekSorted = daysOfWeek.sorted {
+            $0.0 < $1.0
+        }
+        
+        for (_, briefDay, value) in daysOfWeekSorted {
             if value {
-                text += key.rawValue
+                selectedDays.append(briefDay.rawValue)
             }
         }
-        return text
+        
+        return selectedDays.joined(separator: ", ")
     }
     
     func showRestrictionLabel() {
