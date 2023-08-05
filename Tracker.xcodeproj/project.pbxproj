@@ -59,6 +59,38 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		CB10365E2A7EB63900CD06DB /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				CB846D732A74533B00128231 /* TrackersViewController.swift */,
+				CBD46B372A7C0CF700AB4F88 /* NewHabitViewController.swift */,
+				CB10365A2A7E693000CD06DB /* CategoryViewController.swift */,
+				CB10365C2A7E6F4A00CD06DB /* NewCategoryViewController.swift */,
+				CBD46B352A7AFAB500AB4F88 /* TrackerTypeViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		CB10365F2A7EB66000CD06DB /* CollectionViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				CBF3B27B2A7D0DCD00A540CA /* EmojiCollectionViewCell.swift */,
+				CBF3B27F2A7D27C300A540CA /* ColorCollectionViewCell.swift */,
+			);
+			path = CollectionViewCells;
+			sourceTree = "<group>";
+		};
+		CB1036602A7EB69600CD06DB /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CBD46B2D2A7AF4F400AB4F88 /* Tracker.swift */,
+				CBD46B332A7AF83E00AB4F88 /* Schedule.swift */,
+				CBD46B2F2A7AF68200AB4F88 /* TrackerCategory.swift */,
+				CBD46B312A7AF78100AB4F88 /* TrackerRecord.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		CB846D632A74533B00128231 = {
 			isa = PBXGroup;
 			children = (
@@ -80,18 +112,10 @@
 			children = (
 				CB846D6F2A74533B00128231 /* AppDelegate.swift */,
 				CB846D712A74533B00128231 /* SceneDelegate.swift */,
-				CB846D732A74533B00128231 /* TrackersViewController.swift */,
-				CBD46B372A7C0CF700AB4F88 /* NewHabitViewController.swift */,
-				CB10365A2A7E693000CD06DB /* CategoryViewController.swift */,
-				CB10365C2A7E6F4A00CD06DB /* NewCategoryViewController.swift */,
-				CBF3B27B2A7D0DCD00A540CA /* EmojiCollectionViewCell.swift */,
-				CBF3B27F2A7D27C300A540CA /* ColorCollectionViewCell.swift */,
+				CB1036602A7EB69600CD06DB /* Models */,
+				CB10365E2A7EB63900CD06DB /* ViewControllers */,
+				CB10365F2A7EB66000CD06DB /* CollectionViewCells */,
 				CBF3B2772A7CFCB200A540CA /* TextField.swift */,
-				CBD46B2D2A7AF4F400AB4F88 /* Tracker.swift */,
-				CBD46B332A7AF83E00AB4F88 /* Schedule.swift */,
-				CBD46B352A7AFAB500AB4F88 /* TrackerTypeViewController.swift */,
-				CBD46B2F2A7AF68200AB4F88 /* TrackerCategory.swift */,
-				CBD46B312A7AF78100AB4F88 /* TrackerRecord.swift */,
 				CBD46B2A2A7AF23800AB4F88 /* Extensions */,
 				CB846D782A74533E00128231 /* Assets.xcassets */,
 				CB846D7A2A74533E00128231 /* LaunchScreen.storyboard */,
