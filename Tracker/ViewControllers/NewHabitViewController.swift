@@ -387,7 +387,42 @@ extension NewHabitViewController: UITableViewDataSource {
 }
 
 extension NewHabitViewController: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if collectionView == emojiCollectionView {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCollectionViewCell else {
+                print("Unable to create EmojiCollectionViewCell")
+                return
+            }
 
+            cell.backgroundColor = .ypLightGrey
+            
+        } else if collectionView == colorCollectionView {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCollectionViewCell else {
+                print("Unable to create EmojiCollectionViewCell")
+                return
+            }
+            
+            cell.layer.borderColor = cell.view.backgroundColor?.withAlphaComponent(0.3).cgColor
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        if collectionView == emojiCollectionView {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCollectionViewCell else {
+                print("Unable to create EmojiCollectionViewCell")
+                return
+            }
+
+            cell.backgroundColor = .ypWhite
+        } else if collectionView == colorCollectionView {
+            guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCollectionViewCell else {
+                print("Unable to create EmojiCollectionViewCell")
+                return
+            }
+            
+            cell.layer.borderColor = UIColor.ypWhite.cgColor
+        }
+    }
 }
 
 extension NewHabitViewController: UICollectionViewDataSource {
@@ -411,6 +446,7 @@ extension NewHabitViewController: UICollectionViewDataSource {
 
             cell.label.text = emoji[indexPath.row]
             cell.label.font = UIFont.systemFont(ofSize: 32)
+            cell.layer.cornerRadius = 16
             return cell
         } else if collectionView == colorCollectionView {
             guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCollectionViewCell.reuseIdentifier, for: indexPath) as? ColorCollectionViewCell else {
@@ -418,6 +454,9 @@ extension NewHabitViewController: UICollectionViewDataSource {
                 return UICollectionViewCell()
             }
             
+            cell.layer.cornerRadius = 8
+            cell.layer.borderWidth = 3
+            cell.layer.borderColor = UIColor.ypWhite.cgColor
             cell.view.backgroundColor = colors[indexPath.row]
             cell.view.layer.cornerRadius = 8
             return cell
