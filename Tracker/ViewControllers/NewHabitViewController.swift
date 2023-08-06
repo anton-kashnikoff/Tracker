@@ -22,7 +22,7 @@ final class NewHabitViewController: UIViewController {
     
     let textField: TextField = {
         let textField = TextField()
-//        textField.identifier = "newHabit"
+        textField.identifier = "newHabit"
         textField.placeholder = "Введите название трекера"
         textField.clearButtonMode = .whileEditing
         textField.layer.cornerRadius = 16
@@ -46,6 +46,9 @@ final class NewHabitViewController: UIViewController {
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.separatorColor = .ypGray
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "habitCell")
+//        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 10))
+//        view.backgroundColor = .ypWhite
+//        tableView.tableFooterView = UIView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -167,10 +170,8 @@ final class NewHabitViewController: UIViewController {
         NSLayoutConstraint.activate([
             contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.heightAnchor.constraint(equalToConstant: 841)
+            contentView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
         ])
         
     }
@@ -266,7 +267,8 @@ final class NewHabitViewController: UIViewController {
             buttonsStackView.heightAnchor.constraint(equalToConstant: 60),
             buttonsStackView.topAnchor.constraint(equalTo: colorCollectionView.bottomAnchor, constant: 16),
             buttonsStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            buttonsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20)
+            buttonsStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            buttonsStackView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
     
@@ -349,6 +351,10 @@ extension NewHabitViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "habitCell", for: indexPath)
         cell.accessoryType = .disclosureIndicator
         cell.backgroundColor = .ypBackground
+        
+        if indexPath.row == 1 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
+        }
         
         if #available(iOS 14.0, *) {
             var content = cell.defaultContentConfiguration()

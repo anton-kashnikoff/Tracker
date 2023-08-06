@@ -106,6 +106,10 @@ extension ScheduleViewController: UITableViewDataSource {
         cell.backgroundColor = .ypBackground
         cell.accessoryView = getSwitch(for: indexPath)
         
+        if indexPath.row == 6 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
+        }
+        
         if #available(iOS 14.0, *) {
             var content = cell.defaultContentConfiguration()
             content.text = Schedule.DayOfWeek.allCases[indexPath.row].rawValue

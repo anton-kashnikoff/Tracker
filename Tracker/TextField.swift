@@ -38,36 +38,35 @@ final class TextField: UITextField {
 
 extension TextField: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let maxLength = 38
-//        let text = textField.text
-        let currentString = (textField.text ?? "") as NSString
-        let newString = currentString.replacingCharacters(in: range, with: string) as NSString
         
-        if newString.length > maxLength {
-            newHabitViewController?.showRestrictionLabel()
-        } else {
-            newHabitViewController?.hideRestrictionLabel()
+        guard let textField = textField as? TextField else {
+            return false
         }
         
+        if textField.identifier == "newHabit" {
+            let maxLength = 38
+            let currentString = (textField.text ?? "") as NSString
+            let newString = currentString.replacingCharacters(in: range, with: string) as NSString
+            
+            if newString.length > maxLength {
+                newHabitViewController?.showRestrictionLabel()
+            } else {
+                newHabitViewController?.hideRestrictionLabel()
+            }
+            
+            return newString.length <= maxLength
+        } else if textField.identifier == "newCategory" {
+            let currentString = (textField.text ?? "") as NSString
+            let newText = currentString.replacingCharacters(in: range, with: string)
+            print(newText)
+            print("Пустой текст ? \(newText.isEmpty)")
+//            newCategoryViewController?.button.isEnabled = !newText.isEmpty
+    //        print("Кнопка включена ? \(newCategoryViewController?.button.isEnabled)")
+            newCategoryViewController?.button.backgroundColor = !newText.isEmpty ? .ypBlack : .ypGray
+            print(newCategoryViewController?.button.backgroundColor)
+        }
         
-//        newCategoryViewController?.toggleButton()
-        
-//        if text != nil {
-//            newCategoryViewController?.activateButton()
-//            print(newCategoryViewController?.button.isEnabled)
-//        } else {
-//            newCategoryViewController?.deactivateButton()
-//            print(newCategoryViewController?.button.isEnabled)
-//        }
-        
-        let newText = currentString.replacingCharacters(in: range, with: string)
-//        print(newText)
-//        print("Пустой текст ? \(newText.isEmpty)")
-        newCategoryViewController?.button.isEnabled = !newText.isEmpty
-//        print("Кнопка включена ? \(newCategoryViewController?.button.isEnabled)")
-        newCategoryViewController?.button.backgroundColor = isEnabled ? .ypBlack : .ypGray
-//        print(newCategoryViewController?.button.backgroundColor)
-        
-        return newString.length <= maxLength
+//        return newString.length <= maxLength
+        return true
     }
 }

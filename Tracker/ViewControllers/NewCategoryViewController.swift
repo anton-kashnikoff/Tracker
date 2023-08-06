@@ -10,7 +10,7 @@ import UIKit
 final class NewCategoryViewController: UIViewController {
     let textField: TextField = {
         let textField = TextField()
-//        textField.identifier = "newCategory"
+        textField.identifier = "newCategory"
         textField.placeholder = "Введите название категории"
         textField.layer.cornerRadius = 16
         textField.backgroundColor = .ypBackground
