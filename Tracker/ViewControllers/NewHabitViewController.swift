@@ -281,6 +281,7 @@ final class NewHabitViewController: UIViewController {
     }
     
     private func setupCancelButton() {
+        cancelButton.addTarget(self, action: #selector(cancelButtonDidTap), for: .touchUpInside)
         buttonsStackView.addSubview(cancelButton)
         
         NSLayoutConstraint.activate([
@@ -324,6 +325,11 @@ final class NewHabitViewController: UIViewController {
         } else {
             createButton.backgroundColor = .ypGray
         }
+    }
+    
+    @objc
+    private func cancelButtonDidTap() {
+        dismiss(animated: true)
     }
 }
 
