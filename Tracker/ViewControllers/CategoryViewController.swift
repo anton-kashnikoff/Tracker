@@ -145,7 +145,7 @@ extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.dequeueReusableCell(withIdentifier: "categoryCell")?.accessoryType = .checkmark
         newHabitViewController?.category = categories[indexPath.row]
-//        newHabitViewController?.habitTracker.name = 
+        newHabitViewController?.tryActivateCreateButton()
         NotificationCenter.default.post(name: CategoryViewController.didChangeNotification, object: self)
         dismiss(animated: true)
     }

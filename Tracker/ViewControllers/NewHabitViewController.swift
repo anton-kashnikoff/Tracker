@@ -317,6 +317,14 @@ final class NewHabitViewController: UIViewController {
         restrictionLabel.isHidden = true
         setupTableView()
     }
+    
+    func tryActivateCreateButton() {
+        if habitTracker.name != nil && habitTracker.emoji != nil && habitTracker.color != nil && habitTracker.schedule != nil && category?.name != nil {
+            createButton.backgroundColor = .ypBlack
+        } else {
+            createButton.backgroundColor = .ypGray
+        }
+    }
 }
 
 extension NewHabitViewController: UITableViewDelegate {
@@ -396,6 +404,7 @@ extension NewHabitViewController: UICollectionViewDelegate {
             cell.backgroundColor = .ypLightGrey
             
             habitTracker.emoji = cell.label.text
+            tryActivateCreateButton()
             print(habitTracker)
             
         } else if collectionView == colorCollectionView {
@@ -407,6 +416,7 @@ extension NewHabitViewController: UICollectionViewDelegate {
             cell.layer.borderColor = cell.view.backgroundColor?.withAlphaComponent(0.3).cgColor
             
             habitTracker.color = cell.view.backgroundColor
+            tryActivateCreateButton()
             print(habitTracker)
         }
     }

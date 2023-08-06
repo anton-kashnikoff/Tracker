@@ -58,6 +58,7 @@ extension TextField: UITextFieldDelegate {
                 newHabitViewController?.hideRestrictionLabel()
             }
             
+            newHabitViewController?.tryActivateCreateButton()
 //            print("currentString = \(currentString)")
 //            print("newText = \(newTextNSString)")
             

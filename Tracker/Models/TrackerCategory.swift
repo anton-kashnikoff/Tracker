@@ -6,6 +6,6 @@
 //
 
 struct TrackerCategory {
-    let name: String
-    let trackers: [Tracker]?
+    var name: String?
+    var trackers: [Tracker]?
 }
