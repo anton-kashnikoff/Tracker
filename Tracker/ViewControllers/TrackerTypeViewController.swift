@@ -14,8 +14,8 @@ final class TrackerTypeViewController: UIViewController {
         habitButton.layer.cornerRadius = 16
         habitButton.layer.masksToBounds = true
         habitButton.setTitle("Привычка", for: .normal)
+        habitButton.setTitleColor(.ypWhite, for: .normal)
         habitButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        habitButton.titleLabel?.textColor = .ypWhite
         habitButton.translatesAutoresizingMaskIntoConstraints = false
         return habitButton
     }()
@@ -26,8 +26,8 @@ final class TrackerTypeViewController: UIViewController {
         irregularEventButton.layer.cornerRadius = 16
         irregularEventButton.layer.masksToBounds = true
         irregularEventButton.setTitle("Нерегулярное событие", for: .normal)
+        irregularEventButton.setTitleColor(.ypWhite, for: .normal)
         irregularEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
-        irregularEventButton.titleLabel?.textColor = .ypWhite
         irregularEventButton.translatesAutoresizingMaskIntoConstraints = false
         return irregularEventButton
     }()
