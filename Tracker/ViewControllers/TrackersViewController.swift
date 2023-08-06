@@ -8,8 +8,8 @@
 import UIKit
 
 final class TrackersViewController: UIViewController {
-    let collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    let collectionView: TrackersCollectionView = {
+        let collectionView = TrackersCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -67,9 +67,8 @@ final class TrackersViewController: UIViewController {
     }
     
     private func setupCollectionView() {
+        collectionView.trackersViewController = self
         view.addSubview(collectionView)
-        collectionView.delegate = self
-        collectionView.dataSource = self
         
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -126,24 +125,5 @@ final class TrackersViewController: UIViewController {
     }
 }
 
-extension TrackersViewController: UICollectionViewDelegate {
-    
-}
-
-extension TrackersViewController: UICollectionViewDelegateFlowLayout {
-    
-}
-
-extension TrackersViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        UICollectionViewCell()
-    }
-}
-
 extension TrackersViewController: UITextFieldDelegate {
-    
 }
