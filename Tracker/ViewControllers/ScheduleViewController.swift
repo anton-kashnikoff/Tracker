@@ -34,6 +34,8 @@ final class ScheduleViewController: UIViewController {
     
     static let didChangeNotification = Notification.Name(rawValue: "ScheduleDidChange")
     
+    var selectedDays: Set<Schedule.DayOfWeek> = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -88,7 +90,12 @@ final class ScheduleViewController: UIViewController {
     @objc
     private func switchChanged(_ sender: UISwitch) {
         let index = sender.tag
+        if sender.isOn {
+            selectedDays.insert(Schedule.DayOfWeek.allCases[index])
+        }
+        
         newHabitViewController?.daysOfWeek.append((index, Schedule.BriefDayOfWeek.allCases[index], sender.isOn))
+        newHabitViewController?.habitTracker.schedule = Schedule(daysOfWeek: selectedDays)
     }
 }
 

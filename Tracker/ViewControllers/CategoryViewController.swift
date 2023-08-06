@@ -50,10 +50,10 @@ final class CategoryViewController: UIViewController {
     private var categoriesListObserver: NSObjectProtocol?
     var newHabitViewController: NewHabitViewController?
     static let didChangeNotification = Notification.Name(rawValue: "CategoryDidChange")
+    var tableViewHeightConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(categories)
         
         view.backgroundColor = .ypWhite
         
@@ -62,17 +62,16 @@ final class CategoryViewController: UIViewController {
         categoriesListObserver = NotificationCenter.default.addObserver(forName: NewCategoryViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
             self?.imageView.removeFromSuperview()
             self?.label.removeFromSuperview()
-            self?.setupTableView()
+            self?.updateTableViewHeight(to: CGFloat(self?.categories.count ?? 0) * (self?.tableView.rowHeight)!)
             self?.tableView.reloadData()
-            print("Got notification \(self?.categories)")
+//            print("Got notification \(self?.categories)")
         })
         
         if categories.isEmpty {
             showEmptyView()
-        } else {
-            setupTableView()
         }
         
+        setupTableView()
         setupButton()
     }
     
@@ -117,16 +116,20 @@ final class CategoryViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         view.addSubview(tableView)
-        
-        let height = CGFloat(categories.count) * tableView.rowHeight
-        print(height)
-        
+
         NSLayoutConstraint.activate([
-            tableView.heightAnchor.constraint(equalToConstant: height),
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
+        
+        tableViewHeightConstraint = tableView.heightAnchor.constraint(equalToConstant: 75)
+        tableViewHeightConstraint?.isActive = true
+    }
+    
+    private func updateTableViewHeight(to height: CGFloat) {
+        tableViewHeightConstraint?.constant = height
+        view.layoutIfNeeded()
     }
     
     @objc
@@ -142,6 +145,7 @@ extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.dequeueReusableCell(withIdentifier: "categoryCell")?.accessoryType = .checkmark
         newHabitViewController?.category = categories[indexPath.row]
+//        newHabitViewController?.habitTracker.name = 
         NotificationCenter.default.post(name: CategoryViewController.didChangeNotification, object: self)
         dismiss(animated: true)
     }
@@ -155,10 +159,6 @@ extension CategoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
         cell.backgroundColor = .ypBackground
-        
-        if indexPath.row == categories.count - 1 {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
-        }
         
         if #available(iOS 14.0, *) {
             var content = cell.defaultContentConfiguration()

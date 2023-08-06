@@ -46,9 +46,6 @@ final class NewHabitViewController: UIViewController {
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         tableView.separatorColor = .ypGray
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "habitCell")
-//        let view = UIView(frame: CGRect(x: 0, y: 0, width: tableView.frame.size.width, height: 10))
-//        view.backgroundColor = .ypWhite
-//        tableView.tableFooterView = UIView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -364,6 +361,7 @@ extension NewHabitViewController: UITableViewDataSource {
                 content.secondaryText = category?.name
             } else if tableViewCells[indexPath.row] == "Расписание" {
                 content.secondaryText = getDaysOfWeekString()
+                print(habitTracker)
             }
             
             content.secondaryTextProperties.font = UIFont.systemFont(ofSize: 17)
@@ -376,6 +374,7 @@ extension NewHabitViewController: UITableViewDataSource {
                 cell.detailTextLabel?.text = category?.name
             } else if tableViewCells[indexPath.row] == "Расписание" {
                 cell.detailTextLabel?.text = getDaysOfWeekString()
+                print(habitTracker)
             }
             
             cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17)
@@ -396,6 +395,9 @@ extension NewHabitViewController: UICollectionViewDelegate {
 
             cell.backgroundColor = .ypLightGrey
             
+            habitTracker.emoji = cell.label.text
+            print(habitTracker)
+            
         } else if collectionView == colorCollectionView {
             guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCollectionViewCell else {
                 print("Unable to create EmojiCollectionViewCell")
@@ -403,6 +405,9 @@ extension NewHabitViewController: UICollectionViewDelegate {
             }
             
             cell.layer.borderColor = cell.view.backgroundColor?.withAlphaComponent(0.3).cgColor
+            
+            habitTracker.color = cell.view.backgroundColor
+            print(habitTracker)
         }
     }
     

@@ -26,5 +26,5 @@ struct Schedule {
         case sunday = "Вс"
     }
     
-    let dayOfWeek: DayOfWeek
+    let daysOfWeek: Set<DayOfWeek>
 }

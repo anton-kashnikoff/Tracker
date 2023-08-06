@@ -43,30 +43,29 @@ extension TextField: UITextFieldDelegate {
             return false
         }
         
+        let currentString = (textField.text ?? "") as NSString
+        let newText = currentString.replacingCharacters(in: range, with: string)
+        
         if textField.identifier == "newHabit" {
             let maxLength = 38
-            let currentString = (textField.text ?? "") as NSString
-            let newString = currentString.replacingCharacters(in: range, with: string) as NSString
+            let newTextNSString = currentString.replacingCharacters(in: range, with: string) as NSString
             
-            if newString.length > maxLength {
+            newHabitViewController?.habitTracker.name = !newText.isEmpty ? newText : nil
+            
+            if newTextNSString.length > maxLength {
                 newHabitViewController?.showRestrictionLabel()
             } else {
                 newHabitViewController?.hideRestrictionLabel()
             }
             
-            return newString.length <= maxLength
+//            print("currentString = \(currentString)")
+//            print("newText = \(newTextNSString)")
+            
+            return newTextNSString.length <= maxLength
         } else if textField.identifier == "newCategory" {
-            let currentString = (textField.text ?? "") as NSString
-            let newText = currentString.replacingCharacters(in: range, with: string)
-            print(newText)
-            print("Пустой текст ? \(newText.isEmpty)")
-//            newCategoryViewController?.button.isEnabled = !newText.isEmpty
-    //        print("Кнопка включена ? \(newCategoryViewController?.button.isEnabled)")
             newCategoryViewController?.button.backgroundColor = !newText.isEmpty ? .ypBlack : .ypGray
-            print(newCategoryViewController?.button.backgroundColor)
         }
         
-//        return newString.length <= maxLength
         return true
     }
 }
