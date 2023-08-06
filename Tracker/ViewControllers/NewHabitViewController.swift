@@ -50,8 +50,8 @@ final class NewHabitViewController: UIViewController {
         return tableView
     }()
     
-    let emojiCollectionView: UICollectionView = {
-        let emojiCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    let emojiCollectionView: EmojiCollectionView = {
+        let emojiCollectionView = EmojiCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         emojiCollectionView.contentInset = UIEdgeInsets(top: 24, left: 18, bottom: 24, right: 18)
         emojiCollectionView.translatesAutoresizingMaskIntoConstraints = false
         emojiCollectionView.register(EmojiCollectionViewCell.self, forCellWithReuseIdentifier: EmojiCollectionViewCell.reuseIdentifier)
@@ -74,8 +74,8 @@ final class NewHabitViewController: UIViewController {
         return colorLabel
     }()
     
-    let colorCollectionView: UICollectionView = {
-        let colorCollectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+    let colorCollectionView: ColorCollectionView = {
+        let colorCollectionView = ColorCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         colorCollectionView.contentInset = UIEdgeInsets(top: 24, left: 18, bottom: 24, right: 18)
         colorCollectionView.translatesAutoresizingMaskIntoConstraints = false
         colorCollectionView.register(ColorCollectionViewCell.self, forCellWithReuseIdentifier: ColorCollectionViewCell.reuseIdentifier)
@@ -220,8 +220,9 @@ final class NewHabitViewController: UIViewController {
     }
     
     private func setupEmojiCollectionView() {
-        emojiCollectionView.delegate = self
-        emojiCollectionView.dataSource = self
+//        emojiCollectionView.delegate = self
+//        emojiCollectionView.dataSource = self
+        emojiCollectionView.newHabitViewController = self
         
         contentView.addSubview(emojiCollectionView)
         
@@ -245,8 +246,9 @@ final class NewHabitViewController: UIViewController {
     }
     
     private func setupColorCollectionView() {
-        colorCollectionView.delegate = self
-        colorCollectionView.dataSource = self
+//        colorCollectionView.delegate = self
+//        colorCollectionView.dataSource = self
+        colorCollectionView.newHabitViewController = self
         contentView.addSubview(colorCollectionView)
         
         NSLayoutConstraint.activate([
@@ -396,107 +398,5 @@ extension NewHabitViewController: UITableViewDataSource {
         }
         
         return cell
-    }
-}
-
-extension NewHabitViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if collectionView == emojiCollectionView {
-            guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCollectionViewCell else {
-                print("Unable to create EmojiCollectionViewCell")
-                return
-            }
-
-            cell.backgroundColor = .ypLightGrey
-            
-            habitTracker.emoji = cell.label.text
-            tryActivateCreateButton()
-            print(habitTracker)
-            
-        } else if collectionView == colorCollectionView {
-            guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCollectionViewCell else {
-                print("Unable to create EmojiCollectionViewCell")
-                return
-            }
-            
-            cell.layer.borderColor = cell.view.backgroundColor?.withAlphaComponent(0.3).cgColor
-            
-            habitTracker.color = cell.view.backgroundColor
-            tryActivateCreateButton()
-            print(habitTracker)
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-        if collectionView == emojiCollectionView {
-            guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCollectionViewCell else {
-                print("Unable to create EmojiCollectionViewCell")
-                return
-            }
-
-            cell.backgroundColor = .ypWhite
-        } else if collectionView == colorCollectionView {
-            guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCollectionViewCell else {
-                print("Unable to create EmojiCollectionViewCell")
-                return
-            }
-            
-            cell.layer.borderColor = UIColor.ypWhite.cgColor
-        }
-    }
-}
-
-extension NewHabitViewController: UICollectionViewDataSource {
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        switch collectionView {
-        case emojiCollectionView:
-            return emoji.count
-        case colorCollectionView:
-            return colors.count
-        default:
-            return 0
-        }
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if collectionView == emojiCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: EmojiCollectionViewCell.reuseIdentifier, for: indexPath) as? EmojiCollectionViewCell else {
-                print("Unable to create EmojiCollectionViewCell")
-                return UICollectionViewCell()
-            }
-
-            cell.label.text = emoji[indexPath.row]
-            cell.label.font = UIFont.systemFont(ofSize: 32)
-            cell.layer.cornerRadius = 16
-            return cell
-        } else if collectionView == colorCollectionView {
-            guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ColorCollectionViewCell.reuseIdentifier, for: indexPath) as? ColorCollectionViewCell else {
-                print("Unable to create ColorCollectionViewCell")
-                return UICollectionViewCell()
-            }
-            
-            cell.layer.cornerRadius = 8
-            cell.layer.borderWidth = 3
-            cell.layer.borderColor = UIColor.ypWhite.cgColor
-            cell.view.backgroundColor = colors[indexPath.row]
-            cell.view.layer.cornerRadius = 8
-            return cell
-        }
-        
-        return UICollectionViewCell()
-    }
-}
-
-extension NewHabitViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: 52, height: 52)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
-        5
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        0
     }
 }
