@@ -17,9 +17,7 @@ final class TrackersViewController: UIViewController {
     let barButtonItem: UIBarButtonItem = {
         let barButtonItem = UIBarButtonItem()
         barButtonItem.image = UIImage(named: "Add tracker icon")
-        barButtonItem.tintColor = .black
-//        barButtonItem.target = TrackersViewController.self
-//        barButtonItem.action = #selector(addTracker)
+        barButtonItem.tintColor = .ypBlack
         return barButtonItem
     }()
     
