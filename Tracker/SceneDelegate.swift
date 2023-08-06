@@ -16,6 +16,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         }
         
         let tabBarController = UITabBarController()
+        tabBarController.tabBar.layer.borderWidth = 0.5
+        tabBarController.tabBar.layer.borderColor = UIColor.tabBarBorderColor.cgColor
         let trackersViewController = TrackersViewController()
         let temporaryVC = UIViewController()
         temporaryVC.view.backgroundColor = .systemBackground
