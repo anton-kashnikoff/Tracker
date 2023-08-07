@@ -71,7 +71,8 @@ final class TrackerTypeViewController: UIViewController {
     private func didTapHabitButton() {
         let newHabitViewController = NewHabitViewController()
         newHabitViewController.trackersViewController = trackersViewController
-        let navigationController = UINavigationController(rootViewController: newHabitViewController)
-        present(navigationController, animated: true)
+        navigationController?.pushViewController(newHabitViewController, animated: true)
+//        let navigationController = UINavigationController(rootViewController: newHabitViewController)
+//        present(navigationController, animated: true)
     }
 }

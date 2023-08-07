@@ -10,6 +10,8 @@
 		CB10365B2A7E693000CD06DB /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB10365A2A7E693000CD06DB /* CategoryViewController.swift */; };
 		CB10365D2A7E6F4A00CD06DB /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB10365C2A7E6F4A00CD06DB /* NewCategoryViewController.swift */; };
 		CB1036622A7EB6E200CD06DB /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1036612A7EB6E200CD06DB /* ScheduleViewController.swift */; };
+		CB49F1882A81135300C37A24 /* HeaderCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */; };
+		CB49F18A2A8124F100C37A24 /* GeometricParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F1892A8124F100C37A24 /* GeometricParams.swift */; };
 		CB846D702A74533B00128231 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB846D6F2A74533B00128231 /* AppDelegate.swift */; };
 		CB846D722A74533B00128231 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB846D712A74533B00128231 /* SceneDelegate.swift */; };
 		CB846D742A74533B00128231 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB846D732A74533B00128231 /* TrackersViewController.swift */; };
@@ -35,6 +37,8 @@
 		CB10365A2A7E693000CD06DB /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		CB10365C2A7E6F4A00CD06DB /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
 		CB1036612A7EB6E200CD06DB /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
+		CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionView.swift; sourceTree = "<group>"; };
+		CB49F1892A8124F100C37A24 /* GeometricParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometricParams.swift; sourceTree = "<group>"; };
 		CB846D6C2A74533B00128231 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB846D6F2A74533B00128231 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB846D712A74533B00128231 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -132,6 +136,7 @@
 				CB846D782A74533E00128231 /* Assets.xcassets */,
 				CB846D7A2A74533E00128231 /* LaunchScreen.storyboard */,
 				CB846D7D2A74533E00128231 /* Info.plist */,
+				CB49F1892A8124F100C37A24 /* GeometricParams.swift */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -143,6 +148,7 @@
 				CBCFDA242A7FF45100CA505F /* EmojiCollectionView.swift */,
 				CBCFDA262A7FF89700CA505F /* ColorCollectionView.swift */,
 				CBCFDA292A7FFAA200CA505F /* TrackersCollectionView.swift */,
+				CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */,
 			);
 			path = CustomClasses;
 			sourceTree = "<group>";
@@ -235,10 +241,12 @@
 				CB846D702A74533B00128231 /* AppDelegate.swift in Sources */,
 				CBD46B322A7AF78100AB4F88 /* TrackerRecord.swift in Sources */,
 				CB10365D2A7E6F4A00CD06DB /* NewCategoryViewController.swift in Sources */,
+				CB49F1882A81135300C37A24 /* HeaderCollectionView.swift in Sources */,
 				CBD46B382A7C0CF700AB4F88 /* NewHabitViewController.swift in Sources */,
 				CBD46B2E2A7AF4F400AB4F88 /* Tracker.swift in Sources */,
 				CBCFDA2A2A7FFAA200CA505F /* TrackersCollectionView.swift in Sources */,
 				CBF3B27C2A7D0DCD00A540CA /* EmojiCollectionViewCell.swift in Sources */,
+				CB49F18A2A8124F100C37A24 /* GeometricParams.swift in Sources */,
 				CB846D722A74533B00128231 /* SceneDelegate.swift in Sources */,
 				CBD46B342A7AF83F00AB4F88 /* Schedule.swift in Sources */,
 				CBD46B362A7AFAB500AB4F88 /* TrackerTypeViewController.swift in Sources */,

@@ -57,6 +57,7 @@ final class CategoryViewController: UIViewController {
         
         view.backgroundColor = .ypWhite
         
+        navigationItem.hidesBackButton = true
         navigationItem.title = "Категория"
         
         categoriesListObserver = NotificationCenter.default.addObserver(forName: NewCategoryViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
@@ -64,7 +65,6 @@ final class CategoryViewController: UIViewController {
             self?.label.removeFromSuperview()
             self?.updateTableViewHeight(to: CGFloat(self?.categories.count ?? 0) * (self?.tableView.rowHeight)!)
             self?.tableView.reloadData()
-//            print("Got notification \(self?.categories)")
         })
         
         if categories.isEmpty {
@@ -136,8 +136,7 @@ final class CategoryViewController: UIViewController {
     private func addCategoryButtonDidTap() {
         let newCategoryViewController = NewCategoryViewController()
         newCategoryViewController.categoryViewController = self
-        let navigationController = UINavigationController(rootViewController: newCategoryViewController)
-        present(navigationController, animated: true)
+        navigationController?.pushViewController(newCategoryViewController, animated: true)
     }
 }
 
@@ -147,7 +146,7 @@ extension CategoryViewController: UITableViewDelegate {
         newHabitViewController?.categoryData.name = categories[indexPath.row]
         newHabitViewController?.tryActivateCreateButton()
         NotificationCenter.default.post(name: CategoryViewController.didChangeNotification, object: self)
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 }
 

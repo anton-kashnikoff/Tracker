@@ -116,19 +116,20 @@ final class NewHabitViewController: UIViewController {
     let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     let colors: [UIColor] = [.colorSelection1, .colorSelection2, .colorSelection3, .colorSelection4, .colorSelection5, .colorSelection6, .colorSelection7, .colorSelection8, .colorSelection9, .colorSelection10, .colorSelection11, .colorSelection12, .colorSelection13, .colorSelection14, .colorSelection15, .colorSelection16, .colorSelection17, .colorSelection18]
     
-//    var habitTracker = Tracker(id: UUID(), name: nil, color: nil, emoji: nil, schedule: nil)
     var habitTrackerData: (id: UUID?, name: String?, color: UIColor?, emoji: String?, schedule: Schedule?)
     var categoryData: (name: String?, trackers: [Tracker]?)
-//    var category: TrackerCategory?
     var daysOfWeek = [(Int, Schedule.BriefDayOfWeek, Bool)]()
     private var categoryObserver: NSObjectProtocol?
     private var scheduleObserver: NSObjectProtocol?
     var trackersViewController: TrackersViewController?
     
+    static let didChangeNotification = Notification.Name(rawValue: "NewTrackerDidChange")
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypWhite
         
+        navigationItem.hidesBackButton = true
         navigationItem.title = "Новая привычка"
         
         categoryObserver = NotificationCenter.default.addObserver(forName: CategoryViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
@@ -225,8 +226,6 @@ final class NewHabitViewController: UIViewController {
     }
     
     private func setupEmojiCollectionView() {
-//        emojiCollectionView.delegate = self
-//        emojiCollectionView.dataSource = self
         emojiCollectionView.newHabitViewController = self
         
         contentView.addSubview(emojiCollectionView)
@@ -251,8 +250,6 @@ final class NewHabitViewController: UIViewController {
     }
     
     private func setupColorCollectionView() {
-//        colorCollectionView.delegate = self
-//        colorCollectionView.dataSource = self
         colorCollectionView.newHabitViewController = self
         contentView.addSubview(colorCollectionView)
         
@@ -350,7 +347,8 @@ final class NewHabitViewController: UIViewController {
         
         let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
         trackersViewController?.categories.append(TrackerCategory(name: categoryName, trackers: [tracker]))
-        trackersViewController?.dismiss(animated: true)
+        NotificationCenter.default.post(name: NewHabitViewController.didChangeNotification, object: self)
+        dismiss(animated: true)
         print(trackersViewController?.categories)
     }
     
@@ -369,13 +367,15 @@ extension NewHabitViewController: UITableViewDelegate {
         if indexPath.row == 0 {
             let categoryViewController = CategoryViewController()
             categoryViewController.newHabitViewController = self
-            let navigationController = UINavigationController(rootViewController: categoryViewController)
-            present(navigationController, animated: true)
+            navigationController?.pushViewController(categoryViewController, animated: true)
+//            let navigationController = UINavigationController(rootViewController: categoryViewController)
+//            present(navigationController, animated: true)
         } else if indexPath.row == 1 {
             let scheduleViewController = ScheduleViewController()
             scheduleViewController.newHabitViewController = self
-            let navigationController = UINavigationController(rootViewController: scheduleViewController)
-            present(navigationController, animated: true)
+            navigationController?.pushViewController(scheduleViewController, animated: true)
+//            let navigationController = UINavigationController(rootViewController: scheduleViewController)
+//            present(navigationController, animated: true)
         }
     }
 }

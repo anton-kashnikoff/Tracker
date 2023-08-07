@@ -41,6 +41,7 @@ final class ScheduleViewController: UIViewController {
         
         view.backgroundColor = .ypWhite
         
+        navigationItem.hidesBackButton = true
         navigationItem.title = "Расписание"
         
         setupTableView()
@@ -84,7 +85,7 @@ final class ScheduleViewController: UIViewController {
     @objc
     private func doneButtonDidTap() {
         NotificationCenter.default.post(name: ScheduleViewController.didChangeNotification, object: self)
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
     
     @objc

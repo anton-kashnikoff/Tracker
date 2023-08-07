@@ -39,6 +39,7 @@ final class NewCategoryViewController: UIViewController {
         
         view.backgroundColor = .ypWhite
         
+        navigationItem.hidesBackButton = true
         navigationItem.title = "Новая категория"
         
         setupTextField()
@@ -72,8 +73,7 @@ final class NewCategoryViewController: UIViewController {
     @objc
     private func doneButtonDidTap() {
         categoryViewController?.categories.append(textField.text ?? "")
-//        print("doneButtonDidTap \(categoryViewController?.categories)")
         NotificationCenter.default.post(name: NewCategoryViewController.didChangeNotification, object: self)
-        dismiss(animated: true)
+        navigationController?.popViewController(animated: true)
     }
 }

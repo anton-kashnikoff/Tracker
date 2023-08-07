@@ -21,9 +21,9 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     let emojiView: UIView = {
         let view = UIView()
-        view.frame.size = CGSize(width: 24, height: 24)
-        view.backgroundColor = .emojiViewColor
-        view.layer.cornerRadius = 68
+//        view.frame.size = CGSize(width: 24, height: 24)
+        view.backgroundColor = UIColor(white: 1, alpha: 0.3)
+        view.layer.cornerRadius = 12
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -61,8 +61,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     let plusButton: UIButton = {
         let button = UIButton()
-        button.frame.size = CGSize(width: 34, height: 34)
-        button.layer.cornerRadius = 17
+        button.setImage(UIImage(named: "Plus")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -105,22 +104,24 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    private func setupEmojiView() {
+        setupEmojiLabel()
+        cardView.addSubview(emojiView)
+        
+        NSLayoutConstraint.activate([
+            emojiView.heightAnchor.constraint(equalToConstant: 24),
+            emojiView.widthAnchor.constraint(equalToConstant: 24),
+            emojiView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 12),
+            emojiView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 12)
+        ])
+    }
+    
     private func setupEmojiLabel() {
         emojiView.addSubview(emojiLabel)
         
         NSLayoutConstraint.activate([
             emojiLabel.centerXAnchor.constraint(equalTo: emojiView.centerXAnchor),
             emojiLabel.centerYAnchor.constraint(equalTo: emojiView.centerYAnchor)
-        ])
-    }
-    
-    private func setupEmojiView() {
-        setupEmojiLabel()
-        cardView.addSubview(emojiView)
-        
-        NSLayoutConstraint.activate([
-            emojiView.topAnchor.constraint(equalTo: cardView.topAnchor, constant: 12),
-            emojiView.leadingAnchor.constraint(equalTo: cardView.leadingAnchor, constant: 12)
         ])
     }
     

@@ -10,6 +10,9 @@ import UIKit
 final class TrackersViewController: UIViewController {
     let collectionView: TrackersCollectionView = {
         let collectionView = TrackersCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.backgroundColor = .brown
+        collectionView.register(TrackerCollectionViewCell.self, forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier)
+        collectionView.register(HeaderCollectionView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -53,11 +56,16 @@ final class TrackersViewController: UIViewController {
     }()
     
     var categories = [TrackerCategory]()
+    private var newTrackerObserver: NSObjectProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .ypWhite
+        
+        newTrackerObserver = NotificationCenter.default.addObserver(forName: NewHabitViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
+            self?.setupCollectionView()
+        })
         
 //        setupCollectionView()
         setupNavigationBar()
@@ -71,10 +79,10 @@ final class TrackersViewController: UIViewController {
         view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 34),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
     }
     
