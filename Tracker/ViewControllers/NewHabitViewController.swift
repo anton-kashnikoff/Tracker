@@ -350,7 +350,7 @@ final class NewHabitViewController: UIViewController {
         
         let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
         trackersViewController?.categories.append(TrackerCategory(name: categoryName, trackers: [tracker]))
-        dismiss(animated: true)
+        trackersViewController?.dismiss(animated: true)
         print(trackersViewController?.categories)
     }
     
