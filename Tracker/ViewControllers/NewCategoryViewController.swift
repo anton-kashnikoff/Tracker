@@ -71,45 +71,9 @@ final class NewCategoryViewController: UIViewController {
     
     @objc
     private func doneButtonDidTap() {
-        let categoryName = textField.text ?? ""
-        let category = TrackerCategory(name: categoryName, trackers: nil)
-        categoryViewController?.categories.append(category)
+        categoryViewController?.categories.append(textField.text ?? "")
 //        print("doneButtonDidTap \(categoryViewController?.categories)")
         NotificationCenter.default.post(name: NewCategoryViewController.didChangeNotification, object: self)
         dismiss(animated: true)
     }
-    
-//    func activateButton() {
-//        print("activate")
-//        button.isEnabled = true
-//        button.backgroundColor = .ypBlack
-//        print(button.backgroundColor)
-//    }
-//    
-//    func deactivateButton() {
-//        print("deactivate")
-//        button.isEnabled = false
-//        button.backgroundColor = .ypGray
-//        print(button.backgroundColor)
-//    }
-//    
-//    func toggleButton() {
-//        if textField.text == nil || textField.text == "" {
-//            button.backgroundColor = .ypGray
-//            print(textField.text)
-//        } else {
-//            button.backgroundColor = .ypBlack
-//            print(textField.text)
-//        }
-//    }
 }
-
-//extension UIButton {
-//    open override var isEnabled: Bool {
-//        didSet {
-//            super.isEnabled = isEnabled
-//            backgroundColor = isEnabled ? .ypBlack : .ypGray
-//            print(backgroundColor)
-//        }
-//    }
-//}

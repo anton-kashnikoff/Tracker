@@ -46,7 +46,7 @@ final class CategoryViewController: UIViewController {
         return tableView
     }()
     
-    var categories = [TrackerCategory]()
+    var categories = [String]()
     private var categoriesListObserver: NSObjectProtocol?
     var newHabitViewController: NewHabitViewController?
     static let didChangeNotification = Notification.Name(rawValue: "CategoryDidChange")
@@ -144,7 +144,7 @@ final class CategoryViewController: UIViewController {
 extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.dequeueReusableCell(withIdentifier: "categoryCell")?.accessoryType = .checkmark
-        newHabitViewController?.category = categories[indexPath.row]
+        newHabitViewController?.categoryData.name = categories[indexPath.row]
         newHabitViewController?.tryActivateCreateButton()
         NotificationCenter.default.post(name: CategoryViewController.didChangeNotification, object: self)
         dismiss(animated: true)
@@ -162,10 +162,10 @@ extension CategoryViewController: UITableViewDataSource {
         
         if #available(iOS 14.0, *) {
             var content = cell.defaultContentConfiguration()
-            content.text = categories[indexPath.row].name
+            content.text = categories[indexPath.row]
             cell.contentConfiguration = content
         } else {
-            cell.textLabel?.text = categories[indexPath.row].name
+            cell.textLabel?.text = categories[indexPath.row]
         }
         
         return cell

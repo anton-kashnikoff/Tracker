@@ -116,11 +116,14 @@ final class NewHabitViewController: UIViewController {
     let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     let colors: [UIColor] = [.colorSelection1, .colorSelection2, .colorSelection3, .colorSelection4, .colorSelection5, .colorSelection6, .colorSelection7, .colorSelection8, .colorSelection9, .colorSelection10, .colorSelection11, .colorSelection12, .colorSelection13, .colorSelection14, .colorSelection15, .colorSelection16, .colorSelection17, .colorSelection18]
     
-    var habitTracker = Tracker(id: UUID(), name: nil, color: nil, emoji: nil, schedule: nil)
-    var category: TrackerCategory?
+//    var habitTracker = Tracker(id: UUID(), name: nil, color: nil, emoji: nil, schedule: nil)
+    var habitTrackerData: (id: UUID?, name: String?, color: UIColor?, emoji: String?, schedule: Schedule?)
+    var categoryData: (name: String?, trackers: [Tracker]?)
+//    var category: TrackerCategory?
     var daysOfWeek = [(Int, Schedule.BriefDayOfWeek, Bool)]()
     private var categoryObserver: NSObjectProtocol?
     private var scheduleObserver: NSObjectProtocol?
+    var trackersViewController: TrackersViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,6 +138,8 @@ final class NewHabitViewController: UIViewController {
         scheduleObserver = NotificationCenter.default.addObserver(forName: ScheduleViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
             self?.tableView.reloadData()
         })
+        
+        habitTrackerData.id = UUID()
         
         setupScrollView()
         setupContentView()
@@ -272,6 +277,7 @@ final class NewHabitViewController: UIViewController {
     }
     
     private func setupCreateButton() {
+        createButton.addTarget(self, action: #selector(createButtonDidTap), for: .touchUpInside)
         buttonsStackView.addSubview(createButton)
         
         NSLayoutConstraint.activate([
@@ -322,11 +328,30 @@ final class NewHabitViewController: UIViewController {
     }
     
     func tryActivateCreateButton() {
-        if habitTracker.name != nil && habitTracker.emoji != nil && habitTracker.color != nil && habitTracker.schedule != nil && category?.name != nil {
-            createButton.backgroundColor = .ypBlack
+        createButton.backgroundColor = isDataForTrackerReady ? .ypBlack : .ypGray
+    }
+    
+    private var isDataForTrackerReady: Bool {
+        if habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && habitTrackerData.schedule != nil && categoryData.name != nil {
+            return true
         } else {
-            createButton.backgroundColor = .ypGray
+            return false
         }
+    }
+    
+    @objc
+    private func createButtonDidTap() {
+        print("createButtonDidTap")
+        print(habitTrackerData)
+        guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let categoryName = categoryData.name else {
+            print("Что-то из этого nil")
+            return
+        }
+        
+        let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
+        trackersViewController?.categories.append(TrackerCategory(name: categoryName, trackers: [tracker]))
+        dismiss(animated: true)
+        print(trackersViewController?.categories)
     }
     
     @objc
@@ -374,10 +399,10 @@ extension NewHabitViewController: UITableViewDataSource {
             content.text = tableViewCells[indexPath.row]
             
             if tableViewCells[indexPath.row] == "Категория" {
-                content.secondaryText = category?.name
+                content.secondaryText = categoryData.name
             } else if tableViewCells[indexPath.row] == "Расписание" {
                 content.secondaryText = getDaysOfWeekString()
-                print(habitTracker)
+                print(habitTrackerData)
             }
             
             content.secondaryTextProperties.font = UIFont.systemFont(ofSize: 17)
@@ -387,10 +412,10 @@ extension NewHabitViewController: UITableViewDataSource {
         } else {
             cell.textLabel?.text = tableViewCells[indexPath.row]
             if tableViewCells[indexPath.row] == "Категория" {
-                cell.detailTextLabel?.text = category?.name
+                cell.detailTextLabel?.text = categoryData.name
             } else if tableViewCells[indexPath.row] == "Расписание" {
                 cell.detailTextLabel?.text = getDaysOfWeekString()
-                print(habitTracker)
+                print(habitTrackerData)
             }
             
             cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17)

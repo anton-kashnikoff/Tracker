@@ -10,6 +10,8 @@ import UIKit
 extension UIColor {
     static let searchTextFieldColor = UIColor(named: "SearchTextFieldColor") ?? .lightGray
     static let tabBarBorderColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.3)
+    static let trackerCellBorderColor = UIColor(named: "TrackerCellBorderColor") ?? .lightGray
+    static let emojiViewColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.3)
     static let ypBlue = UIColor(named: "YPBlue") ?? .systemBlue
     static let ypBlack = UIColor(named: "YPBlack") ?? .black
     static let ypWhite = UIColor(named: "YPWhite") ?? .white

@@ -31,9 +31,9 @@ extension ColorCollectionView: UICollectionViewDelegate {
         
         cell.layer.borderColor = cell.view.backgroundColor?.withAlphaComponent(0.3).cgColor
         
-        newHabitViewController?.habitTracker.color = cell.view.backgroundColor
+        newHabitViewController?.habitTrackerData.color = cell.view.backgroundColor
         newHabitViewController?.tryActivateCreateButton()
-        print(newHabitViewController?.habitTracker)
+        print(newHabitViewController?.habitTrackerData)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

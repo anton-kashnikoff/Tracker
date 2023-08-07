@@ -120,7 +120,9 @@ final class TrackersViewController: UIViewController {
     
     @objc
     private func addTracker() {
-        let navigationController = UINavigationController(rootViewController: TrackerTypeViewController())
+        let trackerTypeViewController = TrackerTypeViewController()
+        trackerTypeViewController.trackersViewController = self
+        let navigationController = UINavigationController(rootViewController: trackerTypeViewController)
         present(navigationController, animated: true)
     }
 }

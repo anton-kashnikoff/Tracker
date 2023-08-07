@@ -50,7 +50,7 @@ extension TextField: UITextFieldDelegate {
             let maxLength = 38
             let newTextNSString = currentString.replacingCharacters(in: range, with: string) as NSString
             
-            newHabitViewController?.habitTracker.name = !newText.isEmpty ? newText : nil
+            newHabitViewController?.habitTrackerData.name = !newText.isEmpty ? newText : nil
             
             if newTextNSString.length > maxLength {
                 newHabitViewController?.showRestrictionLabel()

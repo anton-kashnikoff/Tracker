@@ -42,6 +42,8 @@ final class TrackerTypeViewController: UIViewController {
         setupIrregularEventButton()
     }
     
+    var trackersViewController: TrackersViewController?
+    
     private func setupHabitButton() {
         habitButton.addTarget(self, action: #selector(didTapHabitButton), for: .touchUpInside)
         view.addSubview(habitButton)
@@ -67,7 +69,9 @@ final class TrackerTypeViewController: UIViewController {
     
     @objc
     private func didTapHabitButton() {
-        let navigationController = UINavigationController(rootViewController: NewHabitViewController())
+        let newHabitViewController = NewHabitViewController()
+        newHabitViewController.trackersViewController = trackersViewController
+        let navigationController = UINavigationController(rootViewController: newHabitViewController)
         present(navigationController, animated: true)
     }
 }

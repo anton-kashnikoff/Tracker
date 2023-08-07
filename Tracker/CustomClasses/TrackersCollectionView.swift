@@ -31,11 +31,21 @@ extension TrackersCollectionView: UICollectionViewDelegateFlowLayout {
 }
 
 extension TrackersCollectionView: UICollectionViewDataSource {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        trackersViewController?.categories.count ?? 0
+    }
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        1
+        trackersViewController?.categories[section].trackers.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        UICollectionViewCell()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier, for: indexPath) as? TrackerCollectionViewCell else {
+            print("Unable to create TrackerCollectionViewCell")
+            return UICollectionViewCell()
+        }
+        
+        cell.cardView.backgroundColor = trackersViewController?.categories[0].trackers[indexPath.row].color
+        return cell
     }
 }

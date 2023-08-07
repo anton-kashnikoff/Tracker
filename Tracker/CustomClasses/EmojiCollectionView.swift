@@ -32,9 +32,9 @@ extension EmojiCollectionView: UICollectionViewDelegate {
 
         cell.backgroundColor = .ypLightGrey
         
-        newHabitViewController?.habitTracker.emoji = cell.label.text
+        newHabitViewController?.habitTrackerData.emoji = cell.label.text
         newHabitViewController?.tryActivateCreateButton()
-        print(newHabitViewController?.habitTracker)
+        print(newHabitViewController?.habitTrackerData)
 
     }
     
