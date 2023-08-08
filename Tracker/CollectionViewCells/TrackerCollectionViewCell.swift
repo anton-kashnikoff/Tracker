@@ -177,10 +177,17 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
             completedButton.setImage(UIImage(named: "Plus"), for: .normal)
         }
         
-        let trackerRecordsArray = dataHelper?.trackersViewController?.completedTrackers.map { trackerRecord in
-            trackerRecord.id == tracker.id
+        var count = 0
+        guard let isContains = dataHelper?.trackersViewController?.completedTrackers.contains(where: { trackerRecord in
+            trackerRecord.id == tracker.id && trackerRecord.date == date
+        }) else {
+            return
         }
         
-        daysCountLabel.text = "\(trackerRecordsArray?.count ?? -1) дней"
+        if isContains {
+            count += 1
+        }
+        
+        daysCountLabel.text = "\(count) дней"
     }
 }
