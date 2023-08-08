@@ -37,7 +37,6 @@ extension TrackersCollectionView: UICollectionViewDelegateFlowLayout {
         let availableWidth = collectionView.frame.width - params.paddingWidth
         let cellWidth = availableWidth / CGFloat(params.cellCount)
         return CGSize(width: cellWidth, height: 148)
-//        CGSize(width: collectionView.bounds.width / 2, height: 148)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
@@ -60,18 +59,22 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.cardView.backgroundColor = trackersViewController?.categories[indexPath.section].trackers[indexPath.row].color
-        cell.emojiLabel.text = trackersViewController?.categories[indexPath.section].trackers[indexPath.row].emoji
-        cell.trackerTitleLabel.text = trackersViewController?.categories[indexPath.section].trackers[indexPath.row].name
+        guard let tracker = trackersViewController?.categories[indexPath.section].trackers[indexPath.row] else {
+            print("Unable to find tracker for this cell")
+            return UICollectionViewCell()
+        }
+        
+        cell.dataHelper = DataHelper()
+        cell.dataHelper?.trackersViewController = trackersViewController
+        cell.tracker = tracker
+        cell.date = trackersViewController?.currentDate
+        
+        cell.cardView.backgroundColor = tracker.color
+        cell.emojiLabel.text = tracker.emoji
+        cell.trackerTitleLabel.text = tracker.name
         
         cell.daysCountLabel.text = "0 дней"
-        cell.plusButton.tintColor = cell.cardView.backgroundColor
-        
-        print("INDEX PATH section = \(indexPath.section)")
-        print("INDEX PATH row = \(indexPath.row)")
-        
-        print("CELL")
-        print(trackersViewController?.categories[indexPath.section].trackers[indexPath.row])
+        cell.completedButton.tintColor = cell.cardView.backgroundColor
         
         return cell
     }
@@ -81,7 +84,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             print("Impossible to create HeaderCollectionView")
             return UICollectionReusableView()
         }
-        print("categories[indexPath.section].name = \(trackersViewController?.categories[indexPath.section].name)")
+
         headerView.titleLabel.text = trackersViewController?.categories[indexPath.section].name
         return headerView
     }

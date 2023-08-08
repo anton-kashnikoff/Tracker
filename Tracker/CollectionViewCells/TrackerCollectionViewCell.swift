@@ -59,12 +59,17 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let plusButton: UIButton = {
+    let completedButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "Plus")?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
+    
+    var dataHelper: DataHelper?
+    var tracker: Tracker?
+    var date: Date?
+    var isCompleted = false
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -93,7 +98,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     private func setupQuantityManagementView() {
         setupDaysCountLabel()
-        setupPlusButton()
+        setupCompletedButton()
         contentView.addSubview(quantityManagementView)
         
         NSLayoutConstraint.activate([
@@ -145,12 +150,37 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    private func setupPlusButton() {
-        quantityManagementView.addSubview(plusButton)
+    private func setupCompletedButton() {
+        completedButton.addTarget(self, action: #selector(completedButtonDidTap), for: .touchUpInside)
+        quantityManagementView.addSubview(completedButton)
         
         NSLayoutConstraint.activate([
-            plusButton.topAnchor.constraint(equalTo: quantityManagementView.topAnchor, constant: 8),
-            plusButton.trailingAnchor.constraint(equalTo: quantityManagementView.trailingAnchor, constant: -12)
+            completedButton.topAnchor.constraint(equalTo: quantityManagementView.topAnchor, constant: 8),
+            completedButton.trailingAnchor.constraint(equalTo: quantityManagementView.trailingAnchor, constant: -12)
         ])
+    }
+    
+    @objc
+    private func completedButtonDidTap() {
+        guard let tracker, let date else {
+            print("Unable to find tracker and/or date fo this cell")
+            return
+        }
+        
+        isCompleted.toggle()
+        
+        if isCompleted {
+            dataHelper?.createTrackerRecord(for: tracker, date: date)
+            completedButton.setImage(UIImage(named: "Tick"), for: .normal)
+        } else {
+            dataHelper?.deleteTrackerRecord(for: tracker, date: date)
+            completedButton.setImage(UIImage(named: "Plus"), for: .normal)
+        }
+        
+        let trackerRecordsArray = dataHelper?.trackersViewController?.completedTrackers.map { trackerRecord in
+            trackerRecord.id == tracker.id
+        }
+        
+        daysCountLabel.text = "\(trackerRecordsArray?.count ?? -1) дней"
     }
 }

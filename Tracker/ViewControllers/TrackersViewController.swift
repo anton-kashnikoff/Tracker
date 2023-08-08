@@ -24,13 +24,11 @@ final class TrackersViewController: UIViewController {
         return barButtonItem
     }()
     
-    let datePickerItem: UIBarButtonItem = {
+    let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
-        
-        let barButtonItem = UIBarButtonItem(customView: datePicker)
-        return barButtonItem
+        return datePicker
     }()
     
     let searchTextField: UISearchTextField = {
@@ -56,6 +54,8 @@ final class TrackersViewController: UIViewController {
     }()
     
     var categories = [TrackerCategory]()
+    var completedTrackers = [TrackerRecord]()
+    var currentDate: Date?
     private var newTrackerObserver: NSObjectProtocol?
     var dataHelper: DataHelper?
     
@@ -63,6 +63,8 @@ final class TrackersViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .ypWhite
+        
+        currentDate = datePicker.date
         
         dataHelper = DataHelper()
         dataHelper?.trackersViewController = self
@@ -77,6 +79,22 @@ final class TrackersViewController: UIViewController {
         setupSearchTextField()
         setupStarImage()
         setupLabel()
+    }
+    
+    private func showTrackersForDate(_ date: Date) {
+        for category in categories {
+            for tracker in category.trackers {
+                let isTrackerCompletedForDate = completedTrackers.contains { trackerRecord in
+                    trackerRecord.id == tracker.id && trackerRecord.date == date
+                }
+                
+                if isTrackerCompletedForDate {
+                    // show trackers for this date
+                } else {
+                    // show empty image view
+                }
+            }
+        }
     }
     
     private func setupCollectionView() {
@@ -95,11 +113,17 @@ final class TrackersViewController: UIViewController {
         title = "Трекеры"
         navigationController?.navigationBar.prefersLargeTitles = true
         
+        setupDatePicker()
+        
         barButtonItem.target = self
         barButtonItem.action = #selector(addTracker)
         
         navigationItem.leftBarButtonItem = barButtonItem
-        navigationItem.rightBarButtonItem = datePickerItem
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
+    }
+    
+    private func setupDatePicker() {
+        datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
     }
     
     private func setupSearchTextField() {
@@ -137,6 +161,13 @@ final class TrackersViewController: UIViewController {
         trackerTypeViewController.trackersViewController = self
         let navigationController = UINavigationController(rootViewController: trackerTypeViewController)
         present(navigationController, animated: true)
+    }
+    
+    @objc
+    private func dateChanged(_ sender: UIDatePicker) {
+        let date = sender.date
+        currentDate = date
+        showTrackersForDate(date)
     }
 }
 
