@@ -33,7 +33,6 @@ extension ColorCollectionView: UICollectionViewDelegate {
         
         newHabitViewController?.habitTrackerData.color = cell.view.backgroundColor
         newHabitViewController?.tryActivateCreateButton()
-        print(newHabitViewController?.habitTrackerData)
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {

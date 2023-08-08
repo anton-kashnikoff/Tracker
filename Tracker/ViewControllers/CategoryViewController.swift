@@ -61,10 +61,14 @@ final class CategoryViewController: UIViewController {
         navigationItem.title = "Категория"
         
         categoriesListObserver = NotificationCenter.default.addObserver(forName: NewCategoryViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-            self?.imageView.removeFromSuperview()
-            self?.label.removeFromSuperview()
-            self?.updateTableViewHeight(to: CGFloat(self?.categories.count ?? 0) * (self?.tableView.rowHeight)!)
-            self?.tableView.reloadData()
+            guard let self else {
+                return
+            }
+            
+            self.imageView.removeFromSuperview()
+            self.label.removeFromSuperview()
+            self.updateTableViewHeight(to: CGFloat(self.categories.count) * self.tableView.rowHeight)
+            self.tableView.reloadData()
         })
         
         if categories.isEmpty {

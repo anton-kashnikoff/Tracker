@@ -34,8 +34,6 @@ extension EmojiCollectionView: UICollectionViewDelegate {
         
         newHabitViewController?.habitTrackerData.emoji = cell.label.text
         newHabitViewController?.tryActivateCreateButton()
-        print(newHabitViewController?.habitTrackerData)
-
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
@@ -46,7 +44,6 @@ extension EmojiCollectionView: UICollectionViewDelegate {
         }
 
         cell.backgroundColor = .ypWhite
-       
     }
 }
 

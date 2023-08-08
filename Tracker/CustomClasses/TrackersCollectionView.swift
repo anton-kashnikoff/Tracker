@@ -59,14 +59,20 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             print("Unable to create TrackerCollectionViewCell")
             return UICollectionViewCell()
         }
-        // TODO: разобраться с цветом кружочка
-        cell.cardView.backgroundColor = trackersViewController?.categories[0].trackers[indexPath.row].color
-//        cell.emojiView.backgroundColor = cell.cardView.backgroundColor?.withAlphaComponent(0.3)
-        cell.emojiLabel.text = trackersViewController?.categories[0].trackers[indexPath.row].emoji
-        cell.trackerTitleLabel.text = trackersViewController?.categories[0].trackers[indexPath.row].name
+        
+        cell.cardView.backgroundColor = trackersViewController?.categories[indexPath.section].trackers[indexPath.row].color
+        cell.emojiLabel.text = trackersViewController?.categories[indexPath.section].trackers[indexPath.row].emoji
+        cell.trackerTitleLabel.text = trackersViewController?.categories[indexPath.section].trackers[indexPath.row].name
         
         cell.daysCountLabel.text = "0 дней"
         cell.plusButton.tintColor = cell.cardView.backgroundColor
+        
+        print("INDEX PATH section = \(indexPath.section)")
+        print("INDEX PATH row = \(indexPath.row)")
+        
+        print("CELL")
+        print(trackersViewController?.categories[indexPath.section].trackers[indexPath.row])
+        
         return cell
     }
     
@@ -75,8 +81,8 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             print("Impossible to create HeaderCollectionView")
             return UICollectionReusableView()
         }
-        
-        headerView.titleLabel.text = trackersViewController?.categories[0].name
+        print("categories[indexPath.section].name = \(trackersViewController?.categories[indexPath.section].name)")
+        headerView.titleLabel.text = trackersViewController?.categories[indexPath.section].name
         return headerView
     }
 }

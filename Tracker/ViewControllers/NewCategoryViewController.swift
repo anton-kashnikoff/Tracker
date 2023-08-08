@@ -21,7 +21,6 @@ final class NewCategoryViewController: UIViewController {
     let button: UIButton = {
         let button = UIButton()
         button.backgroundColor = .ypGray
-//        button.isEnabled = false
         button.layer.cornerRadius = 16
         button.setTitle("Готово", for: .normal)
         button.setTitleColor(.ypWhite, for: .normal)

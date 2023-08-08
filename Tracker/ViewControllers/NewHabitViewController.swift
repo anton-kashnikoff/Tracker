@@ -338,18 +338,17 @@ final class NewHabitViewController: UIViewController {
     
     @objc
     private func createButtonDidTap() {
-        print("createButtonDidTap")
-        print(habitTrackerData)
         guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let categoryName = categoryData.name else {
-            print("Что-то из этого nil")
+            print("Not all data exists")
             return
         }
         
         let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
-        trackersViewController?.categories.append(TrackerCategory(name: categoryName, trackers: [tracker]))
+        let trackerCategory = TrackerCategory(name: categoryName, trackers: [tracker])
+        trackersViewController?.dataHelper?.addTracker(tracker, to: trackerCategory)
+        print("data = \(trackersViewController?.categories)")
         NotificationCenter.default.post(name: NewHabitViewController.didChangeNotification, object: self)
         dismiss(animated: true)
-        print(trackersViewController?.categories)
     }
     
     @objc
@@ -368,14 +367,10 @@ extension NewHabitViewController: UITableViewDelegate {
             let categoryViewController = CategoryViewController()
             categoryViewController.newHabitViewController = self
             navigationController?.pushViewController(categoryViewController, animated: true)
-//            let navigationController = UINavigationController(rootViewController: categoryViewController)
-//            present(navigationController, animated: true)
         } else if indexPath.row == 1 {
             let scheduleViewController = ScheduleViewController()
             scheduleViewController.newHabitViewController = self
             navigationController?.pushViewController(scheduleViewController, animated: true)
-//            let navigationController = UINavigationController(rootViewController: scheduleViewController)
-//            present(navigationController, animated: true)
         }
     }
 }
@@ -402,7 +397,6 @@ extension NewHabitViewController: UITableViewDataSource {
                 content.secondaryText = categoryData.name
             } else if tableViewCells[indexPath.row] == "Расписание" {
                 content.secondaryText = getDaysOfWeekString()
-                print(habitTrackerData)
             }
             
             content.secondaryTextProperties.font = UIFont.systemFont(ofSize: 17)
@@ -415,7 +409,6 @@ extension NewHabitViewController: UITableViewDataSource {
                 cell.detailTextLabel?.text = categoryData.name
             } else if tableViewCells[indexPath.row] == "Расписание" {
                 cell.detailTextLabel?.text = getDaysOfWeekString()
-                print(habitTrackerData)
             }
             
             cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17)

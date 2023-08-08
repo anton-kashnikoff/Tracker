@@ -12,6 +12,7 @@
 		CB1036622A7EB6E200CD06DB /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1036612A7EB6E200CD06DB /* ScheduleViewController.swift */; };
 		CB49F1882A81135300C37A24 /* HeaderCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */; };
 		CB49F18A2A8124F100C37A24 /* GeometricParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F1892A8124F100C37A24 /* GeometricParams.swift */; };
+		CB49F18C2A813B1D00C37A24 /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F18B2A813B1D00C37A24 /* DataHelper.swift */; };
 		CB846D702A74533B00128231 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB846D6F2A74533B00128231 /* AppDelegate.swift */; };
 		CB846D722A74533B00128231 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB846D712A74533B00128231 /* SceneDelegate.swift */; };
 		CB846D742A74533B00128231 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB846D732A74533B00128231 /* TrackersViewController.swift */; };
@@ -39,6 +40,7 @@
 		CB1036612A7EB6E200CD06DB /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionView.swift; sourceTree = "<group>"; };
 		CB49F1892A8124F100C37A24 /* GeometricParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometricParams.swift; sourceTree = "<group>"; };
+		CB49F18B2A813B1D00C37A24 /* DataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
 		CB846D6C2A74533B00128231 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CB846D6F2A74533B00128231 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CB846D712A74533B00128231 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -107,6 +109,15 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		CB49F18D2A813D9400C37A24 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				CB49F1892A8124F100C37A24 /* GeometricParams.swift */,
+				CB49F18B2A813B1D00C37A24 /* DataHelper.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		CB846D632A74533B00128231 = {
 			isa = PBXGroup;
 			children = (
@@ -128,6 +139,7 @@
 			children = (
 				CB846D6F2A74533B00128231 /* AppDelegate.swift */,
 				CB846D712A74533B00128231 /* SceneDelegate.swift */,
+				CB49F18D2A813D9400C37A24 /* Helpers */,
 				CBCFDA282A7FF97E00CA505F /* CustomClasses */,
 				CB1036602A7EB69600CD06DB /* Models */,
 				CB10365E2A7EB63900CD06DB /* ViewControllers */,
@@ -136,7 +148,6 @@
 				CB846D782A74533E00128231 /* Assets.xcassets */,
 				CB846D7A2A74533E00128231 /* LaunchScreen.storyboard */,
 				CB846D7D2A74533E00128231 /* Info.plist */,
-				CB49F1892A8124F100C37A24 /* GeometricParams.swift */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -233,6 +244,7 @@
 			files = (
 				CBD46B302A7AF68200AB4F88 /* TrackerCategory.swift in Sources */,
 				CBCFDA252A7FF45100CA505F /* EmojiCollectionView.swift in Sources */,
+				CB49F18C2A813B1D00C37A24 /* DataHelper.swift in Sources */,
 				CBF3B2802A7D27C300A540CA /* ColorCollectionViewCell.swift in Sources */,
 				CB10365B2A7E693000CD06DB /* CategoryViewController.swift in Sources */,
 				CB1036622A7EB6E200CD06DB /* ScheduleViewController.swift in Sources */,

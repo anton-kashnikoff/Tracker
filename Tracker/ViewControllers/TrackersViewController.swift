@@ -57,14 +57,19 @@ final class TrackersViewController: UIViewController {
     
     var categories = [TrackerCategory]()
     private var newTrackerObserver: NSObjectProtocol?
+    var dataHelper: DataHelper?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .ypWhite
         
+        dataHelper = DataHelper()
+        dataHelper?.trackersViewController = self
+        
         newTrackerObserver = NotificationCenter.default.addObserver(forName: NewHabitViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
             self?.setupCollectionView()
+            self?.collectionView.reloadData()
         })
         
 //        setupCollectionView()
