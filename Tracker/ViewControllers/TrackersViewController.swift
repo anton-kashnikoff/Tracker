@@ -40,14 +40,13 @@ final class TrackersViewController: UIViewController {
     }()
     
     let imageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "star"))
+        let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
     let label: UILabel = {
         let label = UILabel()
-        label.text = "Что будем отслеживать?"
         label.font = UIFont.systemFont(ofSize: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -83,7 +82,7 @@ final class TrackersViewController: UIViewController {
         setupNavigationBar()
         setupSearchTextField()
         setupCollectionView()
-        setupEmptyView()
+        setupEmptyView(for: EmptyViewCase.noTrackersForDate)
     }
     
     private func setupNavigationBar() {
@@ -126,9 +125,15 @@ final class TrackersViewController: UIViewController {
         ])
     }
     
-    private func setupEmptyView() {
-        setupStarImage()
-        setupLabel()
+    private func setupEmptyView(for emptyViewCase: EmptyViewCase) {
+        switch emptyViewCase {
+        case .noTrackersForDate:
+            setupImageView(with: UIImage(named: "star"))
+            setupLabel(with: "Что будем отслеживать?")
+        case .nothingFound:
+            setupImageView(with: UIImage(named: "NothingFound"))
+            setupLabel(with: "Ничего не найдено")
+        }
     }
     
     private func removeEmptyView() {
@@ -136,7 +141,8 @@ final class TrackersViewController: UIViewController {
         label.removeFromSuperview()
     }
     
-    private func setupStarImage() {
+    private func setupImageView(with image: UIImage?) {
+        imageView.image = image
         view.addSubview(imageView)
         
         NSLayoutConstraint.activate([
@@ -145,7 +151,17 @@ final class TrackersViewController: UIViewController {
         ])
     }
     
-    private func setupLabel() {
+    private func setupNothingFoundImage() {
+        view.addSubview(imageView)
+        
+        NSLayoutConstraint.activate([
+            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+    }
+    
+    private func setupLabel(with text: String) {
+        label.text = text
         view.addSubview(label)
         
         NSLayoutConstraint.activate([
@@ -157,25 +173,19 @@ final class TrackersViewController: UIViewController {
     private func showTrackersForDate(_ date: Date) {
         dataHelper?.fillArray(for: date)
         
-        if categoriesToShow.isEmpty {
-            collectionView.removeFromSuperview()
-            setupEmptyView()
-        } else {
-            removeEmptyView()
-            setupCollectionView()
-            collectionView.reloadData()
-        }
-        
-        collectionView.reloadData()
+        showTrackers(emptyViewCase: EmptyViewCase.noTrackersForDate)
     }
     
     private func showSearchedTrackers(for text: String) {        
         dataHelper?.fillArray(for: text)
         
+        showTrackers(emptyViewCase: EmptyViewCase.nothingFound)
+    }
+    
+    private func showTrackers(emptyViewCase: EmptyViewCase) {
         if searchedCategories.isEmpty {
-            // TODO: Add another view
             collectionView.removeFromSuperview()
-            setupEmptyView()
+            setupEmptyView(for: emptyViewCase)
         } else {
             removeEmptyView()
             setupCollectionView()
