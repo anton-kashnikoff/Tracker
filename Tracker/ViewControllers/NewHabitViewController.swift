@@ -346,7 +346,6 @@ final class NewHabitViewController: UIViewController {
         let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
         let trackerCategory = TrackerCategory(name: categoryName, trackers: [tracker])
         trackersViewController?.dataHelper?.addTracker(tracker, to: trackerCategory)
-        print("data = \(trackersViewController?.categories)")
         NotificationCenter.default.post(name: NewHabitViewController.didChangeNotification, object: self)
         dismiss(animated: true)
     }

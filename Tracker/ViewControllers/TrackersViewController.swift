@@ -10,7 +10,6 @@ import UIKit
 final class TrackersViewController: UIViewController {
     let collectionView: TrackersCollectionView = {
         let collectionView = TrackersCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        collectionView.backgroundColor = .brown
         collectionView.register(TrackerCollectionViewCell.self, forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier)
         collectionView.register(HeaderCollectionView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -71,18 +70,17 @@ final class TrackersViewController: UIViewController {
         dataHelper?.trackersViewController = self
         
         newTrackerObserver = NotificationCenter.default.addObserver(forName: NewHabitViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-            self?.setupCollectionView()
-            self?.collectionView.reloadData()
+            guard let self, let currentDate = self.currentDate else {
+                return
+            }
+            
+            self.showTrackersForDate(currentDate)
         })
         
-//        setupCollectionView()
         setupNavigationBar()
         setupSearchTextField()
-        setupStarImage()
-        setupLabel()
-        
-        let dayOfWeek = Calendar.current.dateComponents([.weekday], from: currentDate!).weekday ?? -1
-        print(dayOfWeek)
+        setupCollectionView()
+        setupEmptyView()
     }
     
     private func showTrackersForDate(_ date: Date) {
@@ -109,18 +107,14 @@ final class TrackersViewController: UIViewController {
         print(categoriesToShow)
         print("categories")
         print(categories)
-    }
-    
-    private func setupCollectionView() {
-        collectionView.trackersViewController = self
-        view.addSubview(collectionView)
         
-        NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 34),
-            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
-        ])
+        if categoriesToShow.isEmpty {
+            setupEmptyView()
+            collectionView.reloadData()
+        } else {
+            removeEmptyView()
+            collectionView.reloadData()
+        }
     }
     
     private func setupNavigationBar() {
@@ -149,6 +143,28 @@ final class TrackersViewController: UIViewController {
             searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             searchTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
+    }
+    
+    private func setupCollectionView() {
+        collectionView.trackersViewController = self
+        view.addSubview(collectionView)
+        
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: searchTextField.bottomAnchor, constant: 34),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+    }
+    
+    private func setupEmptyView() {
+        setupStarImage()
+        setupLabel()
+    }
+    
+    private func removeEmptyView() {
+        imageView.removeFromSuperview()
+        label.removeFromSuperview()
     }
     
     private func setupStarImage() {

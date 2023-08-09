@@ -46,11 +46,11 @@ extension TrackersCollectionView: UICollectionViewDelegateFlowLayout {
 
 extension TrackersCollectionView: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        trackersViewController?.categories.count ?? 0
+        trackersViewController?.categoriesToShow.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        trackersViewController?.categories[section].trackers.count ?? 0
+        trackersViewController?.categoriesToShow[section].trackers.count ?? 0
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -59,7 +59,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        guard let tracker = trackersViewController?.categories[indexPath.section].trackers[indexPath.row] else {
+        guard let tracker = trackersViewController?.categoriesToShow[indexPath.section].trackers[indexPath.row] else {
             print("Unable to find tracker for this cell")
             return UICollectionViewCell()
         }
@@ -85,7 +85,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return UICollectionReusableView()
         }
 
-        headerView.titleLabel.text = trackersViewController?.categories[indexPath.section].name
+        headerView.titleLabel.text = trackersViewController?.categoriesToShow[indexPath.section].name
         return headerView
     }
 }
