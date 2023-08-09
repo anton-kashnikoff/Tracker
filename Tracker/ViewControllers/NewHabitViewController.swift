@@ -309,7 +309,7 @@ final class NewHabitViewController: UIViewController {
             }
         }
         
-        return selectedDays.joined(separator: ", ")
+        return selectedDays.count == 7 ? "Каждый день" : selectedDays.joined(separator: ", ")
     }
     
     func showRestrictionLabel() {
