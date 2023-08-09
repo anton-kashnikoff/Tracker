@@ -52,4 +52,70 @@ final class DataHelper {
             trackersViewController.completedTrackers.remove(at: indexToRemove)
         }
     }
+    
+    func fillArray(for date: Date) {
+        guard let trackersViewController else {
+            print("fillArray - Unable to find TrackersViewController")
+            return
+        }
+        
+        let dayOfWeek = Calendar.current.dateComponents([.weekday], from: date).weekday ?? -1
+        trackersViewController.categoriesToShow.removeAll()
+        
+        for category in trackersViewController.categories {
+            var trackers = [Tracker]()
+            
+            for tracker in category.trackers {
+                for day in tracker.schedule.daysOfWeek {
+                    if day.getNumberOfDay() == dayOfWeek {
+                        trackers.append(tracker)
+                    }
+                }
+            }
+            
+            if !trackers.isEmpty {
+                trackersViewController.categoriesToShow.append(TrackerCategory(name: category.name, trackers: trackers))
+            }
+        }
+        
+        print("SHOWTRACKERFORDATE")
+        print("categories")
+        print(trackersViewController.categories)
+        print("categoriesToShow")
+        print(trackersViewController.categoriesToShow)
+        print("searchedCategories")
+        print(trackersViewController.searchedCategories)
+        
+    }
+    
+    func fillArray(for text: String) {
+        guard let trackersViewController else {
+            print("fillArray - Unable to find TrackersViewController")
+            return
+        }
+        
+        trackersViewController.searchedCategories.removeAll()
+        
+        for category in trackersViewController.categoriesToShow {
+            var trackers = [Tracker]()
+            
+            for tracker in category.trackers {
+                if tracker.name.lowercased().starts(with: text.lowercased()) {
+                    trackers.append(tracker)
+                }
+            }
+            
+            if !trackers.isEmpty {
+                trackersViewController.searchedCategories.append(TrackerCategory(name: category.name, trackers: trackers))
+            }
+        }
+        
+        print("SHOWSEARCHEDTRACKERS")
+        print("categories")
+        print(trackersViewController.categories)
+        print("categoriesToShow")
+        print(trackersViewController.categoriesToShow)
+        print("searchedCategories")
+        print(trackersViewController.searchedCategories)
+    }
 }

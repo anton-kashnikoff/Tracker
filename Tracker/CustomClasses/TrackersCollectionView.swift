@@ -46,11 +46,21 @@ extension TrackersCollectionView: UICollectionViewDelegateFlowLayout {
 
 extension TrackersCollectionView: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        trackersViewController?.categoriesToShow.count ?? 0
+        guard let trackersViewController else {
+            print("Unable to find TrackersViewController - numberOfSections(in:)")
+            return 0
+        }
+        
+        return trackersViewController.searchedCategories.isEmpty ? trackersViewController.categoriesToShow.count : trackersViewController.searchedCategories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        trackersViewController?.categoriesToShow[section].trackers.count ?? 0
+        guard let trackersViewController else {
+            print("Unable to find TrackersViewController - collectionView(_:,numberOfItemsInSection:)")
+            return 0
+        }
+        
+        return trackersViewController.searchedCategories.isEmpty ? trackersViewController.categoriesToShow[section].trackers.count : trackersViewController.searchedCategories[section].trackers.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -59,15 +69,17 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        guard let tracker = trackersViewController?.categoriesToShow[indexPath.section].trackers[indexPath.row] else {
-            print("Unable to find tracker for this cell")
+        guard let trackersViewController else {
+            print("Unable to find TrackersViewController - collectionView(_:,cellForItemAt:)")
             return UICollectionViewCell()
         }
+        
+        let tracker = trackersViewController.searchedCategories.isEmpty ? trackersViewController.categoriesToShow[indexPath.section].trackers[indexPath.row] : trackersViewController.searchedCategories[indexPath.section].trackers[indexPath.row]
         
         cell.dataHelper = DataHelper()
         cell.dataHelper?.trackersViewController = trackersViewController
         cell.tracker = tracker
-        cell.date = trackersViewController?.currentDate
+        cell.date = trackersViewController.currentDate
         
         cell.cardView.backgroundColor = tracker.color
         cell.emojiLabel.text = tracker.emoji
@@ -84,8 +96,14 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             print("Impossible to create HeaderCollectionView")
             return UICollectionReusableView()
         }
+        
+        guard let trackersViewController else {
+            print("Unable to find TrackersViewController - collectionView(_:,viewForSupplementaryElementOfKind:, at:)")
+            return UICollectionViewCell()
+        }
 
-        headerView.titleLabel.text = trackersViewController?.categoriesToShow[indexPath.section].name
+        headerView.titleLabel.text = trackersViewController.searchedCategories.isEmpty ? trackersViewController.categoriesToShow[indexPath.section].name : trackersViewController.searchedCategories[indexPath.section].name
+        
         return headerView
     }
 }

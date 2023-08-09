@@ -10,6 +10,7 @@ import UIKit
 final class TrackersViewController: UIViewController {
     let collectionView: TrackersCollectionView = {
         let collectionView = TrackersCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
+        collectionView.backgroundColor = .ypWhite
         collectionView.register(TrackerCollectionViewCell.self, forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier)
         collectionView.register(HeaderCollectionView.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "header")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -58,11 +59,13 @@ final class TrackersViewController: UIViewController {
     var currentDate: Date?
     var dataHelper: DataHelper?
     var categoriesToShow = [TrackerCategory]()
+    var searchedCategories = [TrackerCategory]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         view.backgroundColor = .ypWhite
+        categories = [TrackerCategory(name: "Pop", trackers: [Tracker(id: UUID(), name: "Anton", color: .colorSelection12, emoji: "🧡", schedule: Schedule(daysOfWeek: [.friday]))])]
         
         currentDate = datePicker.date
         
@@ -81,40 +84,6 @@ final class TrackersViewController: UIViewController {
         setupSearchTextField()
         setupCollectionView()
         setupEmptyView()
-    }
-    
-    private func showTrackersForDate(_ date: Date) {
-        let dayOfWeek = Calendar.current.dateComponents([.weekday], from: date).weekday ?? -1
-        categoriesToShow.removeAll()
-        
-        for category in categories {
-            var trackers = [Tracker]()
-            
-            for tracker in category.trackers {
-                for day in tracker.schedule.daysOfWeek {
-                    if day.getNumberOfDay() == dayOfWeek {
-                        trackers.append(tracker)
-                    }
-                }
-            }
-            
-            if !trackers.isEmpty {
-                categoriesToShow.append(TrackerCategory(name: category.name, trackers: trackers))
-            }
-        }
-        
-        print("categoriesToShow")
-        print(categoriesToShow)
-        print("categories")
-        print(categories)
-        
-        if categoriesToShow.isEmpty {
-            setupEmptyView()
-        } else {
-            removeEmptyView()
-        }
-        
-        collectionView.reloadData()
     }
     
     private func setupNavigationBar() {
@@ -185,6 +154,35 @@ final class TrackersViewController: UIViewController {
         ])
     }
     
+    private func showTrackersForDate(_ date: Date) {
+        dataHelper?.fillArray(for: date)
+        
+        if categoriesToShow.isEmpty {
+            collectionView.removeFromSuperview()
+            setupEmptyView()
+        } else {
+            removeEmptyView()
+            setupCollectionView()
+            collectionView.reloadData()
+        }
+        
+        collectionView.reloadData()
+    }
+    
+    private func showSearchedTrackers(for text: String) {        
+        dataHelper?.fillArray(for: text)
+        
+        if searchedCategories.isEmpty {
+            // TODO: Add another view
+            collectionView.removeFromSuperview()
+            setupEmptyView()
+        } else {
+            removeEmptyView()
+            setupCollectionView()
+            collectionView.reloadData()
+        }
+    }
+    
     @objc
     private func addTracker() {
         let trackerTypeViewController = TrackerTypeViewController()
@@ -202,4 +200,21 @@ final class TrackersViewController: UIViewController {
 }
 
 extension TrackersViewController: UITextFieldDelegate {
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+        print("text = \(textField.text)")
+        print("string = \(string)")
+        
+        if string.isEmpty {
+            print("EMPTY")
+            showTrackersForDate(currentDate!)
+            return true
+        }
+        
+        if let text = textField.text {
+            print("SEARCH: \(text + string)")
+            showSearchedTrackers(for: text + string)
+        }
+        
+        return true
+    }
 }
