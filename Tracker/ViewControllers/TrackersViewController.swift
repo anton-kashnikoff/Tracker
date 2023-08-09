@@ -110,11 +110,11 @@ final class TrackersViewController: UIViewController {
         
         if categoriesToShow.isEmpty {
             setupEmptyView()
-            collectionView.reloadData()
         } else {
             removeEmptyView()
-            collectionView.reloadData()
         }
+        
+        collectionView.reloadData()
     }
     
     private func setupNavigationBar() {

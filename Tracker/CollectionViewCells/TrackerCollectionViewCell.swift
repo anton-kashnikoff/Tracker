@@ -171,10 +171,10 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         
         if isCompleted {
             dataHelper?.createTrackerRecord(for: tracker, date: date)
-            completedButton.setImage(UIImage(named: "Tick"), for: .normal)
+            completedButton.setImage(UIImage(named: "Tick")?.withRenderingMode(.alwaysTemplate), for: .normal)
         } else {
             dataHelper?.deleteTrackerRecord(for: tracker, date: date)
-            completedButton.setImage(UIImage(named: "Plus"), for: .normal)
+            completedButton.setImage(UIImage(named: "Plus")?.withRenderingMode(.alwaysTemplate), for: .normal)
         }
         
         var count = 0
