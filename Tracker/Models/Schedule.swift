@@ -14,6 +14,18 @@ struct Schedule {
         case friday = "Пятница"
         case saturday = "Суббота"
         case sunday = "Воскресенье"
+        
+        func getNumberOfDay() -> Int? {
+            let index = Self.allCases.firstIndex {
+                self == $0
+            } ?? -1
+            
+            if index == 6 {
+                return 1
+            }
+            
+            return index + 2
+        }
     }
     
     enum BriefDayOfWeek: String, CaseIterable {

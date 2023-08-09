@@ -53,11 +53,12 @@ final class TrackersViewController: UIViewController {
         return label
     }()
     
+    private var newTrackerObserver: NSObjectProtocol?
     var categories = [TrackerCategory]()
     var completedTrackers = [TrackerRecord]()
     var currentDate: Date?
-    private var newTrackerObserver: NSObjectProtocol?
     var dataHelper: DataHelper?
+    var categoriesToShow = [TrackerCategory]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -79,22 +80,35 @@ final class TrackersViewController: UIViewController {
         setupSearchTextField()
         setupStarImage()
         setupLabel()
+        
+        let dayOfWeek = Calendar.current.dateComponents([.weekday], from: currentDate!).weekday ?? -1
+        print(dayOfWeek)
     }
     
     private func showTrackersForDate(_ date: Date) {
+        let dayOfWeek = Calendar.current.dateComponents([.weekday], from: date).weekday ?? -1
+        categoriesToShow.removeAll()
+        
         for category in categories {
+            var trackers = [Tracker]()
+            
             for tracker in category.trackers {
-                let isTrackerCompletedForDate = completedTrackers.contains { trackerRecord in
-                    trackerRecord.id == tracker.id && trackerRecord.date == date
-                }
-                
-                if isTrackerCompletedForDate {
-                    // show trackers for this date
-                } else {
-                    // show empty image view
+                for day in tracker.schedule.daysOfWeek {
+                    if day.getNumberOfDay() == dayOfWeek {
+                        trackers.append(tracker)
+                    }
                 }
             }
+            
+            if !trackers.isEmpty {
+                categoriesToShow.append(TrackerCategory(name: category.name, trackers: trackers))
+            }
         }
+        
+        print("categoriesToShow")
+        print(categoriesToShow)
+        print("categories")
+        print(categories)
     }
     
     private func setupCollectionView() {
