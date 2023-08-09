@@ -63,6 +63,8 @@ final class TrackersViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        dismissKeyboard()
+        
         view.backgroundColor = .ypWhite
         categories = [TrackerCategory(name: "Pop", trackers: [Tracker(id: UUID(), name: "Anton", color: .colorSelection12, emoji: "🧡", schedule: Schedule(daysOfWeek: [.friday]))])]
         

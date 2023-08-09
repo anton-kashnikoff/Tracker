@@ -127,6 +127,9 @@ final class NewHabitViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        dismissKeyboard()
+        
         view.backgroundColor = .ypWhite
         
         navigationItem.hidesBackButton = true
