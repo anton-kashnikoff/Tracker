@@ -26,31 +26,103 @@ final class DataHelper {
         }
     }
     
-    func createTrackerRecord(for tracker: Tracker, date: Date) {
+    func checkTrackerRecordForDate(_ date: Date, id: UUID) -> TrackerRecordState {
         guard let trackersViewController else {
-            print("createTrackerRecord - Unable to find TrackersViewController")
+            print("checkTrackerRecordForDate - Unable to find TrackersViewController")
+            return .notExist
+        }
+        
+        let listOfDatesForTracker = trackersViewController.datesForCompletedTrackers[id]
+        
+        print("date = \(date)") // текущая дата в пикере
+        
+        // if array of dates for this tracker already exists (for one or several dates this tracker has been completed)
+        if let listOfDatesForTracker {
+            
+            // если listOfDatesForTracker содержит текущую дату, то
+            // при отображении кнопка-галочка, текст = кол-во дат в массиве для этого трекера
+            // при нажатии кнопку нужно поменять на плюс, удалить запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
+            
+            
+            // if this tracker has been already mapped as completed for this date
+            if listOfDatesForTracker.contains(date) {
+                return .existForDate
+                
+            // if this tracker has been mapped as completed for another date
+            } else {
+                
+                // если listOfDatesForTracker не содержит текущую дату, но содержит какие-то другие даты, то
+                // при отображении кнопка-плюсик, текст = кол-во дат в массиве для этого трекера
+                // при нажатии поменять кнопку на галочку, сделать запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
+                
+                return .existForAnotherDate
+            }
+        
+        }
+        // if this tracker never mapped as completed (for any date)
+        
+        // если listOfDatesForTracker не содержит ни одной записи для этого трекера, то
+        // при отображении кнопка-плюсик, текст = кол-во дат в массиве для этого трекера, то есть 0
+        // при нажатии кнопку поменять на галочку, сделать запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера, то есть 1
+        return .notExist
+    }
+    
+    func toggleTrackerRecord(_ trackerRecord: TrackerRecord, trackerRecordState: TrackerRecordState) {
+        guard let trackersViewController else {
+            print("toggleTrackerRecord - Unable to find TrackersViewController")
             return
         }
         
-        // If the created tracker record already exists
-        if trackersViewController.completedTrackers.firstIndex(where: { trackerRecord in
-            trackerRecord.id == tracker.id && trackerRecord.date == date
-        }) == nil {
-            trackersViewController.completedTrackers.append(TrackerRecord(id: tracker.id, date: date))
+        switch trackerRecordState {
+        case .existForDate:
+            // удалять нужно не весь трекер, а только одну дату (текущую)
+            if var listOfDatesForTracker = trackersViewController.datesForCompletedTrackers[trackerRecord.id] {
+                guard let indexOfDateToRemove = listOfDatesForTracker.firstIndex(where: { date in
+                    date == trackerRecord.date
+                }) else {
+                    print("Unable to find index of date to remove")
+                    return
+                }
+                
+                listOfDatesForTracker.remove(at: indexOfDateToRemove)
+                trackersViewController.datesForCompletedTrackers[trackerRecord.id] = listOfDatesForTracker
+            }
+            
+            print("Removed record for this date")
+        case .existForAnotherDate:
+            if var listOfDatesForTracker = trackersViewController.datesForCompletedTrackers[trackerRecord.id] {
+                listOfDatesForTracker.append(trackerRecord.date)
+                trackersViewController.datesForCompletedTrackers.updateValue(listOfDatesForTracker, forKey: trackerRecord.id)
+                print("Added record for this date")
+            }
+            
+        case .notExist:
+            trackersViewController.datesForCompletedTrackers.updateValue([trackerRecord.date], forKey: trackerRecord.id)
+            print("Added first record for this tracker")
+        }
+        
+        
+        for (key, value) in trackersViewController.datesForCompletedTrackers {
+            for date in value {
+                print("Tracker ID: \(key). Date: \(date)")
+            }
         }
     }
     
-    func deleteTrackerRecord(for tracker: Tracker, date: Date) {
+    func getCountOfCompletedDaysForTracker(_ trackerID: UUID) -> Int? {
         guard let trackersViewController else {
-            print("deleteTrackerRecord - Unable to find TrackersViewController")
-            return
+            print("getCountOfCompletedDaysForTracker - Unable to find TrackersViewController")
+            return nil
         }
         
-        if let indexToRemove = trackersViewController.completedTrackers.firstIndex(where: { trackerRecord in
-            trackerRecord.id == tracker.id && trackerRecord.date == date
-        }) {
-            trackersViewController.completedTrackers.remove(at: indexToRemove)
+        guard let trackerElement = trackersViewController.datesForCompletedTrackers.first(where: { key, value in
+            key == trackerID
+        }) else {
+            print("Unable to find element for tracker id = \(trackerID)")
+            return nil
         }
+        
+        return trackerElement.value.count
     }
     
     func fillArray(for date: Date) {

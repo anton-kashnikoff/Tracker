@@ -162,32 +162,36 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     @objc
     private func completedButtonDidTap() {
-        guard let tracker, let date else {
-            print("Unable to find tracker and/or date fo this cell")
+        guard let tracker, let date, let dataHelper else {
+            print("Unable to find tracker and/or date and/or dataHelper for this cell")
             return
         }
         
-        isCompleted.toggle()
+        let trackerRecord = TrackerRecord(id: tracker.id, date: date)
+        let trackerRecordState = dataHelper.checkTrackerRecordForDate(trackerRecord.date, id: trackerRecord.id)
         
-        if isCompleted {
-            dataHelper?.createTrackerRecord(for: tracker, date: date)
-            completedButton.setImage(UIImage(named: "Tick")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        } else {
-            dataHelper?.deleteTrackerRecord(for: tracker, date: date)
+        print("trackerRecordState - \(trackerRecordState)")
+        
+        switch trackerRecordState {
+        case .existForDate:
+            // если listOfDatesForTracker содержит текущую дату, то
+            // при нажатии кнопку нужно поменять на плюс, удалить запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
             completedButton.setImage(UIImage(named: "Plus")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            dataHelper.toggleTrackerRecord(trackerRecord, trackerRecordState: .existForDate)
+        case .existForAnotherDate:
+            // если listOfDatesForTracker не содержит текущую дату, но содержит какие-то другие даты, то
+            // при нажатии поменять кнопку на галочку, сделать запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
+            completedButton.setImage(UIImage(named: "Tick")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            dataHelper.toggleTrackerRecord(trackerRecord, trackerRecordState: .existForAnotherDate)
+        case .notExist:
+            // если listOfDatesForTracker не содержит ни одной записи для этого трекера, то
+            // при нажатии кнопку поменять на галочку, сделать запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера, то есть 1
+            completedButton.setImage(UIImage(named: "Tick")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            dataHelper.toggleTrackerRecord(trackerRecord, trackerRecordState: .notExist)
         }
         
-        var count = 0
-        guard let isContains = dataHelper?.trackersViewController?.completedTrackers.contains(where: { trackerRecord in
-            trackerRecord.id == tracker.id && trackerRecord.date == date
-        }) else {
-            return
-        }
+        let countOfCompletedDaysForTracker = dataHelper.getCountOfCompletedDaysForTracker(trackerRecord.id) ?? 0
         
-        if isContains {
-            count += 1
-        }
-        
-        daysCountLabel.text = "\(count) дней"
+        daysCountLabel.text = "\(countOfCompletedDaysForTracker) дней"
     }
 }

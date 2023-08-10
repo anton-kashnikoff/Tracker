@@ -54,11 +54,11 @@ final class TrackersViewController: UIViewController {
     
     private var newTrackerObserver: NSObjectProtocol?
     var categories = [TrackerCategory]()
-    var completedTrackers = [TrackerRecord]()
     var currentDate: Date?
     var dataHelper: DataHelper?
     var categoriesToShow = [TrackerCategory]()
     var searchedCategories = [TrackerCategory]()
+    var datesForCompletedTrackers = [UUID:[Date]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,7 +66,12 @@ final class TrackersViewController: UIViewController {
         dismissKeyboard()
         
         view.backgroundColor = .ypWhite
-        categories = [TrackerCategory(name: "Pop", trackers: [Tracker(id: UUID(), name: "Anton", color: .colorSelection12, emoji: "🧡", schedule: Schedule(daysOfWeek: [.friday]))])]
+        categories = [
+            TrackerCategory(name: "Pop", trackers: [Tracker(id: UUID(), name: "Anton", color: .colorSelection12, emoji: "🧡", schedule: Schedule(daysOfWeek: [.friday])), Tracker(id: UUID(), name: "Viktor", color: .colorSelection12, emoji: "💕", schedule: Schedule(daysOfWeek: [.friday]))]),
+            TrackerCategory(name: "Lol", trackers: [Tracker(id: UUID(), name: "Roman", color: .colorSelection12, emoji: "🤍", schedule: Schedule(daysOfWeek: [.monday]))]),
+            TrackerCategory(name: "Vov", trackers: [Tracker(id: UUID(), name: "Anna", color: .colorSelection12, emoji: "💙", schedule: Schedule(daysOfWeek: [.wednesday, .friday]))]),
+            TrackerCategory(name: "Rir", trackers: [Tracker(id: UUID(), name: "Valery", color: .colorSelection12, emoji: "🩷", schedule: Schedule(daysOfWeek: [.sunday]))])
+        ]
         
         currentDate = datePicker.date
         
@@ -175,20 +180,21 @@ final class TrackersViewController: UIViewController {
     private func showTrackersForDate(_ date: Date) {
         dataHelper?.fillArray(for: date)
         
-        showTrackers(emptyViewCase: EmptyViewCase.noTrackersForDate)
+        showTrackers(array:categoriesToShow, emptyViewCase: EmptyViewCase.noTrackersForDate)
     }
     
     private func showSearchedTrackers(for text: String) {        
         dataHelper?.fillArray(for: text)
         
-        showTrackers(emptyViewCase: EmptyViewCase.nothingFound)
+        showTrackers(array: searchedCategories, emptyViewCase: EmptyViewCase.nothingFound)
     }
     
-    private func showTrackers(emptyViewCase: EmptyViewCase) {
-        if searchedCategories.isEmpty {
+    private func showTrackers(array: [TrackerCategory], emptyViewCase: EmptyViewCase) {
+        if array.isEmpty {
             collectionView.removeFromSuperview()
             setupEmptyView(for: emptyViewCase)
         } else {
+            print("searchedCategories isn't empty")
             removeEmptyView()
             setupCollectionView()
             collectionView.reloadData()

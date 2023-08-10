@@ -85,7 +85,32 @@ extension TrackersCollectionView: UICollectionViewDataSource {
         cell.emojiLabel.text = tracker.emoji
         cell.trackerTitleLabel.text = tracker.name
         
-        cell.daysCountLabel.text = "0 дней"
+        let countOfCompletedDaysForTracker = cell.dataHelper?.getCountOfCompletedDaysForTracker(tracker.id) ?? 0
+        
+        guard let trackerRecordState = cell.dataHelper?.checkTrackerRecordForDate(cell.date!, id: tracker.id) else {
+            return UICollectionViewCell()
+        }
+        print("trackerRecordState при отображении ячейки = \(trackerRecordState)")
+        
+        switch trackerRecordState {
+        case .existForDate:
+            print("Ячейка отображается для состояния existForDate")
+            // если listOfDatesForTracker содержит текущую дату, то
+            // при отображении кнопка-галочка, текст = кол-во дат в массиве для этого трекера
+            cell.completedButton.setImage(UIImage(named: "Tick")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        case .existForAnotherDate:
+            print("Ячейка отображается для состояния existForAnotherDate")
+            // если listOfDatesForTracker не содержит текущую дату, но содержит какие-то другие даты, то
+            // при отображении кнопка-плюсик, текст = кол-во дат в массиве для этого трекера
+            cell.completedButton.setImage(UIImage(named: "Plus")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        case .notExist:
+            print("Ячейка отображается для состояния notExist")
+            // если listOfDatesForTracker не содержит ни одной записи для этого трекера, то
+            // при отображении кнопка-плюсик, текст = кол-во дат в массиве для этого трекера, то есть 0
+            cell.completedButton.setImage(UIImage(named: "Plus")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        }
+        
+        cell.daysCountLabel.text = "\(countOfCompletedDaysForTracker) дней"
         cell.completedButton.tintColor = cell.cardView.backgroundColor
         
         return cell
