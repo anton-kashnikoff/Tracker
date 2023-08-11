@@ -168,9 +168,12 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         }
         
         let trackerRecord = TrackerRecord(id: tracker.id, date: date)
-        let trackerRecordState = dataHelper.checkTrackerRecordForDate(trackerRecord.date, id: trackerRecord.id)
         
-        print("trackerRecordState - \(trackerRecordState)")
+        guard trackerRecord.date <= Calendar.current.startOfDay(for: Date()) else {
+            return
+        }
+        
+        let trackerRecordState = dataHelper.checkTrackerRecordForDate(trackerRecord.date, id: trackerRecord.id)
         
         switch trackerRecordState {
         case .existForDate:

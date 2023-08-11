@@ -34,36 +34,18 @@ final class DataHelper {
         
         let listOfDatesForTracker = trackersViewController.datesForCompletedTrackers[id]
         
-        print("date = \(date)") // текущая дата в пикере
-        
         // if array of dates for this tracker already exists (for one or several dates this tracker has been completed)
         if let listOfDatesForTracker {
-            
-            // если listOfDatesForTracker содержит текущую дату, то
-            // при отображении кнопка-галочка, текст = кол-во дат в массиве для этого трекера
-            // при нажатии кнопку нужно поменять на плюс, удалить запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
-            
-            
-            // if this tracker has been already mapped as completed for this date
             if listOfDatesForTracker.contains(date) {
                 return .existForDate
                 
             // if this tracker has been mapped as completed for another date
             } else {
-                
-                // если listOfDatesForTracker не содержит текущую дату, но содержит какие-то другие даты, то
-                // при отображении кнопка-плюсик, текст = кол-во дат в массиве для этого трекера
-                // при нажатии поменять кнопку на галочку, сделать запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
-                
                 return .existForAnotherDate
             }
         
         }
         // if this tracker never mapped as completed (for any date)
-        
-        // если listOfDatesForTracker не содержит ни одной записи для этого трекера, то
-        // при отображении кнопка-плюсик, текст = кол-во дат в массиве для этого трекера, то есть 0
-        // при нажатии кнопку поменять на галочку, сделать запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера, то есть 1
         return .notExist
     }
     
@@ -75,7 +57,6 @@ final class DataHelper {
         
         switch trackerRecordState {
         case .existForDate:
-            // удалять нужно не весь трекер, а только одну дату (текущую)
             if var listOfDatesForTracker = trackersViewController.datesForCompletedTrackers[trackerRecord.id] {
                 guard let indexOfDateToRemove = listOfDatesForTracker.firstIndex(where: { date in
                     date == trackerRecord.date
@@ -99,13 +80,6 @@ final class DataHelper {
         case .notExist:
             trackersViewController.datesForCompletedTrackers.updateValue([trackerRecord.date], forKey: trackerRecord.id)
             print("Added first record for this tracker")
-        }
-        
-        
-        for (key, value) in trackersViewController.datesForCompletedTrackers {
-            for date in value {
-                print("Tracker ID: \(key). Date: \(date)")
-            }
         }
     }
     
@@ -150,14 +124,6 @@ final class DataHelper {
             }
         }
         
-        print("SHOWTRACKERFORDATE")
-        print("categories")
-        print(trackersViewController.categories)
-        print("categoriesToShow")
-        print(trackersViewController.categoriesToShow)
-        print("searchedCategories")
-        print(trackersViewController.searchedCategories)
-        
     }
     
     func fillArray(for text: String) {
@@ -181,13 +147,5 @@ final class DataHelper {
                 trackersViewController.searchedCategories.append(TrackerCategory(name: category.name, trackers: trackers))
             }
         }
-        
-        print("SHOWSEARCHEDTRACKERS")
-        print("categories")
-        print(trackersViewController.categories)
-        print("categoriesToShow")
-        print(trackersViewController.categoriesToShow)
-        print("searchedCategories")
-        print(trackersViewController.searchedCategories)
     }
 }

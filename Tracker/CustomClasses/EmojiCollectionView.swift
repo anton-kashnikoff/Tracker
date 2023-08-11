@@ -24,7 +24,6 @@ final class EmojiCollectionView: UICollectionView {
 
 extension EmojiCollectionView: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-      
         guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCollectionViewCell else {
             print("Unable to create EmojiCollectionViewCell")
             return
@@ -37,7 +36,6 @@ extension EmojiCollectionView: UICollectionViewDelegate {
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
-   
         guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCollectionViewCell else {
             print("Unable to create EmojiCollectionViewCell")
             return

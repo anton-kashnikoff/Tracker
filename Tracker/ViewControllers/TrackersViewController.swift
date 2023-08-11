@@ -54,7 +54,7 @@ final class TrackersViewController: UIViewController {
     
     private var newTrackerObserver: NSObjectProtocol?
     var categories = [TrackerCategory]()
-    var currentDate: Date?
+    var currentDate = Date()
     var dataHelper: DataHelper?
     var categoriesToShow = [TrackerCategory]()
     var searchedCategories = [TrackerCategory]()
@@ -66,30 +66,42 @@ final class TrackersViewController: UIViewController {
         dismissKeyboard()
         
         view.backgroundColor = .ypWhite
+        
         categories = [
-            TrackerCategory(name: "Pop", trackers: [Tracker(id: UUID(), name: "Anton", color: .colorSelection12, emoji: "🧡", schedule: Schedule(daysOfWeek: [.friday])), Tracker(id: UUID(), name: "Viktor", color: .colorSelection12, emoji: "💕", schedule: Schedule(daysOfWeek: [.friday]))]),
-            TrackerCategory(name: "Lol", trackers: [Tracker(id: UUID(), name: "Roman", color: .colorSelection11, emoji: "🤍", schedule: Schedule(daysOfWeek: [.monday]))]),
-            TrackerCategory(name: "Vov", trackers: [Tracker(id: UUID(), name: "Anna", color: .colorSelection10, emoji: "💙", schedule: Schedule(daysOfWeek: [.wednesday, .friday])), Tracker(id: UUID(), name: "Rose", color: .colorSelection10, emoji: "💗", schedule: Schedule(daysOfWeek: [.tuesday, .saturday]))]),
-            TrackerCategory(name: "Rir", trackers: [Tracker(id: UUID(), name: "Valery", color: .colorSelection1, emoji: "🩷", schedule: Schedule(daysOfWeek: [.sunday]))])
+            TrackerCategory(name: "Pop", trackers: [
+                Tracker(id: UUID(), name: "Anton", color: .colorSelection12, emoji: "🧡", schedule: Schedule(daysOfWeek: [.friday])),
+                Tracker(id: UUID(), name: "Viktor", color: .colorSelection12, emoji: "💕", schedule: Schedule(daysOfWeek: [.friday]))
+            ]),
+            TrackerCategory(name: "Lol", trackers: [
+                Tracker(id: UUID(), name: "Roman", color: .colorSelection11, emoji: "🤍", schedule: Schedule(daysOfWeek: [.monday]))
+            ]),
+            TrackerCategory(name: "Vov", trackers: [
+                Tracker(id: UUID(), name: "Anna", color: .colorSelection10, emoji: "💙", schedule: Schedule(daysOfWeek: [.wednesday, .friday])),
+                Tracker(id: UUID(), name: "Rose", color: .colorSelection10, emoji: "💗", schedule: Schedule(daysOfWeek: [.tuesday, .saturday]))
+            ]),
+            TrackerCategory(name: "Rir", trackers: [
+                Tracker(id: UUID(), name: "Valery", color: .colorSelection1, emoji: "🩷", schedule: Schedule(daysOfWeek: [.sunday])),
+                Tracker(id: UUID(), name: "Inna", color: .colorSelection1, emoji: "💚", schedule: Schedule(daysOfWeek: [.thursday]))
+            ])
         ]
         
-        currentDate = datePicker.date
+        currentDate = datePicker.date.withRemovedTime
         
         dataHelper = DataHelper()
         dataHelper?.trackersViewController = self
         
         newTrackerObserver = NotificationCenter.default.addObserver(forName: NewHabitViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-            guard let self, let currentDate = self.currentDate else {
+            guard let self else {
                 return
             }
             
-            self.showTrackersForDate(currentDate)
+            self.showTrackersForDate(self.currentDate)
         })
         
         setupNavigationBar()
         setupSearchTextField()
         setupCollectionView()
-        setupEmptyView(for: EmptyViewCase.noTrackersForDate)
+        showTrackersForDate(currentDate)
     }
     
     private func setupNavigationBar() {
@@ -180,7 +192,7 @@ final class TrackersViewController: UIViewController {
     private func showTrackersForDate(_ date: Date) {
         dataHelper?.fillArray(for: date)
         
-        showTrackers(array:categoriesToShow, emptyViewCase: EmptyViewCase.noTrackersForDate)
+        showTrackers(array: categoriesToShow, emptyViewCase: EmptyViewCase.noTrackersForDate)
     }
     
     private func showSearchedTrackers(for text: String) {        
@@ -194,7 +206,6 @@ final class TrackersViewController: UIViewController {
             collectionView.removeFromSuperview()
             setupEmptyView(for: emptyViewCase)
         } else {
-            print("searchedCategories isn't empty")
             removeEmptyView()
             setupCollectionView()
             collectionView.reloadData()
@@ -211,7 +222,7 @@ final class TrackersViewController: UIViewController {
     
     @objc
     private func dateChanged(_ sender: UIDatePicker) {
-        let date = sender.date
+        let date = sender.date.withRemovedTime
         currentDate = date
         showTrackersForDate(date)
     }
@@ -219,17 +230,13 @@ final class TrackersViewController: UIViewController {
 
 extension TrackersViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        print("text = \(textField.text)")
-        print("string = \(string)")
-        
         if string.isEmpty {
-            print("EMPTY")
-            showTrackersForDate(currentDate!)
+            searchedCategories.removeAll()
+            showTrackersForDate(currentDate)
             return true
         }
         
         if let text = textField.text {
-            print("SEARCH: \(text + string)")
             showSearchedTrackers(for: text + string)
         }
         
