@@ -37,6 +37,7 @@ final class TrackerTypeViewController: UIViewController {
         
         view.backgroundColor = .systemBackground
         navigationItem.title = "Создание трекера"
+        navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 16, weight: .medium)]
         
         setupHabitButton()
         setupIrregularEventButton()

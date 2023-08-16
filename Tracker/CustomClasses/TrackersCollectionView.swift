@@ -119,7 +119,6 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             print("Unable to find TrackersViewController - collectionView(_:,viewForSupplementaryElementOfKind:, at:)")
             return UICollectionViewCell()
         }
-        headerView.backgroundColor = .brown
         
         headerView.titleLabel.text = trackersViewController.searchedCategories.isEmpty ? trackersViewController.categoriesToShow[indexPath.section].name : trackersViewController.searchedCategories[indexPath.section].name
         
