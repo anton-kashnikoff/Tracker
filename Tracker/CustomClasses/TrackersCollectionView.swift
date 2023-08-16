@@ -23,9 +23,6 @@ final class TrackersCollectionView: UICollectionView {
     }
 }
 
-extension TrackersCollectionView: UICollectionViewDelegate {
-}
-
 extension TrackersCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: IndexPath(row: 0, section: section))

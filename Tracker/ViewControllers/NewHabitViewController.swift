@@ -118,7 +118,7 @@ final class NewHabitViewController: UIViewController {
     
     var habitTrackerData: (id: UUID?, name: String?, color: UIColor?, emoji: String?, schedule: Schedule?)
     var categoryData: (name: String?, trackers: [Tracker]?)
-    var daysOfWeek = [(Int, Schedule.BriefDayOfWeek, Bool)]()
+    var daysOfWeek = [(Int, String, Bool)]()
     private var categoryObserver: NSObjectProtocol?
     private var scheduleObserver: NSObjectProtocol?
     var trackersViewController: TrackersViewController?
@@ -301,14 +301,15 @@ final class NewHabitViewController: UIViewController {
     }
     
     private func getDaysOfWeekString() -> String {
-        var selectedDays = [String]()
         let daysOfWeekSorted = daysOfWeek.sorted {
             $0.0 < $1.0
         }
         
+        var selectedDays = [String]()
+        
         for (_, briefDay, value) in daysOfWeekSorted {
             if value {
-                selectedDays.append(briefDay.rawValue)
+                selectedDays.append(briefDay)
             }
         }
         

@@ -95,7 +95,7 @@ final class ScheduleViewController: UIViewController {
             selectedDays.insert(Schedule.DayOfWeek.allCases[index])
         }
         
-        newHabitViewController?.daysOfWeek.append((index, Schedule.BriefDayOfWeek.allCases[index], sender.isOn))
+        newHabitViewController?.daysOfWeek.append((index, Schedule.DayOfWeek.allCases[index].getBriefDayOfWeek(), sender.isOn))
         newHabitViewController?.habitTrackerData.schedule = Schedule(daysOfWeek: selectedDays)
         newHabitViewController?.tryActivateCreateButton()
     }

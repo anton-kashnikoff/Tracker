@@ -85,23 +85,19 @@ final class TrackersViewController: UIViewController {
             ])
         ]
         
-        currentDate = datePicker.date.withRemovedTime
+        currentDate = datePicker.date.withZeroTime
         
         dataHelper = DataHelper()
         dataHelper?.trackersViewController = self
         
         newTrackerObserver = NotificationCenter.default.addObserver(forName: NewHabitViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-            guard let self else {
-                return
-            }
-            
-            self.showTrackersForDate(self.currentDate)
+            self?.showTrackersForCurrentDate()
         })
         
         setupNavigationBar()
         setupSearchTextField()
         setupCollectionView()
-        showTrackersForDate(currentDate)
+        showTrackersForCurrentDate()
     }
     
     private func setupNavigationBar() {
@@ -189,8 +185,8 @@ final class TrackersViewController: UIViewController {
         ])
     }
     
-    private func showTrackersForDate(_ date: Date) {
-        dataHelper?.fillArray(for: date)
+    private func showTrackersForCurrentDate() {
+        dataHelper?.fillArray(for: currentDate)
         
         showTrackers(array: categoriesToShow, emptyViewCase: EmptyViewCase.noTrackersForDate)
     }
@@ -222,9 +218,9 @@ final class TrackersViewController: UIViewController {
     
     @objc
     private func dateChanged(_ sender: UIDatePicker) {
-        let date = sender.date.withRemovedTime
+        let date = sender.date.withZeroTime
         currentDate = date
-        showTrackersForDate(date)
+        showTrackersForCurrentDate()
     }
 }
 
@@ -232,7 +228,7 @@ extension TrackersViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if string.isEmpty {
             searchedCategories.removeAll()
-            showTrackersForDate(currentDate)
+            showTrackersForCurrentDate()
             return true
         }
         
