@@ -163,6 +163,10 @@ extension CategoryViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
         cell.backgroundColor = .ypBackground
         
+        if indexPath.row == categories.count - 1 {
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
+        }
+        
         if #available(iOS 14.0, *) {
             var content = cell.defaultContentConfiguration()
             content.text = categories[indexPath.row]

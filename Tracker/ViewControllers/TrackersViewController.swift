@@ -34,9 +34,20 @@ final class TrackersViewController: UIViewController {
     let searchTextField: UISearchTextField = {
         let searchTextField = UISearchTextField()
         searchTextField.placeholder = "Поиск"
+        searchTextField.clearButtonMode = .never
         searchTextField.backgroundColor = .searchTextFieldColor
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
         return searchTextField
+    }()
+    
+    let searchCancelButton: UIButton = {
+        let button = UIButton()
+        button.frame.size = CGSize(width: 83, height: 36)
+        button.setTitle("Отменить", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        button.setTitleColor(.ypBlue, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
     }()
     
     let imageView: UIImageView = {
@@ -59,6 +70,9 @@ final class TrackersViewController: UIViewController {
     var categoriesToShow = [TrackerCategory]()
     var searchedCategories = [TrackerCategory]()
     var datesForCompletedTrackers = [UUID:[Date]]()
+    
+    var constraintToCancelButton: NSLayoutConstraint?
+    var constraintToSuperview: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -121,11 +135,28 @@ final class TrackersViewController: UIViewController {
         searchTextField.delegate = self
         view.addSubview(searchTextField)
         
+        constraintToSuperview = searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        
         NSLayoutConstraint.activate([
             searchTextField.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            searchTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            constraintToSuperview!,
             searchTextField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16)
         ])
+    }
+    
+    private func setupSearchCancelButton() {
+        searchCancelButton.addTarget(self, action: #selector(cancelButtonDidTap), for: .touchUpInside)
+        view.addSubview(searchCancelButton)
+        
+        NSLayoutConstraint.activate([
+            searchCancelButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchCancelButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
+        ])
+        
+        constraintToSuperview?.isActive = false
+        constraintToCancelButton = searchTextField.trailingAnchor.constraint(equalTo: searchCancelButton.leadingAnchor, constant: -5)
+        constraintToCancelButton?.isActive = true
+        
     }
     
     private func setupCollectionView() {
@@ -222,6 +253,13 @@ final class TrackersViewController: UIViewController {
         currentDate = date
         showTrackersForCurrentDate()
     }
+    
+    @objc
+    private func cancelButtonDidTap() {
+        searchCancelButton.removeFromSuperview()
+        constraintToCancelButton?.isActive = false
+        constraintToSuperview?.isActive = true
+    }
 }
 
 extension TrackersViewController: UITextFieldDelegate {
@@ -236,6 +274,11 @@ extension TrackersViewController: UITextFieldDelegate {
             showSearchedTrackers(for: text + string)
         }
         
+        return true
+    }
+    
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        setupSearchCancelButton()
         return true
     }
 }
