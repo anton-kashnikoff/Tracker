@@ -25,8 +25,9 @@ final class TrackersCollectionView: UICollectionView {
 
 extension TrackersCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: IndexPath(row: 0, section: section))
-        return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width, height: UIView.layoutFittingExpandedSize.height), withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+//        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: IndexPath(row: 0, section: section))
+//        return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width, height: UIView.layoutFittingExpandedSize.height), withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
+        return CGSize(width: collectionView.frame.width, height: 30)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -118,7 +119,8 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             print("Unable to find TrackersViewController - collectionView(_:,viewForSupplementaryElementOfKind:, at:)")
             return UICollectionViewCell()
         }
-
+        headerView.backgroundColor = .brown
+        
         headerView.titleLabel.text = trackersViewController.searchedCategories.isEmpty ? trackersViewController.categoriesToShow[indexPath.section].name : trackersViewController.searchedCategories[indexPath.section].name
         
         return headerView

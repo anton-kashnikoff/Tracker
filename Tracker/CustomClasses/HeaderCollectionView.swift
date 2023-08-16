@@ -22,9 +22,9 @@ final class HeaderCollectionView: UICollectionReusableView {
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
-            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
             titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
-            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: 10)
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10)
         ])
     }
     
