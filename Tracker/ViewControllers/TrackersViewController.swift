@@ -64,15 +64,15 @@ final class TrackersViewController: UIViewController {
     }()
     
     private var newTrackerObserver: NSObjectProtocol?
-    var categories = [TrackerCategory]()
-    var currentDate = Date()
-    var dataHelper: DataHelper?
-    var categoriesToShow = [TrackerCategory]()
-    var searchedCategories = [TrackerCategory]()
-    var datesForCompletedTrackers = [UUID:[Date]]()
+    private var constraintToCancelButton: NSLayoutConstraint?
+    private var constraintToSuperview: NSLayoutConstraint?
     
-    var constraintToCancelButton: NSLayoutConstraint?
-    var constraintToSuperview: NSLayoutConstraint?
+    var categories = [TrackerCategory]()
+    var visibleCategories = [TrackerCategory]()
+    
+    var dataHelper: DataHelper?
+    var currentDate = Date()
+    var datesForCompletedTrackers = [UUID:[Date]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,7 +91,7 @@ final class TrackersViewController: UIViewController {
             ]),
             TrackerCategory(name: "Vov", trackers: [
                 Tracker(id: UUID(), name: "Anna", color: .colorSelection10, emoji: "💙", schedule: Schedule(daysOfWeek: [.wednesday, .friday])),
-                Tracker(id: UUID(), name: "Rose", color: .colorSelection10, emoji: "💗", schedule: Schedule(daysOfWeek: [.tuesday, .saturday]))
+                Tracker(id: UUID(), name: "Rose", color: .colorSelection10, emoji: "💗", schedule: Schedule(daysOfWeek: [.tuesday, .monday]))
             ]),
             TrackerCategory(name: "Rir", trackers: [
                 Tracker(id: UUID(), name: "Valery", color: .colorSelection1, emoji: "🩷", schedule: Schedule(daysOfWeek: [.sunday])),
@@ -105,13 +105,16 @@ final class TrackersViewController: UIViewController {
         dataHelper?.trackersViewController = self
         
         newTrackerObserver = NotificationCenter.default.addObserver(forName: NewHabitViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-            self?.showTrackersForCurrentDate()
+            self?.reloadVisibleCategories(with: self?.searchTextField.text)
         })
         
         setupNavigationBar()
         setupSearchTextField()
         setupCollectionView()
-        showTrackersForCurrentDate()
+        setupImageView()
+        setupLabel()
+        
+        reloadVisibleCategories(with: searchTextField.text)
     }
     
     private func setupNavigationBar() {
@@ -128,7 +131,7 @@ final class TrackersViewController: UIViewController {
     }
     
     private func setupDatePicker() {
-        datePicker.addTarget(self, action: #selector(dateChanged(_:)), for: .valueChanged)
+        datePicker.addTarget(self, action: #selector(dateChanged), for: .valueChanged)
     }
     
     private func setupSearchTextField() {
@@ -171,24 +174,7 @@ final class TrackersViewController: UIViewController {
         ])
     }
     
-    private func setupEmptyView(for emptyViewCase: EmptyViewCase) {
-        switch emptyViewCase {
-        case .noTrackersForDate:
-            setupImageView(with: UIImage(named: "star"))
-            setupLabel(with: "Что будем отслеживать?")
-        case .nothingFound:
-            setupImageView(with: UIImage(named: "NothingFound"))
-            setupLabel(with: "Ничего не найдено")
-        }
-    }
-    
-    private func removeEmptyView() {
-        imageView.removeFromSuperview()
-        label.removeFromSuperview()
-    }
-    
-    private func setupImageView(with image: UIImage?) {
-        imageView.image = image
+    private func setupImageView() {
         view.addSubview(imageView)
         
         NSLayoutConstraint.activate([
@@ -197,17 +183,7 @@ final class TrackersViewController: UIViewController {
         ])
     }
     
-    private func setupNothingFoundImage() {
-        view.addSubview(imageView)
-        
-        NSLayoutConstraint.activate([
-            imageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            imageView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
-    }
-    
-    private func setupLabel(with text: String) {
-        label.text = text
+    private func setupLabel() {
         view.addSubview(label)
         
         NSLayoutConstraint.activate([
@@ -216,27 +192,10 @@ final class TrackersViewController: UIViewController {
         ])
     }
     
-    private func showTrackersForCurrentDate() {
-        dataHelper?.fillArray(for: currentDate)
-        
-        showTrackers(array: categoriesToShow, emptyViewCase: EmptyViewCase.noTrackersForDate)
-    }
-    
-    private func showSearchedTrackers(for text: String) {        
-        dataHelper?.fillArray(for: text)
-        
-        showTrackers(array: searchedCategories, emptyViewCase: EmptyViewCase.nothingFound)
-    }
-    
-    private func showTrackers(array: [TrackerCategory], emptyViewCase: EmptyViewCase) {
-        if array.isEmpty {
-            collectionView.removeFromSuperview()
-            setupEmptyView(for: emptyViewCase)
-        } else {
-            removeEmptyView()
-            setupCollectionView()
-            collectionView.reloadData()
-        }
+    private func hideCancelButton() {
+        searchCancelButton.removeFromSuperview()
+        constraintToCancelButton?.isActive = false
+        constraintToSuperview?.isActive = true
     }
     
     @objc
@@ -248,32 +207,82 @@ final class TrackersViewController: UIViewController {
     }
     
     @objc
-    private func dateChanged(_ sender: UIDatePicker) {
-        let date = sender.date.withZeroTime
-        currentDate = date
-        showTrackersForCurrentDate()
+    private func dateChanged() {
+        currentDate = datePicker.date.withZeroTime
+        
+        reloadVisibleCategories(with: searchTextField.text)
     }
     
     @objc
     private func cancelButtonDidTap() {
-        searchCancelButton.removeFromSuperview()
-        constraintToCancelButton?.isActive = false
-        constraintToSuperview?.isActive = true
+        searchTextField.text = nil
+        reloadVisibleCategories(with: searchTextField.text)
+        
+        hideCancelButton()
+    }
+    
+    private func reloadVisibleCategories(with text: String?) {
+        let dayOfWeekFromDatePicker = Calendar.current.component(.weekday, from: datePicker.date)
+        let filterText = (text ?? "").lowercased()
+        print("FILTER TEXT")
+        print(filterText)
+        
+        visibleCategories = categories.compactMap { category in
+            let trackers = category.trackers.filter { tracker in
+                let textCondition = filterText.isEmpty || tracker.name.lowercased().contains(filterText)
+                let dateCondition = tracker.schedule.daysOfWeek.contains { dayOfWeek in
+                    dayOfWeek.getNumberOfDay() == dayOfWeekFromDatePicker
+                }
+                
+                return textCondition && dateCondition
+            }
+            
+            if trackers.isEmpty {
+                return nil
+            }
+            
+            return  TrackerCategory(name: category.name, trackers: trackers)
+        }
+        
+        collectionView.reloadData()
+        reloadPlaceholderView()
+    }
+    
+    private func reloadPlaceholderView() {
+        if categories.isEmpty {
+            imageView.image = UIImage(named: "star")
+            label.text = "Что будем отслеживать?"
+            imageView.isHidden = false
+            label.isHidden = false
+        } else if !categories.isEmpty && visibleCategories.isEmpty {
+            imageView.image = UIImage(named: "NothingFound")
+            label.text = "Ничего не найдено"
+            imageView.isHidden = false
+            label.isHidden = false
+        } else {
+            imageView.isHidden = true
+            label.isHidden = true
+        }
     }
 }
 
 extension TrackersViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
+        
+        hideCancelButton()
+        reloadVisibleCategories(with: searchTextField.text)
+        
+        return true
+    }
+    
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         if string.isEmpty {
-            searchedCategories.removeAll()
-            showTrackersForCurrentDate()
-            return true
+            reloadVisibleCategories(with: nil)
+        } else {
+            reloadVisibleCategories(with: (textField.text ?? "") + string)
         }
-        
-        if let text = textField.text {
-            showSearchedTrackers(for: text + string)
-        }
-        
+
         return true
     }
     

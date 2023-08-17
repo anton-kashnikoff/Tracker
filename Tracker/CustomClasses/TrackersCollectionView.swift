@@ -25,8 +25,6 @@ final class TrackersCollectionView: UICollectionView {
 
 extension TrackersCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-//        let headerView = self.collectionView(collectionView, viewForSupplementaryElementOfKind: UICollectionView.elementKindSectionHeader, at: IndexPath(row: 0, section: section))
-//        return headerView.systemLayoutSizeFitting(CGSize(width: collectionView.frame.width, height: UIView.layoutFittingExpandedSize.height), withHorizontalFittingPriority: .required, verticalFittingPriority: .fittingSizeLevel)
         return CGSize(width: collectionView.frame.width, height: 30)
     }
     
@@ -48,7 +46,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return 0
         }
         
-        return trackersViewController.searchedCategories.isEmpty ? trackersViewController.categoriesToShow.count : trackersViewController.searchedCategories.count
+        return trackersViewController.visibleCategories.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -57,7 +55,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return 0
         }
         
-        return trackersViewController.searchedCategories.isEmpty ? trackersViewController.categoriesToShow[section].trackers.count : trackersViewController.searchedCategories[section].trackers.count
+        return trackersViewController.visibleCategories[section].trackers.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -71,7 +69,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let tracker = trackersViewController.searchedCategories.isEmpty ? trackersViewController.categoriesToShow[indexPath.section].trackers[indexPath.row] : trackersViewController.searchedCategories[indexPath.section].trackers[indexPath.row]
+        let tracker = trackersViewController.visibleCategories[indexPath.section].trackers[indexPath.row]
         
         cell.dataHelper = DataHelper()
         cell.dataHelper?.trackersViewController = trackersViewController
@@ -120,7 +118,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        headerView.titleLabel.text = trackersViewController.searchedCategories.isEmpty ? trackersViewController.categoriesToShow[indexPath.section].name : trackersViewController.searchedCategories[indexPath.section].name
+        headerView.titleLabel.text = trackersViewController.visibleCategories[indexPath.section].name
         
         return headerView
     }
