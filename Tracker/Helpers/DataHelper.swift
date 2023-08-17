@@ -8,7 +8,7 @@
 import Foundation
 
 final class DataHelper {
-    var trackersViewController: TrackersViewController?
+    weak var trackersViewController: TrackersViewController?
     
     func addTracker(_ tracker: Tracker, to category: TrackerCategory) {
         guard let trackersViewController else {

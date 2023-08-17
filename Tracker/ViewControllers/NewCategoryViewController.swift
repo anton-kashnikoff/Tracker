@@ -29,7 +29,7 @@ final class NewCategoryViewController: UIViewController {
         return button
     }()
     
-    var categoryViewController: CategoryViewController?
+    weak var categoryViewController: CategoryViewController?
     
     static let didChangeNotification = Notification.Name(rawValue: "CategoriesListDidChange")
     

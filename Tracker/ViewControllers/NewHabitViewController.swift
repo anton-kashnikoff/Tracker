@@ -121,7 +121,7 @@ final class NewHabitViewController: UIViewController {
     var daysOfWeek = [(Int, String, Bool)]()
     private var categoryObserver: NSObjectProtocol?
     private var scheduleObserver: NSObjectProtocol?
-    var trackersViewController: TrackersViewController?
+    weak var trackersViewController: TrackersViewController?
     
     static let didChangeNotification = Notification.Name(rawValue: "NewTrackerDidChange")
     

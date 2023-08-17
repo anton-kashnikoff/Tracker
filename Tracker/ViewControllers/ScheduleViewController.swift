@@ -8,7 +8,7 @@
 import UIKit
 
 final class ScheduleViewController: UIViewController {
-    var newHabitViewController: NewHabitViewController?
+    weak var newHabitViewController: NewHabitViewController?
     
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -102,7 +102,6 @@ final class ScheduleViewController: UIViewController {
 }
 
 extension ScheduleViewController: UITableViewDelegate {
-    
 }
 
 extension ScheduleViewController: UITableViewDataSource {
