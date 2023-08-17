@@ -224,8 +224,6 @@ final class TrackersViewController: UIViewController {
     private func reloadVisibleCategories(with text: String?) {
         let dayOfWeekFromDatePicker = Calendar.current.component(.weekday, from: datePicker.date)
         let filterText = (text ?? "").lowercased()
-        print("FILTER TEXT")
-        print(filterText)
         
         visibleCategories = categories.compactMap { category in
             let trackers = category.trackers.filter { tracker in
