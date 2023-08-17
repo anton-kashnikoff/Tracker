@@ -37,11 +37,11 @@ final class CategoryViewController: UIViewController {
     
     let tableView: UITableView = {
         let tableView = UITableView()
+        tableView.separatorStyle = .none
+        tableView.isScrollEnabled = false
         tableView.rowHeight = 75
         tableView.layer.cornerRadius = 16
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        tableView.separatorColor = .ypGray
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "categoryCell")
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.reuseIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -146,7 +146,13 @@ final class CategoryViewController: UIViewController {
 
 extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.dequeueReusableCell(withIdentifier: "categoryCell")?.accessoryType = .checkmark
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseIdentifier, for: indexPath) as? TableViewCell else {
+            print("Unable to create TableViewCell to select")
+            return
+        }
+        
+        cell.checkmarkImageView.isHidden = false
+        
         newHabitViewController?.categoryData.name = categories[indexPath.row]
         newHabitViewController?.tryActivateCreateButton()
         NotificationCenter.default.post(name: CategoryViewController.didChangeNotification, object: self)
@@ -160,20 +166,13 @@ extension CategoryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "categoryCell", for: indexPath)
-        cell.backgroundColor = .ypBackground
-        
-        if indexPath.row == categories.count - 1 {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseIdentifier, for: indexPath) as? TableViewCell else {
+            print("Unable to create TableViewCell")
+            return UITableViewCell()
         }
         
-        if #available(iOS 14.0, *) {
-            var content = cell.defaultContentConfiguration()
-            content.text = categories[indexPath.row]
-            cell.contentConfiguration = content
-        } else {
-            cell.textLabel?.text = categories[indexPath.row]
-        }
+        cell.separatorView.isHidden = indexPath.row == categories.count - 1
+        cell.titleLabel.text = categories[indexPath.row]
         
         return cell
     }
