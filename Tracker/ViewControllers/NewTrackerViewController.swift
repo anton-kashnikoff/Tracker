@@ -353,10 +353,11 @@ final class NewTrackerViewController: UIViewController {
     }
     
     private var isDataForTrackerReady: Bool {
-        if habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && habitTrackerData.schedule != nil && categoryData.name != nil {
-            return true
-        } else {
-            return false
+        switch trackerType {
+        case .habit:
+            return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && habitTrackerData.schedule != nil && categoryData.name != nil
+        case .irregularEvent:
+            return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && categoryData.name != nil
         }
     }
     
@@ -370,6 +371,7 @@ final class NewTrackerViewController: UIViewController {
         let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
         let trackerCategory = TrackerCategory(name: categoryName, trackers: [tracker])
         trackersViewController?.dataHelper?.addTracker(tracker, to: trackerCategory)
+        
         NotificationCenter.default.post(name: NewTrackerViewController.didChangeNotification, object: self)
         dismiss(animated: true)
     }
