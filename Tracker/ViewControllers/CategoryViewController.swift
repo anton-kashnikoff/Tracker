@@ -48,7 +48,7 @@ final class CategoryViewController: UIViewController {
     
     var categories = [String]()
     private var categoriesListObserver: NSObjectProtocol?
-    weak var newHabitViewController: NewTrackerViewController?
+    weak var newTrackerViewController: NewTrackerViewController?
     static let didChangeNotification = Notification.Name(rawValue: "CategoryDidChange")
     var tableViewHeightConstraint: NSLayoutConstraint?
     
@@ -153,8 +153,8 @@ extension CategoryViewController: UITableViewDelegate {
         
         cell.checkmarkImageView.isHidden = false
         
-        newHabitViewController?.categoryData.name = categories[indexPath.row]
-        newHabitViewController?.tryActivateCreateButton()
+        newTrackerViewController?.categoryData.name = categories[indexPath.row]
+        newTrackerViewController?.tryActivateCreateButton()
         NotificationCenter.default.post(name: CategoryViewController.didChangeNotification, object: self)
         navigationController?.popViewController(animated: true)
     }

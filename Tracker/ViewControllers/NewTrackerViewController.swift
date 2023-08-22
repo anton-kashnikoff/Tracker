@@ -388,11 +388,11 @@ extension NewTrackerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let categoryViewController = CategoryViewController()
-            categoryViewController.newHabitViewController = self
+            categoryViewController.newTrackerViewController = self
             navigationController?.pushViewController(categoryViewController, animated: true)
         } else if indexPath.row == 1 {
             let scheduleViewController = ScheduleViewController()
-            scheduleViewController.newHabitViewController = self
+            scheduleViewController.newTrackerViewController = self
             navigationController?.pushViewController(scheduleViewController, animated: true)
         }
     }

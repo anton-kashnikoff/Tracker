@@ -8,7 +8,7 @@
 import UIKit
 
 final class ScheduleViewController: UIViewController {
-    weak var newHabitViewController: NewTrackerViewController?
+    weak var newTrackerViewController: NewTrackerViewController?
     
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -95,9 +95,9 @@ final class ScheduleViewController: UIViewController {
             selectedDays.insert(Schedule.DayOfWeek.allCases[index])
         }
         
-        newHabitViewController?.daysOfWeek.append((index, Schedule.DayOfWeek.allCases[index].getBriefDayOfWeek(), sender.isOn))
-        newHabitViewController?.habitTrackerData.schedule = Schedule(daysOfWeek: selectedDays)
-        newHabitViewController?.tryActivateCreateButton()
+        newTrackerViewController?.daysOfWeek.append((index, Schedule.DayOfWeek.allCases[index].getBriefDayOfWeek(), sender.isOn))
+        newTrackerViewController?.habitTrackerData.schedule = Schedule(daysOfWeek: selectedDays)
+        newTrackerViewController?.tryActivateCreateButton()
     }
 }
 
