@@ -8,7 +8,7 @@
 import UIKit
 
 final class ColorCollectionView: UICollectionView {
-    var newHabitViewController: NewHabitViewController?
+    var newHabitViewController: NewTrackerViewController?
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)

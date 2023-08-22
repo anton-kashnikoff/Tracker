@@ -48,7 +48,7 @@ final class CategoryViewController: UIViewController {
     
     var categories = [String]()
     private var categoriesListObserver: NSObjectProtocol?
-    weak var newHabitViewController: NewHabitViewController?
+    weak var newHabitViewController: NewTrackerViewController?
     static let didChangeNotification = Notification.Name(rawValue: "CategoryDidChange")
     var tableViewHeightConstraint: NSLayoutConstraint?
     

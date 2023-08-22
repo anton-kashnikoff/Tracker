@@ -58,6 +58,7 @@ final class TrackerTypeViewController: UIViewController {
     }
     
     private func setupIrregularEventButton() {
+        irregularEventButton.addTarget(self, action: #selector(didTapIrregularEventButton), for: .touchUpInside)
         view.addSubview(irregularEventButton)
         
         NSLayoutConstraint.activate([
@@ -70,10 +71,15 @@ final class TrackerTypeViewController: UIViewController {
     
     @objc
     private func didTapHabitButton() {
-        let newHabitViewController = NewHabitViewController()
+        let newHabitViewController = NewTrackerViewController(trackerType: .habit)
         newHabitViewController.trackersViewController = trackersViewController
         navigationController?.pushViewController(newHabitViewController, animated: true)
-//        let navigationController = UINavigationController(rootViewController: newHabitViewController)
-//        present(navigationController, animated: true)
+    }
+    
+    @objc
+    private func didTapIrregularEventButton() {
+        let newIrregularEventViewController = NewTrackerViewController(trackerType: .irregularEvent)
+        newIrregularEventViewController.trackersViewController = trackersViewController
+        navigationController?.pushViewController(newIrregularEventViewController, animated: true)
     }
 }

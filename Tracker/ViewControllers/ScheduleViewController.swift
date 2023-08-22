@@ -8,7 +8,7 @@
 import UIKit
 
 final class ScheduleViewController: UIViewController {
-    weak var newHabitViewController: NewHabitViewController?
+    weak var newHabitViewController: NewTrackerViewController?
     
     let tableView: UITableView = {
         let tableView = UITableView()

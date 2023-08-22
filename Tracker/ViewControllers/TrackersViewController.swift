@@ -104,7 +104,7 @@ final class TrackersViewController: UIViewController {
         dataHelper = DataHelper()
         dataHelper?.trackersViewController = self
         
-        newTrackerObserver = NotificationCenter.default.addObserver(forName: NewHabitViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
+        newTrackerObserver = NotificationCenter.default.addObserver(forName: NewTrackerViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
             self?.reloadVisibleCategories(with: self?.searchTextField.text)
         })
         
