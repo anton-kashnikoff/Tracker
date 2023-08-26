@@ -11,7 +11,7 @@ final class CategoryViewController: UIViewController {
     static let didChangeNotification = Notification.Name(rawValue: "CategoryDidChange")
     
     let imageView: UIImageView = {
-        let imageView = UIImageView(image: UIImage(named: "star"))
+        let imageView = UIImageView(image: .star)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()

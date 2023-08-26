@@ -60,7 +60,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     let completedButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "Plus")?.withRenderingMode(.alwaysTemplate), for: .normal)
+        button.setImage(.plus?.withRenderingMode(.alwaysTemplate), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -179,12 +179,12 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         case .existForDate:
             // если БД содержит текущую дату для этого трекера, то
             // при нажатии кнопку нужно поменять на плюс, удалить запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
-            completedButton.setImage(UIImage(named: "Plus")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            completedButton.setImage(.plus?.withRenderingMode(.alwaysTemplate), for: .normal)
             trackerRecordStore.toggleTrackerRecord(trackerRecord, trackerRecordState: .existForDate)
         case .notExist:
             // если БД не содержит ни одной записи для этого трекера, то
             // при нажатии кнопку поменять на галочку, сделать запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
-            completedButton.setImage(UIImage(named: "Tick")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            completedButton.setImage(.tick?.withRenderingMode(.alwaysTemplate), for: .normal)
             trackerRecordStore.toggleTrackerRecord(trackerRecord, trackerRecordState: .notExist)
         }
         

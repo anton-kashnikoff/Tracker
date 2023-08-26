@@ -19,7 +19,7 @@ final class TrackersViewController: UIViewController {
     
     let barButtonItem: UIBarButtonItem = {
         let barButtonItem = UIBarButtonItem()
-        barButtonItem.image = UIImage(named: "Add tracker icon")
+        barButtonItem.image = .addTrackerIcon
         barButtonItem.tintColor = .ypBlack
         return barButtonItem
     }()
@@ -205,13 +205,13 @@ final class TrackersViewController: UIViewController {
     private func reloadPlaceholderView() {
         if trackerStore.isFetchedObjectsEmpty() && currentText != "" {
             print("FIRST")
-            imageView.image = UIImage(named: "NothingFound")
+            imageView.image = .nothingFound
             label.text = "Ничего не найдено"
             imageView.isHidden = false
             label.isHidden = false
         } else if trackerStore.isFetchedObjectsEmpty() {
             print("SECOND")
-            imageView.image = UIImage(named: "star")
+            imageView.image = .star
             label.text = "Что будем отслеживать?"
             imageView.isHidden = false
             label.isHidden = false
