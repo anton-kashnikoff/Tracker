@@ -146,6 +146,15 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		CB760D8E2A9A9595006C88E3 /* TableViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				CB105F992A8EBA10000B5123 /* CategoryTableViewCell.swift */,
+				CB760D8C2A9A903D006C88E3 /* ScheduleTableViewCell.swift */,
+			);
+			path = TableViewCells;
+			sourceTree = "<group>";
+		};
 		CB846D632A74533B00128231 = {
 			isa = PBXGroup;
 			children = (
@@ -173,11 +182,10 @@
 				CB1036602A7EB69600CD06DB /* Models */,
 				CB10365E2A7EB63900CD06DB /* ViewControllers */,
 				CB10365F2A7EB66000CD06DB /* CollectionViewCells */,
+				CB760D8E2A9A9595006C88E3 /* TableViewCells */,
 				CBD46B2A2A7AF23800AB4F88 /* Extensions */,
-				CB846D782A74533E00128231 /* Assets.xcassets */,
-				CB105F992A8EBA10000B5123 /* CategoryTableViewCell.swift */,
-				CB760D8C2A9A903D006C88E3 /* ScheduleTableViewCell.swift */,
 				CB846D7A2A74533E00128231 /* LaunchScreen.storyboard */,
+				CB846D782A74533E00128231 /* Assets.xcassets */,
 				CB846D7D2A74533E00128231 /* Info.plist */,
 			);
 			path = Tracker;
