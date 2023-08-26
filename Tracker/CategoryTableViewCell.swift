@@ -1,5 +1,5 @@
 //
-//  TableViewCell.swift
+//  CategoryTableViewCell.swift
 //  Tracker
 //
 //  Created by Антон Кашников on 17.08.2023.
@@ -7,8 +7,8 @@
 
 import UIKit
 
-final class TableViewCell: UITableViewCell {
-    static let reuseIdentifier = "cell"
+final class CategoryTableViewCell: UITableViewCell {
+    static let reuseIdentifier = "categoryCell"
     
     let titleLabel: UILabel = {
         let label = UILabel()
@@ -75,8 +75,8 @@ final class TableViewCell: UITableViewCell {
         
         NSLayoutConstraint.activate([
             separatorView.heightAnchor.constraint(equalToConstant: 0.5),
-            separatorView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            separatorView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            separatorView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            separatorView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
             separatorView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }

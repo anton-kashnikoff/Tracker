@@ -43,7 +43,7 @@ final class CategoryViewController: UIViewController {
         tableView.isScrollEnabled = false
         tableView.rowHeight = 75
         tableView.layer.cornerRadius = 16
-        tableView.register(TableViewCell.self, forCellReuseIdentifier: TableViewCell.reuseIdentifier)
+        tableView.register(CategoryTableViewCell.self, forCellReuseIdentifier: CategoryTableViewCell.reuseIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -154,8 +154,8 @@ final class CategoryViewController: UIViewController {
 
 extension CategoryViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseIdentifier, for: indexPath) as? TableViewCell else {
-            print("Unable to create TableViewCell to select")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.reuseIdentifier, for: indexPath) as? CategoryTableViewCell else {
+            print("Unable to create CategoryTableViewCell to select")
             return
         }
         
@@ -175,8 +175,8 @@ extension CategoryViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableViewCell.reuseIdentifier, for: indexPath) as? TableViewCell else {
-            print("Unable to create TableViewCell")
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: CategoryTableViewCell.reuseIdentifier, for: indexPath) as? CategoryTableViewCell else {
+            print("Unable to create CategoryTableViewCell")
             return UITableViewCell()
         }
         
