@@ -155,6 +155,17 @@
 			path = TableViewCells;
 			sourceTree = "<group>";
 		};
+		CB760D8F2A9A95F5006C88E3 /* CollectionViews */ = {
+			isa = PBXGroup;
+			children = (
+				CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */,
+				CBCFDA292A7FFAA200CA505F /* TrackersCollectionView.swift */,
+				CBCFDA262A7FF89700CA505F /* ColorCollectionView.swift */,
+				CBCFDA242A7FF45100CA505F /* EmojiCollectionView.swift */,
+			);
+			path = CollectionViews;
+			sourceTree = "<group>";
+		};
 		CB846D632A74533B00128231 = {
 			isa = PBXGroup;
 			children = (
@@ -181,8 +192,6 @@
 				CBCFDA282A7FF97E00CA505F /* CustomClasses */,
 				CB1036602A7EB69600CD06DB /* Models */,
 				CB10365E2A7EB63900CD06DB /* ViewControllers */,
-				CB10365F2A7EB66000CD06DB /* CollectionViewCells */,
-				CB760D8E2A9A9595006C88E3 /* TableViewCells */,
 				CBD46B2A2A7AF23800AB4F88 /* Extensions */,
 				CB846D7A2A74533E00128231 /* LaunchScreen.storyboard */,
 				CB846D782A74533E00128231 /* Assets.xcassets */,
@@ -195,10 +204,9 @@
 			isa = PBXGroup;
 			children = (
 				CBF3B2772A7CFCB200A540CA /* TextField.swift */,
-				CBCFDA242A7FF45100CA505F /* EmojiCollectionView.swift */,
-				CBCFDA262A7FF89700CA505F /* ColorCollectionView.swift */,
-				CBCFDA292A7FFAA200CA505F /* TrackersCollectionView.swift */,
-				CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */,
+				CB760D8F2A9A95F5006C88E3 /* CollectionViews */,
+				CB760D8E2A9A9595006C88E3 /* TableViewCells */,
+				CB10365F2A7EB66000CD06DB /* CollectionViewCells */,
 			);
 			path = CustomClasses;
 			sourceTree = "<group>";
