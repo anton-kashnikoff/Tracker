@@ -31,6 +31,8 @@ struct Schedule {
             return index + 2
         }
         
+
+        
         func getBriefDayOfWeek() -> String {
             let index = getIndexOfCase()
             
@@ -56,4 +58,25 @@ struct Schedule {
     }
     
     let daysOfWeek: Set<DayOfWeek>
+    
+    static func getNameOfDay(_ number: Int) -> String {
+        switch number {
+        case 1:
+            return "Воскресенье"
+        case 2:
+            return "Понедельник"
+        case 3:
+            return "Вторник"
+        case 4:
+            return "Среда"
+        case 5:
+            return "Четверг"
+        case 6:
+            return "Пятница"
+        case 7:
+            return "Суббота"
+        default:
+            return ""
+        }
+    }
 }

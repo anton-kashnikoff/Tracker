@@ -8,6 +8,8 @@
 import UIKit
 
 final class NewTrackerViewController: UIViewController {
+    static let didChangeNotification = Notification.Name(rawValue: "NewTrackerDidChange")
+    
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -113,13 +115,15 @@ final class NewTrackerViewController: UIViewController {
     }()
     
     private let trackerType: TrackerType
+    private let trackerCategoryStore = TrackerCategoryStore()
+    private let trackerStore = TrackerStore()
     
     let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     let colors: [UIColor] = [.colorSelection1, .colorSelection2, .colorSelection3, .colorSelection4, .colorSelection5, .colorSelection6, .colorSelection7, .colorSelection8, .colorSelection9, .colorSelection10, .colorSelection11, .colorSelection12, .colorSelection13, .colorSelection14, .colorSelection15, .colorSelection16, .colorSelection17, .colorSelection18]
     
     
     var habitTrackerData: (id: UUID?, name: String?, color: UIColor?, emoji: String?, schedule: Schedule?)
-    var categoryData: (name: String?, trackers: [Tracker]?)
+    var category: TrackerCategoryCoreData?
     var daysOfWeek = [(Int, String, Bool)]()
     
     private var categoryObserver: NSObjectProtocol?
@@ -127,8 +131,6 @@ final class NewTrackerViewController: UIViewController {
     private var tableViewCells = [String]()
     
     weak var trackersViewController: TrackersViewController?
-    
-    static let didChangeNotification = Notification.Name(rawValue: "NewTrackerDidChange")
     
     init(trackerType: TrackerType) {
         self.trackerType = trackerType
@@ -355,22 +357,21 @@ final class NewTrackerViewController: UIViewController {
     private var isDataForTrackerReady: Bool {
         switch trackerType {
         case .habit:
-            return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && habitTrackerData.schedule != nil && categoryData.name != nil
+            return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && habitTrackerData.schedule != nil && category?.name != nil
         case .irregularEvent:
-            return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && categoryData.name != nil
+            return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && category?.name != nil
         }
     }
     
     @objc
     private func createButtonDidTap() {
-        guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let categoryName = categoryData.name else {
+        guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let category = category else {
             print("Not all data exists")
             return
         }
         
         let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
-        let trackerCategory = TrackerCategory(name: categoryName, trackers: [tracker])
-        trackersViewController?.dataHelper?.addTracker(tracker, to: trackerCategory)
+        trackerStore.addNewTracker(tracker, to: category)
         
         NotificationCenter.default.post(name: NewTrackerViewController.didChangeNotification, object: self)
         dismiss(animated: true)
@@ -423,7 +424,7 @@ extension NewTrackerViewController: UITableViewDataSource {
             content.text = tableViewCells[indexPath.row]
             
             if tableViewCells[indexPath.row] == "Категория" {
-                content.secondaryText = categoryData.name
+                content.secondaryText = category?.name
             } else if tableViewCells[indexPath.row] == "Расписание" {
                 content.secondaryText = getDaysOfWeekString()
             }
@@ -435,7 +436,7 @@ extension NewTrackerViewController: UITableViewDataSource {
         } else {
             cell.textLabel?.text = tableViewCells[indexPath.row]
             if tableViewCells[indexPath.row] == "Категория" {
-                cell.detailTextLabel?.text = categoryData.name
+                cell.detailTextLabel?.text = category?.name
             } else if tableViewCells[indexPath.row] == "Расписание" {
                 cell.detailTextLabel?.text = getDaysOfWeekString()
             }

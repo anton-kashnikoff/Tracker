@@ -21,7 +21,6 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     let emojiView: UIView = {
         let view = UIView()
-//        view.frame.size = CGSize(width: 24, height: 24)
         view.backgroundColor = UIColor(white: 1, alpha: 0.3)
         view.layer.cornerRadius = 12
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -66,7 +65,8 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
-    var dataHelper: DataHelper?
+    let trackerRecordStore = TrackerRecordStore()
+    
     var tracker: Tracker?
     var date: Date?
     var isCompleted = false
@@ -162,8 +162,8 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     @objc
     private func completedButtonDidTap() {
-        guard let tracker, let date, let dataHelper else {
-            print("Unable to find tracker and/or date and/or dataHelper for this cell")
+        guard let tracker, let date else {
+            print("Unable to find tracker and/or date for this cell")
             return
         }
         
@@ -172,29 +172,23 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         guard trackerRecord.date <= Calendar.current.startOfDay(for: Date()) else {
             return
         }
-        
-        let trackerRecordState = dataHelper.checkTrackerRecordForDate(trackerRecord.date, id: trackerRecord.id)
+        // получаем состояние для конкретного трекера на конкретную дату
+        let trackerRecordState = trackerRecordStore.checkTrackerRecordForDate(trackerRecord.date, id: trackerRecord.id)
         
         switch trackerRecordState {
         case .existForDate:
-            // если listOfDatesForTracker содержит текущую дату, то
+            // если БД содержит текущую дату для этого трекера, то
             // при нажатии кнопку нужно поменять на плюс, удалить запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
             completedButton.setImage(UIImage(named: "Plus")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            dataHelper.toggleTrackerRecord(trackerRecord, trackerRecordState: .existForDate)
-        case .existForAnotherDate:
-            // если listOfDatesForTracker не содержит текущую дату, но содержит какие-то другие даты, то
-            // при нажатии поменять кнопку на галочку, сделать запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
-            completedButton.setImage(UIImage(named: "Tick")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            dataHelper.toggleTrackerRecord(trackerRecord, trackerRecordState: .existForAnotherDate)
+            trackerRecordStore.toggleTrackerRecord(trackerRecord, trackerRecordState: .existForDate)
         case .notExist:
-            // если listOfDatesForTracker не содержит ни одной записи для этого трекера, то
-            // при нажатии кнопку поменять на галочку, сделать запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера, то есть 1
+            // если БД не содержит ни одной записи для этого трекера, то
+            // при нажатии кнопку поменять на галочку, сделать запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
             completedButton.setImage(UIImage(named: "Tick")?.withRenderingMode(.alwaysTemplate), for: .normal)
-            dataHelper.toggleTrackerRecord(trackerRecord, trackerRecordState: .notExist)
+            trackerRecordStore.toggleTrackerRecord(trackerRecord, trackerRecordState: .notExist)
         }
         
-        let countOfCompletedDaysForTracker = dataHelper.getCountOfCompletedDaysForTracker(trackerRecord.id) ?? 0
-        
-        daysCountLabel.text = "\(countOfCompletedDaysForTracker) дней"
+        let countOfCompletedDaysForTracker = trackerRecordStore.getCountOfCompletedDaysForTracker(trackerRecord.id)
+        daysCountLabel.text = "\(countOfCompletedDaysForTracker ?? -1) дней"
     }
 }

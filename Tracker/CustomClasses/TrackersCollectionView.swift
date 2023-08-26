@@ -23,6 +23,8 @@ final class TrackersCollectionView: UICollectionView {
     }
 }
 
+// MARK: - UICollectionViewDelegateFlowLayout
+
 extension TrackersCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         return CGSize(width: collectionView.frame.width, height: 30)
@@ -39,6 +41,8 @@ extension TrackersCollectionView: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - UICollectionViewDataSource
+
 extension TrackersCollectionView: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         guard let trackersViewController else {
@@ -46,33 +50,36 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return 0
         }
         
-        return trackersViewController.visibleCategories.count
+        return trackersViewController.trackerStore.numberOfSections()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let trackersViewController else {
-            print("Unable to find TrackersViewController - collectionView(_:,numberOfItemsInSection:)")
+            print("Unable to find TrackersViewController - collectionView(_:numberOfItemsInSection:)")
             return 0
         }
         
-        return trackersViewController.visibleCategories[section].trackers.count
+        return trackersViewController.trackerStore.numberOfItemsInSection(section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        print("\ncollectionView(_:cellForItemAt:) starts")
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier, for: indexPath) as? TrackerCollectionViewCell else {
             print("Unable to create TrackerCollectionViewCell")
             return UICollectionViewCell()
         }
         
         guard let trackersViewController else {
-            print("Unable to find TrackersViewController - collectionView(_:,cellForItemAt:)")
+            print("Unable to find TrackersViewController - collectionView(_:cellForItemAt:)")
             return UICollectionViewCell()
         }
         
-        let tracker = trackersViewController.visibleCategories[indexPath.section].trackers[indexPath.row]
+        let trackerObject = trackersViewController.trackerStore.getObjectAt(indexPath: indexPath)
+
+        guard let tracker = trackersViewController.trackerStore.makeTracker(from: trackerObject) else {
+            return UICollectionViewCell()
+        }
         
-        cell.dataHelper = DataHelper()
-        cell.dataHelper?.trackersViewController = trackersViewController
         cell.tracker = tracker
         cell.date = trackersViewController.currentDate
         
@@ -80,30 +87,27 @@ extension TrackersCollectionView: UICollectionViewDataSource {
         cell.emojiLabel.text = tracker.emoji
         cell.trackerTitleLabel.text = tracker.name
         
-        let countOfCompletedDaysForTracker = cell.dataHelper?.getCountOfCompletedDaysForTracker(tracker.id) ?? 0
+        let countOfCompletedDaysForTracker = cell.trackerRecordStore.getCountOfCompletedDaysForTracker(tracker.id)
         
-        guard let trackerRecordState = cell.dataHelper?.checkTrackerRecordForDate(cell.date!, id: tracker.id) else {
-            return UICollectionViewCell()
-        }
+        let trackerRecordState = cell.trackerRecordStore.checkTrackerRecordForDate(trackersViewController.currentDate, id: tracker.id)
         
         switch trackerRecordState {
         case .existForDate:
             // если listOfDatesForTracker содержит текущую дату, то
             // при отображении кнопка-галочка, текст = кол-во дат в массиве для этого трекера
             cell.completedButton.setImage(UIImage(named: "Tick")?.withRenderingMode(.alwaysTemplate), for: .normal)
-        case .existForAnotherDate:
-            // если listOfDatesForTracker не содержит текущую дату, но содержит какие-то другие даты, то
-            // при отображении кнопка-плюсик, текст = кол-во дат в массиве для этого трекера
-            cell.completedButton.setImage(UIImage(named: "Plus")?.withRenderingMode(.alwaysTemplate), for: .normal)
+//        case .existForAnotherDate:
+//            // если listOfDatesForTracker не содержит текущую дату, но содержит какие-то другие даты, то
+//            // при отображении кнопка-плюсик, текст = кол-во дат в массиве для этого трекера
+//            cell.completedButton.setImage(UIImage(named: "Plus")?.withRenderingMode(.alwaysTemplate), for: .normal)
         case .notExist:
             // если listOfDatesForTracker не содержит ни одной записи для этого трекера, то
             // при отображении кнопка-плюсик, текст = кол-во дат в массиве для этого трекера, то есть 0
             cell.completedButton.setImage(UIImage(named: "Plus")?.withRenderingMode(.alwaysTemplate), for: .normal)
         }
         
-        cell.daysCountLabel.text = "\(countOfCompletedDaysForTracker) дней"
+        cell.daysCountLabel.text = "\(countOfCompletedDaysForTracker ?? -1) дней"
         cell.completedButton.tintColor = cell.cardView.backgroundColor
-        
         return cell
     }
     
@@ -114,11 +118,12 @@ extension TrackersCollectionView: UICollectionViewDataSource {
         }
         
         guard let trackersViewController else {
-            print("Unable to find TrackersViewController - collectionView(_:,viewForSupplementaryElementOfKind:, at:)")
+            print("Unable to find TrackersViewController - collectionView(_:viewForSupplementaryElementOfKind:at:)")
             return UICollectionViewCell()
         }
         
-        headerView.titleLabel.text = trackersViewController.visibleCategories[indexPath.section].name
+        let trackerObject = trackersViewController.trackerStore.getObjectAt(indexPath: indexPath)
+        headerView.titleLabel.text = trackerObject.category?.name
         
         return headerView
     }

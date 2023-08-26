@@ -8,6 +8,8 @@
 import UIKit
 
 final class CategoryViewController: UIViewController {
+    static let didChangeNotification = Notification.Name(rawValue: "CategoryDidChange")
+    
     let imageView: UIImageView = {
         let imageView = UIImageView(image: UIImage(named: "star"))
         imageView.translatesAutoresizingMaskIntoConstraints = false
@@ -46,11 +48,12 @@ final class CategoryViewController: UIViewController {
         return tableView
     }()
     
-    var categories = [String]()
+    private let trackerCategoryStore = TrackerCategoryStore()
+    
     private var categoriesListObserver: NSObjectProtocol?
+    private var tableViewHeightConstraint: NSLayoutConstraint?
+    
     weak var newTrackerViewController: NewTrackerViewController?
-    static let didChangeNotification = Notification.Name(rawValue: "CategoryDidChange")
-    var tableViewHeightConstraint: NSLayoutConstraint?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,6 +63,8 @@ final class CategoryViewController: UIViewController {
         navigationItem.hidesBackButton = true
         navigationItem.title = "Категория"
         
+        trackerCategoryStore.delegate = self
+        
         categoriesListObserver = NotificationCenter.default.addObserver(forName: NewCategoryViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
             guard let self else {
                 return
@@ -67,16 +72,19 @@ final class CategoryViewController: UIViewController {
             
             self.imageView.removeFromSuperview()
             self.label.removeFromSuperview()
-            self.updateTableViewHeight(to: CGFloat(self.categories.count) * self.tableView.rowHeight)
+            self.updateTableViewHeight(to: CGFloat(self.trackerCategoryStore.numberOfObjects()) * self.tableView.rowHeight)
             self.tableView.reloadData()
         })
         
-        if categories.isEmpty {
+        
+        if trackerCategoryStore.isFetchedObjectsEmpty() {
             showEmptyView()
         }
         
         setupTableView()
         setupButton()
+        
+        updateTableViewHeight(to: CGFloat(trackerCategoryStore.numberOfObjects()) * self.tableView.rowHeight)
     }
     
     private func showEmptyView() {
@@ -153,8 +161,9 @@ extension CategoryViewController: UITableViewDelegate {
         
         cell.checkmarkImageView.isHidden = false
         
-        newTrackerViewController?.categoryData.name = categories[indexPath.row]
+        newTrackerViewController?.category = trackerCategoryStore.getObjectAt(indexPath: indexPath)
         newTrackerViewController?.tryActivateCreateButton()
+        
         NotificationCenter.default.post(name: CategoryViewController.didChangeNotification, object: self)
         navigationController?.popViewController(animated: true)
     }
@@ -162,7 +171,7 @@ extension CategoryViewController: UITableViewDelegate {
 
 extension CategoryViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        categories.count
+        trackerCategoryStore.numberOfRowsInSection(section)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -171,9 +180,18 @@ extension CategoryViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.separatorView.isHidden = indexPath.row == categories.count - 1
-        cell.titleLabel.text = categories[indexPath.row]
+        let categoryObject = trackerCategoryStore.getObjectAt(indexPath: indexPath)
+        let category = trackerCategoryStore.makeTrackerCategory(from: categoryObject)
+        
+        cell.separatorView.isHidden = indexPath.row == trackerCategoryStore.numberOfObjects() - 1
+        cell.titleLabel.text = category?.name
         
         return cell
+    }
+}
+
+extension CategoryViewController {
+    func reloadData() {
+        tableView.reloadData()
     }
 }

@@ -63,16 +63,15 @@ final class TrackersViewController: UIViewController {
         return label
     }()
     
+    let trackerCategoryStore = TrackerCategoryStore()
+    let trackerStore = TrackerStore()
+    private let trackerRecordStore = TrackerRecordStore()
+    
     private var newTrackerObserver: NSObjectProtocol?
     private var constraintToCancelButton: NSLayoutConstraint?
     private var constraintToSuperview: NSLayoutConstraint?
-    
-    var categories = [TrackerCategory]()
-    var visibleCategories = [TrackerCategory]()
-    
-    var dataHelper: DataHelper?
+    private var currentText: String?
     var currentDate = Date()
-    var datesForCompletedTrackers = [UUID:[Date]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,31 +80,14 @@ final class TrackersViewController: UIViewController {
         
         view.backgroundColor = .ypWhite
         
-        categories = [
-            TrackerCategory(name: "Pop", trackers: [
-                Tracker(id: UUID(), name: "Anton", color: .colorSelection12, emoji: "🧡", schedule: Schedule(daysOfWeek: [.friday])),
-                Tracker(id: UUID(), name: "Viktor", color: .colorSelection12, emoji: "💕", schedule: Schedule(daysOfWeek: [.friday]))
-            ]),
-            TrackerCategory(name: "Lol", trackers: [
-                Tracker(id: UUID(), name: "Roman", color: .colorSelection11, emoji: "🤍", schedule: Schedule(daysOfWeek: [.monday]))
-            ]),
-            TrackerCategory(name: "Vov", trackers: [
-                Tracker(id: UUID(), name: "Anna", color: .colorSelection10, emoji: "💙", schedule: Schedule(daysOfWeek: [.wednesday, .friday])),
-                Tracker(id: UUID(), name: "Rose", color: .colorSelection10, emoji: "💗", schedule: Schedule(daysOfWeek: [.tuesday, .monday]))
-            ]),
-            TrackerCategory(name: "Rir", trackers: [
-                Tracker(id: UUID(), name: "Valery", color: .colorSelection1, emoji: "🩷", schedule: Schedule(daysOfWeek: [.sunday])),
-                Tracker(id: UUID(), name: "Inna", color: .colorSelection1, emoji: "💚", schedule: Schedule(daysOfWeek: [.thursday]))
-            ])
-        ]
-        
         currentDate = datePicker.date.withZeroTime
+        currentText = searchTextField.text
         
-        dataHelper = DataHelper()
-        dataHelper?.trackersViewController = self
+        trackerStore.delegate = self
+        trackerRecordStore.delegate = self
         
         newTrackerObserver = NotificationCenter.default.addObserver(forName: NewTrackerViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-            self?.reloadVisibleCategories(with: self?.searchTextField.text)
+            self?.reloadData()
         })
         
         setupNavigationBar()
@@ -114,7 +96,7 @@ final class TrackersViewController: UIViewController {
         setupImageView()
         setupLabel()
         
-        reloadVisibleCategories(with: searchTextField.text)
+        reloadData()
     }
     
     private func setupNavigationBar() {
@@ -209,77 +191,53 @@ final class TrackersViewController: UIViewController {
     @objc
     private func dateChanged() {
         currentDate = datePicker.date.withZeroTime
-        
-        reloadVisibleCategories(with: searchTextField.text)
+        reloadData()
     }
     
     @objc
     private func cancelButtonDidTap() {
         searchTextField.text = nil
-        reloadVisibleCategories(with: searchTextField.text)
-        
+        currentText = nil
+        reloadData()
         hideCancelButton()
     }
     
-    private func reloadVisibleCategories(with text: String?) {
-        let dayOfWeekFromDatePicker = Calendar.current.component(.weekday, from: datePicker.date)
-        let filterText = (text ?? "").lowercased()
-        
-        visibleCategories = categories.compactMap { category in
-            let trackers = category.trackers.filter { tracker in
-                let textCondition = filterText.isEmpty || tracker.name.lowercased().contains(filterText)
-                let dateCondition = tracker.schedule.daysOfWeek.contains { dayOfWeek in
-                    dayOfWeek.getNumberOfDay() == dayOfWeekFromDatePicker
-                }
-                
-                return textCondition && dateCondition
-            }
-            
-            if trackers.isEmpty {
-                return nil
-            }
-            
-            return  TrackerCategory(name: category.name, trackers: trackers)
-        }
-        
-        collectionView.reloadData()
-        reloadPlaceholderView()
-    }
-    
     private func reloadPlaceholderView() {
-        if categories.isEmpty {
-            imageView.image = UIImage(named: "star")
-            label.text = "Что будем отслеживать?"
-            imageView.isHidden = false
-            label.isHidden = false
-        } else if !categories.isEmpty && visibleCategories.isEmpty {
+        if trackerStore.isFetchedObjectsEmpty() && currentText != "" {
+            print("FIRST")
             imageView.image = UIImage(named: "NothingFound")
             label.text = "Ничего не найдено"
             imageView.isHidden = false
             label.isHidden = false
+        } else if trackerStore.isFetchedObjectsEmpty() {
+            print("SECOND")
+            imageView.image = UIImage(named: "star")
+            label.text = "Что будем отслеживать?"
+            imageView.isHidden = false
+            label.isHidden = false
         } else {
+            print("else")
             imageView.isHidden = true
             label.isHidden = true
         }
     }
 }
 
+// MARK: - UITextFieldDelegate
+
 extension TrackersViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        
         hideCancelButton()
-        reloadVisibleCategories(with: searchTextField.text)
-        
+        reloadData()
         return true
     }
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if string.isEmpty {
-            reloadVisibleCategories(with: nil)
-        } else {
-            reloadVisibleCategories(with: (textField.text ?? "") + string)
+        if let text = textField.text as? NSString {
+            currentText = text.replacingCharacters(in: range, with: string)
         }
+        reloadData()
 
         return true
     }
@@ -287,5 +245,30 @@ extension TrackersViewController: UITextFieldDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         setupSearchCancelButton()
         return true
+    }
+}
+
+extension TrackersViewController {
+    func reloadData() {
+        let dayOfWeek = Schedule.getNameOfDay(Calendar.current.component(.weekday, from: currentDate))
+        let text = currentText ?? ""
+        
+        if text.isEmpty {
+            // фильтруем только по дате
+            trackerStore.fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(TrackerCoreData.schedule), dayOfWeek)
+        } else {
+            // фильтр по дате и тексту
+            trackerStore.fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text)
+        }
+        
+        do {
+            try trackerStore.fetchedResultsController.performFetch()
+            try trackerRecordStore.fetchedResultsController.performFetch()
+        } catch let error as NSError  {
+            print("Error: \(error)")
+        }
+        
+        collectionView.reloadData()
+        reloadPlaceholderView()
     }
 }

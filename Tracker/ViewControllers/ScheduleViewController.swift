@@ -8,7 +8,7 @@
 import UIKit
 
 final class ScheduleViewController: UIViewController {
-    weak var newTrackerViewController: NewTrackerViewController?
+    static let didChangeNotification = Notification.Name(rawValue: "ScheduleDidChange")
     
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -32,9 +32,9 @@ final class ScheduleViewController: UIViewController {
         return button
     }()
     
-    static let didChangeNotification = Notification.Name(rawValue: "ScheduleDidChange")
-    
     var selectedDays: Set<Schedule.DayOfWeek> = []
+    
+    weak var newTrackerViewController: NewTrackerViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
