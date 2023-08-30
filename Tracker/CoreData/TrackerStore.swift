@@ -5,8 +5,8 @@
 //  Created by Антон Кашников on 22.08.2023.
 //
 
-import UIKit
 import CoreData
+import UIKit
 
 final class TrackerStore: NSObject {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -40,25 +40,6 @@ final class TrackerStore: NSObject {
         }
     }
     
-//    func getTrackers(of categoryObject: TrackerCategoryCoreData) -> [Tracker] {
-//        print("getTrackers() starts")
-//        var trackers = [Tracker]()
-//
-//        if let fetchedObjects = fetchedResultsController.fetchedObjects {
-//            for trackerCoreData in fetchedObjects {
-//                if trackerCoreData.category == categoryObject {
-//                    print("trackerCoreData.category = \(String(describing: trackerCoreData.category))")
-//                    if let tracker = makeTracker(from: trackerCoreData) {
-//                        trackers.append(tracker)
-//                    }
-//                }
-//            }
-//        }
-//        print("trackers = \(trackers)")
-//        print("getTrackers() ends")
-//        return trackers
-//    }
-    
     func makeTracker(from trackerObject: TrackerCoreData) -> Tracker? {
         if let id = trackerObject.id, let name = trackerObject.name, let emoji = trackerObject.emoji, let colorString = trackerObject.color, let scheduleString = trackerObject.schedule {
             let daysOfWeek = Set(scheduleString.components(separatedBy: ", ").compactMap {
@@ -87,10 +68,6 @@ final class TrackerStore: NSObject {
         fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
     
-//    func numberOfObjects() -> Int {
-//        fetchedResultsController.fetchedObjects?.count ?? 0
-//    }
-    
     func getObjectAt(indexPath: IndexPath) -> TrackerCoreData {
         fetchedResultsController.object(at: indexPath)
     }
@@ -98,10 +75,6 @@ final class TrackerStore: NSObject {
     func isFetchedObjectsEmpty() -> Bool {
         fetchedResultsController.fetchedObjects == nil || fetchedResultsController.fetchedObjects == []
     }
-    
-//    func getAllObjects() -> [TrackerCoreData] {
-//        fetchedResultsController.fetchedObjects ?? []
-//    }
 }
 
 extension TrackerStore: NSFetchedResultsControllerDelegate {

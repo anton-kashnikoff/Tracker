@@ -15,7 +15,6 @@
 		CB2849A82A83F2290009280F /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2849A72A83F2290009280F /* UIViewController+Extensions.swift */; };
 		CB49F1882A81135300C37A24 /* HeaderCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */; };
 		CB49F18A2A8124F100C37A24 /* GeometricParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F1892A8124F100C37A24 /* GeometricParams.swift */; };
-		CB49F18C2A813B1D00C37A24 /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F18B2A813B1D00C37A24 /* DataHelper.swift */; };
 		CB760D8D2A9A903D006C88E3 /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB760D8C2A9A903D006C88E3 /* ScheduleTableViewCell.swift */; };
 		CB760D912A9A96F6006C88E3 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB760D902A9A96F6006C88E3 /* UIImage+Extensions.swift */; };
 		CB846D702A74533B00128231 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB846D6F2A74533B00128231 /* AppDelegate.swift */; };
@@ -56,7 +55,6 @@
 		CB2849A72A83F2290009280F /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionView.swift; sourceTree = "<group>"; };
 		CB49F1892A8124F100C37A24 /* GeometricParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometricParams.swift; sourceTree = "<group>"; };
-		CB49F18B2A813B1D00C37A24 /* DataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
 		CB760D8C2A9A903D006C88E3 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		CB760D902A9A96F6006C88E3 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		CB846D6C2A74533B00128231 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -139,7 +137,6 @@
 			isa = PBXGroup;
 			children = (
 				CB49F1892A8124F100C37A24 /* GeometricParams.swift */,
-				CB49F18B2A813B1D00C37A24 /* DataHelper.swift */,
 				CB2849A52A83EDC90009280F /* EmptyViewCase.swift */,
 				CB8D4D962A84462F00A9708E /* TrackerRecordState.swift */,
 				CBD15D962A94E6A200DC6FAE /* TrackerType.swift */,
@@ -308,7 +305,6 @@
 				CBD46B302A7AF68200AB4F88 /* TrackerCategory.swift in Sources */,
 				CB760D8D2A9A903D006C88E3 /* ScheduleTableViewCell.swift in Sources */,
 				CBCFDA252A7FF45100CA505F /* EmojiCollectionView.swift in Sources */,
-				CB49F18C2A813B1D00C37A24 /* DataHelper.swift in Sources */,
 				CBF3B2802A7D27C300A540CA /* ColorCollectionViewCell.swift in Sources */,
 				CB2849A62A83EDC90009280F /* EmptyViewCase.swift in Sources */,
 				CB105F9A2A8EBA10000B5123 /* CategoryTableViewCell.swift in Sources */,

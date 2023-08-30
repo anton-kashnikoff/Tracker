@@ -204,19 +204,16 @@ final class TrackersViewController: UIViewController {
     
     private func reloadPlaceholderView() {
         if trackerStore.isFetchedObjectsEmpty() && currentText != "" {
-            print("FIRST")
             imageView.image = .nothingFound
             label.text = "Ничего не найдено"
             imageView.isHidden = false
             label.isHidden = false
         } else if trackerStore.isFetchedObjectsEmpty() {
-            print("SECOND")
             imageView.image = .star
             label.text = "Что будем отслеживать?"
             imageView.isHidden = false
             label.isHidden = false
         } else {
-            print("else")
             imageView.isHidden = true
             label.isHidden = true
         }

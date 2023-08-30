@@ -5,8 +5,8 @@
 //  Created by Антон Кашников on 22.08.2023.
 //
 
-import UIKit
 import CoreData
+import UIKit
 
 final class TrackerCategoryStore: NSObject {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -44,36 +44,6 @@ final class TrackerCategoryStore: NSObject {
         }
     }
     
-//    func getTrackerCategories() -> [TrackerCategory] {
-//        print("\ngetTrackerCategories() starts")
-//        var trackerCategories = [TrackerCategory]()
-//
-//        if let fetchedObjects = fetchedResultsController.fetchedObjects {
-//            
-//            let allTrackers = trackerStore.getTrackers()
-//            print("allTrackers = \(allTrackers)")
-//            
-//            for trackerCategoryCoreData in fetchedObjects {
-//                var trackers = [Tracker]()
-//
-//                if let trackerCoreDataArray = trackerCategoryCoreData.trackers?.allObjects as? [TrackerCoreData] {
-//                    for trackerCoreData in trackerCoreDataArray {
-//                        if let tracker = allTrackers.first(where: {
-//                            $0.id == trackerCoreData.id
-//                        }) {
-//                            trackers.append(tracker)
-//                        }
-//                    }
-//                }
-//
-//                trackerCategories.append(TrackerCategory(name: trackerCategoryCoreData.name!, trackers: trackers))
-//            }
-//        }
-//        print("getTrackerCategories() ends\n")
-//        return trackerCategories
-//    }
-    
-    
     func numberOfRowsInSection(_ section: Int) -> Int {
         fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
@@ -89,10 +59,6 @@ final class TrackerCategoryStore: NSObject {
     func isFetchedObjectsEmpty() -> Bool {
         fetchedResultsController.fetchedObjects == nil
     }
-    
-//    func getAllObjects() -> [TrackerCategoryCoreData] {
-//        fetchedResultsController.fetchedObjects ?? []
-//    }
     
     func makeTrackerCategory(from trackerObjectCategory: TrackerCategoryCoreData) -> TrackerCategory? {
         if let name = trackerObjectCategory.name {

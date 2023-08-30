@@ -5,8 +5,8 @@
 //  Created by Антон Кашников on 22.08.2023.
 //
 
-import UIKit
 import CoreData
+import UIKit
 
 final class TrackerRecordStore: NSObject {
     private let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
