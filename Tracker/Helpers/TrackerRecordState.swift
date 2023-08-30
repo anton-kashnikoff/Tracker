@@ -6,5 +6,5 @@
 //
 
 enum TrackerRecordState {
-    case existForDate, existForAnotherDate, notExist
+    case existForDate, notExist
 }

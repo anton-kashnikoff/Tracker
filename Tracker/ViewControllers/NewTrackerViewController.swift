@@ -1,5 +1,5 @@
 //
-//  NewHabitViewController.swift
+//  NewTrackerViewController.swift
 //  Tracker
 //
 //  Created by Антон Кашников on 03.08.2023.
@@ -7,7 +7,9 @@
 
 import UIKit
 
-final class NewHabitViewController: UIViewController {
+final class NewTrackerViewController: UIViewController {
+    static let didChangeNotification = Notification.Name(rawValue: "NewTrackerDidChange")
+    
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -112,18 +114,39 @@ final class NewHabitViewController: UIViewController {
         return createButton
     }()
     
-    private let tableViewCells = ["Категория", "Расписание"]
+    private let trackerType: TrackerType
+    private let trackerCategoryStore = TrackerCategoryStore()
+    private let trackerStore = TrackerStore()
+    
     let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     let colors: [UIColor] = [.colorSelection1, .colorSelection2, .colorSelection3, .colorSelection4, .colorSelection5, .colorSelection6, .colorSelection7, .colorSelection8, .colorSelection9, .colorSelection10, .colorSelection11, .colorSelection12, .colorSelection13, .colorSelection14, .colorSelection15, .colorSelection16, .colorSelection17, .colorSelection18]
     
+    
     var habitTrackerData: (id: UUID?, name: String?, color: UIColor?, emoji: String?, schedule: Schedule?)
-    var categoryData: (name: String?, trackers: [Tracker]?)
+    var category: TrackerCategoryCoreData?
     var daysOfWeek = [(Int, String, Bool)]()
+    
     private var categoryObserver: NSObjectProtocol?
     private var scheduleObserver: NSObjectProtocol?
+    private var tableViewCells = [String]()
+    
     weak var trackersViewController: TrackersViewController?
     
-    static let didChangeNotification = Notification.Name(rawValue: "NewTrackerDidChange")
+    init(trackerType: TrackerType) {
+        self.trackerType = trackerType
+        super.init(nibName: nil, bundle: nil)
+        
+        switch trackerType {
+        case .habit:
+            tableViewCells = ["Категория", "Расписание"]
+        case .irregularEvent:
+            tableViewCells = ["Категория"]
+        }
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -211,7 +234,7 @@ final class NewHabitViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             tableView.topAnchor.constraint(equalTo: restrictionLabel.bottomAnchor, constant: 24),
-            tableView.heightAnchor.constraint(equalToConstant: 150),
+            tableView.heightAnchor.constraint(equalToConstant: CGFloat(tableViewCells.count * 75)),
             tableView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
@@ -230,7 +253,6 @@ final class NewHabitViewController: UIViewController {
     
     private func setupEmojiCollectionView() {
         emojiCollectionView.newHabitViewController = self
-        
         contentView.addSubview(emojiCollectionView)
         
         NSLayoutConstraint.activate([
@@ -333,24 +355,25 @@ final class NewHabitViewController: UIViewController {
     }
     
     private var isDataForTrackerReady: Bool {
-        if habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && habitTrackerData.schedule != nil && categoryData.name != nil {
-            return true
-        } else {
-            return false
+        switch trackerType {
+        case .habit:
+            return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && habitTrackerData.schedule != nil && category?.name != nil
+        case .irregularEvent:
+            return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && category?.name != nil
         }
     }
     
     @objc
     private func createButtonDidTap() {
-        guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let categoryName = categoryData.name else {
+        guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let category = category else {
             print("Not all data exists")
             return
         }
         
         let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
-        let trackerCategory = TrackerCategory(name: categoryName, trackers: [tracker])
-        trackersViewController?.dataHelper?.addTracker(tracker, to: trackerCategory)
-        NotificationCenter.default.post(name: NewHabitViewController.didChangeNotification, object: self)
+        trackerStore.addNewTracker(tracker, to: category)
+        
+        NotificationCenter.default.post(name: NewTrackerViewController.didChangeNotification, object: self)
         dismiss(animated: true)
     }
     
@@ -360,7 +383,7 @@ final class NewHabitViewController: UIViewController {
     }
 }
 
-extension NewHabitViewController: UITableViewDelegate {
+extension NewTrackerViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         75
     }
@@ -368,17 +391,17 @@ extension NewHabitViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 0 {
             let categoryViewController = CategoryViewController()
-            categoryViewController.newHabitViewController = self
+            categoryViewController.newTrackerViewController = self
             navigationController?.pushViewController(categoryViewController, animated: true)
         } else if indexPath.row == 1 {
             let scheduleViewController = ScheduleViewController()
-            scheduleViewController.newHabitViewController = self
+            scheduleViewController.newTrackerViewController = self
             navigationController?.pushViewController(scheduleViewController, animated: true)
         }
     }
 }
 
-extension NewHabitViewController: UITableViewDataSource {
+extension NewTrackerViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         tableViewCells.count
     }
@@ -388,8 +411,12 @@ extension NewHabitViewController: UITableViewDataSource {
         cell.accessoryType = .disclosureIndicator
         cell.backgroundColor = .ypBackground
         
+        let edgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
+        
         if indexPath.row == 1 {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
+            cell.separatorInset = edgeInsets
+        } else if tableViewCells.count == 1 {
+            cell.separatorInset = edgeInsets
         }
         
         if #available(iOS 14.0, *) {
@@ -397,7 +424,7 @@ extension NewHabitViewController: UITableViewDataSource {
             content.text = tableViewCells[indexPath.row]
             
             if tableViewCells[indexPath.row] == "Категория" {
-                content.secondaryText = categoryData.name
+                content.secondaryText = category?.name
             } else if tableViewCells[indexPath.row] == "Расписание" {
                 content.secondaryText = getDaysOfWeekString()
             }
@@ -409,7 +436,7 @@ extension NewHabitViewController: UITableViewDataSource {
         } else {
             cell.textLabel?.text = tableViewCells[indexPath.row]
             if tableViewCells[indexPath.row] == "Категория" {
-                cell.detailTextLabel?.text = categoryData.name
+                cell.detailTextLabel?.text = category?.name
             } else if tableViewCells[indexPath.row] == "Расписание" {
                 cell.detailTextLabel?.text = getDaysOfWeekString()
             }

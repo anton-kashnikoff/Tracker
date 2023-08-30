@@ -8,15 +8,15 @@
 import UIKit
 
 final class ScheduleViewController: UIViewController {
-    weak var newHabitViewController: NewHabitViewController?
+    static let didChangeNotification = Notification.Name(rawValue: "ScheduleDidChange")
     
     let tableView: UITableView = {
         let tableView = UITableView()
+        tableView.isScrollEnabled = false
         tableView.rowHeight = 75
         tableView.layer.cornerRadius = 16
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        tableView.separatorColor = .ypGray
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "weekDayCell")
+        tableView.separatorStyle = .none
+        tableView.register(ScheduleTableViewCell.self, forCellReuseIdentifier: ScheduleTableViewCell.reuseIdentifier)
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()
@@ -32,9 +32,9 @@ final class ScheduleViewController: UIViewController {
         return button
     }()
     
-    static let didChangeNotification = Notification.Name(rawValue: "ScheduleDidChange")
-    
     var selectedDays: Set<Schedule.DayOfWeek> = []
+    
+    weak var newTrackerViewController: NewTrackerViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -95,9 +95,9 @@ final class ScheduleViewController: UIViewController {
             selectedDays.insert(Schedule.DayOfWeek.allCases[index])
         }
         
-        newHabitViewController?.daysOfWeek.append((index, Schedule.DayOfWeek.allCases[index].getBriefDayOfWeek(), sender.isOn))
-        newHabitViewController?.habitTrackerData.schedule = Schedule(daysOfWeek: selectedDays)
-        newHabitViewController?.tryActivateCreateButton()
+        newTrackerViewController?.daysOfWeek.append((index, Schedule.DayOfWeek.allCases[index].getBriefDayOfWeek(), sender.isOn))
+        newTrackerViewController?.habitTrackerData.schedule = Schedule(daysOfWeek: selectedDays)
+        newTrackerViewController?.tryActivateCreateButton()
     }
 }
 
@@ -110,21 +110,15 @@ extension ScheduleViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "weekDayCell", for: indexPath)
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: ScheduleTableViewCell.reuseIdentifier, for: indexPath) as? ScheduleTableViewCell else {
+            return UITableViewCell()
+        }
+        
         cell.backgroundColor = .ypBackground
         cell.accessoryView = getSwitch(for: indexPath)
         
-        if indexPath.row == 6 {
-            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: tableView.bounds.width)
-        }
-        
-        if #available(iOS 14.0, *) {
-            var content = cell.defaultContentConfiguration()
-            content.text = Schedule.DayOfWeek.allCases[indexPath.row].rawValue
-            cell.contentConfiguration = content
-        } else {
-            cell.textLabel?.text = Schedule.DayOfWeek.allCases[indexPath.row].rawValue
-        }
+        cell.separatorView.isHidden = indexPath.row == 6
+        cell.titleLabel.text = Schedule.DayOfWeek.allCases[indexPath.row].rawValue
         
         return cell
     }
