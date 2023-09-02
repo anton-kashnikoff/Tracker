@@ -15,6 +15,8 @@
 		CB2849A82A83F2290009280F /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2849A72A83F2290009280F /* UIViewController+Extensions.swift */; };
 		CB49F1882A81135300C37A24 /* HeaderCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */; };
 		CB49F18A2A8124F100C37A24 /* GeometricParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F1892A8124F100C37A24 /* GeometricParams.swift */; };
+		CB54E6362AA3635E009F2F19 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB54E6352AA3635E009F2F19 /* OnboardingPageViewController.swift */; };
+		CB54E6382AA36489009F2F19 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB54E6372AA36489009F2F19 /* OnboardingViewController.swift */; };
 		CB760D8D2A9A903D006C88E3 /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB760D8C2A9A903D006C88E3 /* ScheduleTableViewCell.swift */; };
 		CB760D912A9A96F6006C88E3 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB760D902A9A96F6006C88E3 /* UIImage+Extensions.swift */; };
 		CB846D702A74533B00128231 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB846D6F2A74533B00128231 /* AppDelegate.swift */; };
@@ -55,6 +57,8 @@
 		CB2849A72A83F2290009280F /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionView.swift; sourceTree = "<group>"; };
 		CB49F1892A8124F100C37A24 /* GeometricParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometricParams.swift; sourceTree = "<group>"; };
+		CB54E6352AA3635E009F2F19 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
+		CB54E6372AA36489009F2F19 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		CB760D8C2A9A903D006C88E3 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
 		CB760D902A9A96F6006C88E3 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		CB846D6C2A74533B00128231 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,6 +112,8 @@
 				CB10365C2A7E6F4A00CD06DB /* NewCategoryViewController.swift */,
 				CBD46B352A7AFAB500AB4F88 /* TrackerTypeViewController.swift */,
 				CB1036612A7EB6E200CD06DB /* ScheduleViewController.swift */,
+				CB54E6352AA3635E009F2F19 /* OnboardingPageViewController.swift */,
+				CB54E6372AA36489009F2F19 /* OnboardingViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -309,9 +315,11 @@
 				CB2849A62A83EDC90009280F /* EmptyViewCase.swift in Sources */,
 				CB105F9A2A8EBA10000B5123 /* CategoryTableViewCell.swift in Sources */,
 				CB10365B2A7E693000CD06DB /* CategoryViewController.swift in Sources */,
+				CB54E6362AA3635E009F2F19 /* OnboardingPageViewController.swift in Sources */,
 				CB1036622A7EB6E200CD06DB /* ScheduleViewController.swift in Sources */,
 				CBD15D972A94E6A200DC6FAE /* TrackerType.swift in Sources */,
 				CBF3B2782A7CFCB200A540CA /* TextField.swift in Sources */,
+				CB54E6382AA36489009F2F19 /* OnboardingViewController.swift in Sources */,
 				CB846D742A74533B00128231 /* TrackersViewController.swift in Sources */,
 				CBD15D9E2A94F18E00DC6FAE /* TrackerRecordStore.swift in Sources */,
 				CBEA39F92A950AE600DACB08 /* UIColorMarshalling.swift in Sources */,

@@ -16,4 +16,6 @@ extension UIImage {
     static let statisticsIcon = UIImage(named: "Statistics icon")
     static let tick = UIImage(named: "Tick")
     static let trackerIcon = UIImage(named: "Tracker icon")
+    static let blueBackground = UIImage(named: "Blue background")
+    static let redBackground = UIImage(named: "Red background")
 }

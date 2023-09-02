@@ -14,6 +14,7 @@ extension UIColor {
     static let emojiViewColor = UIColor(red: 255, green: 255, blue: 255, alpha: 0.3)
     static let ypBlue = UIColor(named: "YPBlue") ?? .systemBlue
     static let ypBlack = UIColor(named: "YPBlack") ?? .black
+    static let ypBlackWithLowOpacity = UIColor(named: "YPBlackWithLowOpacity") ?? .black
     static let ypWhite = UIColor(named: "YPWhite") ?? .white
     static let ypBackground = UIColor(named: "YPBackground") ?? .lightGray
     static let ypGray = UIColor(named: "YPGray") ?? .systemGray
