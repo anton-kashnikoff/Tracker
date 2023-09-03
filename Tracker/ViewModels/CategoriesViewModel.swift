@@ -7,8 +7,12 @@
 
 import Foundation
 
+typealias Binding = () -> Void
+
 final class CategoriesViewModel {
     private let store: TrackerCategoryStore
+    
+    var categoryAddingBinding: Binding?
     
     init(store: TrackerCategoryStore) {
         self.store = store
@@ -16,6 +20,7 @@ final class CategoriesViewModel {
     
     func addNewTrackerCategory(_ trackerCategory: TrackerCategory) {
         store.addNewTrackerCategory(trackerCategory)
+        categoryAddingBinding?()
     }
     
     func isFetchedObjectsEmpty() -> Bool {

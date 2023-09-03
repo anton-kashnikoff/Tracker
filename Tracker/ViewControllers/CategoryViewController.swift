@@ -49,9 +49,9 @@ final class CategoryViewController: UIViewController {
     }()
     
 //    private let trackerCategoryStore = TrackerCategoryStore()
-    private var viewModel = CategoriesViewModel(store: TrackerCategoryStore())
+    var viewModel = CategoriesViewModel(store: TrackerCategoryStore())
     
-    private var categoriesListObserver: NSObjectProtocol?
+//    private var categoriesListObserver: NSObjectProtocol?
     private var tableViewHeightConstraint: NSLayoutConstraint?
     
     weak var newTrackerViewController: NewTrackerViewController?
@@ -66,17 +66,16 @@ final class CategoryViewController: UIViewController {
         
         viewModel.setDelegate(self)
         
-        categoriesListObserver = NotificationCenter.default.addObserver(forName: NewCategoryViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-            guard let self else {
-                return
-            }
-            
-            self.imageView.removeFromSuperview()
-            self.label.removeFromSuperview()
-            self.updateTableViewHeight(to: CGFloat(self.viewModel.numberOfObjects()) * self.tableView.rowHeight)
-            self.tableView.reloadData()
-        })
-        
+//        categoriesListObserver = NotificationCenter.default.addObserver(forName: NewCategoryViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
+//            guard let self else {
+//                return
+//            }
+//            
+//            self.imageView.removeFromSuperview()
+//            self.label.removeFromSuperview()
+//            self.updateTableViewHeight(to: CGFloat(self.viewModel.numberOfObjects()) * self.tableView.rowHeight)
+//            self.tableView.reloadData()
+//        })
         
         if viewModel.isFetchedObjectsEmpty() {
             showEmptyView()
@@ -149,6 +148,18 @@ final class CategoryViewController: UIViewController {
     private func addCategoryButtonDidTap() {
         let newCategoryViewController = NewCategoryViewController()
         newCategoryViewController.categoryViewController = self
+        
+        viewModel.categoryAddingBinding = { [weak self] in
+            guard let self else {
+                return
+            }
+            
+            self.imageView.removeFromSuperview()
+            self.label.removeFromSuperview()
+            self.updateTableViewHeight(to: CGFloat(self.viewModel.numberOfObjects()) * self.tableView.rowHeight)
+            self.tableView.reloadData()
+        }
+        
         navigationController?.pushViewController(newCategoryViewController, animated: true)
     }
 }
