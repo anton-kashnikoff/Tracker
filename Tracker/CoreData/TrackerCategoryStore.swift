@@ -66,6 +66,10 @@ final class TrackerCategoryStore: NSObject {
         }
         return nil
     }
+    
+    func setDelegate(_ delegate: CategoryViewController?) {
+        self.delegate = delegate
+    }
 }
 
 extension TrackerCategoryStore: NSFetchedResultsControllerDelegate {

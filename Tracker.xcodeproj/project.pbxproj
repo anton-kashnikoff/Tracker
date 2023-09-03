@@ -15,6 +15,7 @@
 		CB2849A82A83F2290009280F /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2849A72A83F2290009280F /* UIViewController+Extensions.swift */; };
 		CB49F1882A81135300C37A24 /* HeaderCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */; };
 		CB49F18A2A8124F100C37A24 /* GeometricParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F1892A8124F100C37A24 /* GeometricParams.swift */; };
+		CB53AF9E2AA4CF7800BCE101 /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB53AF9D2AA4CF7800BCE101 /* CategoriesViewModel.swift */; };
 		CB54E6362AA3635E009F2F19 /* OnboardingPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB54E6352AA3635E009F2F19 /* OnboardingPageViewController.swift */; };
 		CB54E6382AA36489009F2F19 /* OnboardingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB54E6372AA36489009F2F19 /* OnboardingViewController.swift */; };
 		CB760D8D2A9A903D006C88E3 /* ScheduleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB760D8C2A9A903D006C88E3 /* ScheduleTableViewCell.swift */; };
@@ -57,6 +58,7 @@
 		CB2849A72A83F2290009280F /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionView.swift; sourceTree = "<group>"; };
 		CB49F1892A8124F100C37A24 /* GeometricParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometricParams.swift; sourceTree = "<group>"; };
+		CB53AF9D2AA4CF7800BCE101 /* CategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewModel.swift; sourceTree = "<group>"; };
 		CB54E6352AA3635E009F2F19 /* OnboardingPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingPageViewController.swift; sourceTree = "<group>"; };
 		CB54E6372AA36489009F2F19 /* OnboardingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewController.swift; sourceTree = "<group>"; };
 		CB760D8C2A9A903D006C88E3 /* ScheduleTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleTableViewCell.swift; sourceTree = "<group>"; };
@@ -151,6 +153,14 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
+		CB53AF9C2AA4CF6000BCE101 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				CB53AF9D2AA4CF7800BCE101 /* CategoriesViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
 		CB760D8E2A9A9595006C88E3 /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,6 +202,7 @@
 			children = (
 				CB846D6F2A74533B00128231 /* AppDelegate.swift */,
 				CB846D712A74533B00128231 /* SceneDelegate.swift */,
+				CB53AF9C2AA4CF6000BCE101 /* ViewModels */,
 				CBD15D982A94F15C00DC6FAE /* CoreData */,
 				CB49F18D2A813D9400C37A24 /* Helpers */,
 				CBCFDA282A7FF97E00CA505F /* CustomClasses */,
@@ -344,6 +355,7 @@
 				CBCFDA2C2A8000D800CA505F /* TrackerCollectionViewCell.swift in Sources */,
 				CB8D4D972A84462F00A9708E /* TrackerRecordState.swift in Sources */,
 				CBCFDA272A7FF89700CA505F /* ColorCollectionView.swift in Sources */,
+				CB53AF9E2AA4CF7800BCE101 /* CategoriesViewModel.swift in Sources */,
 				CBD46B2C2A7AF24F00AB4F88 /* UIColor+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

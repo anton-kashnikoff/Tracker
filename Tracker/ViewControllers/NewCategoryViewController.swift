@@ -31,7 +31,8 @@ final class NewCategoryViewController: UIViewController {
         return button
     }()
     
-    private let trackerCategoryStore = TrackerCategoryStore()
+//    private let trackerCategoryStore = TrackerCategoryStore()
+    private var viewModel = CategoriesViewModel(store: TrackerCategoryStore())
     
     weak var categoryViewController: CategoryViewController?
     
@@ -75,7 +76,7 @@ final class NewCategoryViewController: UIViewController {
     
     @objc
     private func doneButtonDidTap() {
-        trackerCategoryStore.addNewTrackerCategory(TrackerCategory(name: textField.text ?? "", trackers: []))
+        viewModel.addNewTrackerCategory(TrackerCategory(name: textField.text ?? "", trackers: []))
         
         NotificationCenter.default.post(name: NewCategoryViewController.didChangeNotification, object: self)
         navigationController?.popViewController(animated: true)
