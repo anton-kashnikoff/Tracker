@@ -115,7 +115,7 @@ final class NewTrackerViewController: UIViewController {
     }()
     
     private let trackerType: TrackerType
-    private let trackerCategoryStore = TrackerCategoryStore()
+//    private let trackerCategoryStore = TrackerCategoryStore()
 //    private let trackerStore = TrackerStore()
     
     let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
