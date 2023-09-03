@@ -8,7 +8,7 @@
 import UIKit
 
 final class ScheduleViewController: UIViewController {
-    static let didChangeNotification = Notification.Name(rawValue: "ScheduleDidChange")
+//    static let didChangeNotification = Notification.Name(rawValue: "ScheduleDidChange")
     
     let tableView: UITableView = {
         let tableView = UITableView()
@@ -84,7 +84,8 @@ final class ScheduleViewController: UIViewController {
     
     @objc
     private func doneButtonDidTap() {
-        NotificationCenter.default.post(name: ScheduleViewController.didChangeNotification, object: self)
+        newTrackerViewController?.trackerViewModel?.scheduleSelected()
+//        NotificationCenter.default.post(name: ScheduleViewController.didChangeNotification, object: self)
         navigationController?.popViewController(animated: true)
     }
     

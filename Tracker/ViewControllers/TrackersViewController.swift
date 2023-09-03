@@ -63,15 +63,21 @@ final class TrackersViewController: UIViewController {
         return label
     }()
     
-    let trackerCategoryStore = TrackerCategoryStore()
-    let trackerStore = TrackerStore()
-    private let trackerRecordStore = TrackerRecordStore()
+    // TODO: Избавиться от сторов
+//    let trackerCategoryStore = TrackerCategoryStore()
+//    let trackerStore = TrackerStore()
+//    private let trackerRecordStore = TrackerRecordStore()
     
-    private var newTrackerObserver: NSObjectProtocol?
+//    private var newTrackerObserver: NSObjectProtocol?
     private var constraintToCancelButton: NSLayoutConstraint?
     private var constraintToSuperview: NSLayoutConstraint?
     private var currentText: String?
+    
     var currentDate = Date()
+    
+    // TODO: Сделать единую ссылку на модель
+    var trackerViewModel = TrackerViewModel(store: TrackerStore())
+    var trackerRecordViewModel = TrackerRecordViewModel(store: TrackerRecordStore())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,12 +89,12 @@ final class TrackersViewController: UIViewController {
         currentDate = datePicker.date.withZeroTime
         currentText = searchTextField.text
         
-        trackerStore.delegate = self
-        trackerRecordStore.delegate = self
+        trackerViewModel.setDelegate(self)
+//        trackerRecordStore.delegate = self
         
-        newTrackerObserver = NotificationCenter.default.addObserver(forName: NewTrackerViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-            self?.reloadData()
-        })
+//        newTrackerObserver = NotificationCenter.default.addObserver(forName: NewTrackerViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
+//            self?.reloadData()
+//        })
         
         setupNavigationBar()
         setupSearchTextField()
@@ -184,6 +190,11 @@ final class TrackersViewController: UIViewController {
     private func addTracker() {
         let trackerTypeViewController = TrackerTypeViewController()
         trackerTypeViewController.trackersViewController = self
+        
+        trackerViewModel.onTrackerChange = { [weak self] in
+            self?.reloadData()
+        }
+        
         let navigationController = UINavigationController(rootViewController: trackerTypeViewController)
         present(navigationController, animated: true)
     }
@@ -203,12 +214,12 @@ final class TrackersViewController: UIViewController {
     }
     
     private func reloadPlaceholderView() {
-        if trackerStore.isFetchedObjectsEmpty() && currentText != "" {
+        if trackerViewModel.isFetchedObjectsEmpty() && currentText != "" {
             imageView.image = .nothingFound
             label.text = "Ничего не найдено"
             imageView.isHidden = false
             label.isHidden = false
-        } else if trackerStore.isFetchedObjectsEmpty() {
+        } else if trackerViewModel.isFetchedObjectsEmpty() {
             imageView.image = .star
             label.text = "Что будем отслеживать?"
             imageView.isHidden = false
@@ -250,17 +261,11 @@ extension TrackersViewController {
         let dayOfWeek = Schedule.getNameOfDay(Calendar.current.component(.weekday, from: currentDate))
         let text = currentText ?? ""
         
-        if text.isEmpty {
-            // фильтруем только по дате
-            trackerStore.fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(TrackerCoreData.schedule), dayOfWeek)
-        } else {
-            // фильтр по дате и тексту
-            trackerStore.fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text)
-        }
+        trackerViewModel.setPredicate(date: dayOfWeek, text: text)
         
         do {
-            try trackerStore.fetchedResultsController.performFetch()
-            try trackerRecordStore.fetchedResultsController.performFetch()
+            try trackerViewModel.performFetch()
+            try trackerRecordViewModel.performFetch()
         } catch let error as NSError  {
             print("Error: \(error)")
         }

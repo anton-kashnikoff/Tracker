@@ -8,7 +8,7 @@
 import UIKit
 
 final class NewTrackerViewController: UIViewController {
-    static let didChangeNotification = Notification.Name(rawValue: "NewTrackerDidChange")
+//    static let didChangeNotification = Notification.Name(rawValue: "NewTrackerDidChange")
     
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -116,18 +116,19 @@ final class NewTrackerViewController: UIViewController {
     
     private let trackerType: TrackerType
     private let trackerCategoryStore = TrackerCategoryStore()
-    private let trackerStore = TrackerStore()
+//    private let trackerStore = TrackerStore()
     
     let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     let colors: [UIColor] = [.colorSelection1, .colorSelection2, .colorSelection3, .colorSelection4, .colorSelection5, .colorSelection6, .colorSelection7, .colorSelection8, .colorSelection9, .colorSelection10, .colorSelection11, .colorSelection12, .colorSelection13, .colorSelection14, .colorSelection15, .colorSelection16, .colorSelection17, .colorSelection18]
     
     
     var habitTrackerData: (id: UUID?, name: String?, color: UIColor?, emoji: String?, schedule: Schedule?)
-    var category: TrackerCategoryCoreData?
     var daysOfWeek = [(Int, String, Bool)]()
+    var category: TrackerCategoryCoreData?
+    var trackerViewModel: TrackerViewModel?
     
-    private var categoryObserver: NSObjectProtocol?
-    private var scheduleObserver: NSObjectProtocol?
+//    private var categoryObserver: NSObjectProtocol?
+//    private var scheduleObserver: NSObjectProtocol?
     private var tableViewCells = [String]()
     
     weak var trackersViewController: TrackersViewController?
@@ -158,15 +159,13 @@ final class NewTrackerViewController: UIViewController {
         navigationItem.hidesBackButton = true
         navigationItem.title = "Новая привычка"
         
-        categoryObserver = NotificationCenter.default.addObserver(forName: CategoryViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-            self?.tableView.reloadData()
-        })
+//        categoryObserver = NotificationCenter.default.addObserver(forName: CategoryViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
+//            self?.tableView.reloadData()
+//        })
         
-        scheduleObserver = NotificationCenter.default.addObserver(forName: ScheduleViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-            self?.tableView.reloadData()
-        })
-        
-        habitTrackerData.id = UUID()
+//        scheduleObserver = NotificationCenter.default.addObserver(forName: ScheduleViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
+//            self?.tableView.reloadData()
+//        })
         
         setupScrollView()
         setupContentView()
@@ -365,15 +364,17 @@ final class NewTrackerViewController: UIViewController {
     
     @objc
     private func createButtonDidTap() {
+        habitTrackerData.id = UUID()
+        
         guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let category = category else {
             print("Not all data exists")
             return
         }
         
         let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
-        trackerStore.addNewTracker(tracker, to: category)
         
-        NotificationCenter.default.post(name: NewTrackerViewController.didChangeNotification, object: self)
+        trackersViewController?.trackerViewModel.addNewTracker(tracker, to: category)
+//        NotificationCenter.default.post(name: NewTrackerViewController.didChangeNotification, object: self)
         dismiss(animated: true)
     }
     
@@ -392,10 +393,21 @@ extension NewTrackerViewController: UITableViewDelegate {
         if indexPath.row == 0 {
             let categoryViewController = CategoryViewController()
             categoryViewController.newTrackerViewController = self
+            
+            trackerViewModel?.onCategoryChange = { [weak self] in
+                self?.tryActivateCreateButton()
+                self?.tableView.reloadData()
+            }
+            
             navigationController?.pushViewController(categoryViewController, animated: true)
         } else if indexPath.row == 1 {
             let scheduleViewController = ScheduleViewController()
             scheduleViewController.newTrackerViewController = self
+            
+            trackerViewModel?.onScheduleChange = { [weak self] in
+                self?.tableView.reloadData()
+            }
+            
             navigationController?.pushViewController(scheduleViewController, animated: true)
         }
     }

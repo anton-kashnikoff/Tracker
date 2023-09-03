@@ -7,8 +7,6 @@
 
 import Foundation
 
-typealias Binding = () -> Void
-
 final class CategoriesViewModel {
     private let store: TrackerCategoryStore
     

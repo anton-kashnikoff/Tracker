@@ -65,8 +65,8 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
-    let trackerRecordStore = TrackerRecordStore()
-    
+//    let trackerRecordStore = TrackerRecordStore()
+    var trackerRecordViewModel: TrackerRecordViewModel?
     var tracker: Tracker?
     var date: Date?
     var isCompleted = false
@@ -173,22 +173,24 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
             return
         }
         // получаем состояние для конкретного трекера на конкретную дату
-        let trackerRecordState = trackerRecordStore.checkTrackerRecordForDate(trackerRecord.date, id: trackerRecord.id)
+        let trackerRecordState = trackerRecordViewModel?.checkTrackerRecordForDate(trackerRecord.date, id: trackerRecord.id)
         
         switch trackerRecordState {
         case .existForDate:
             // если БД содержит текущую дату для этого трекера, то
             // при нажатии кнопку нужно поменять на плюс, удалить запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
             completedButton.setImage(.plus?.withRenderingMode(.alwaysTemplate), for: .normal)
-            trackerRecordStore.toggleTrackerRecord(trackerRecord, trackerRecordState: .existForDate)
+            trackerRecordViewModel?.toggleTrackerRecord(trackerRecord, trackerRecordState: .existForDate)
         case .notExist:
             // если БД не содержит ни одной записи для этого трекера, то
             // при нажатии кнопку поменять на галочку, сделать запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
             completedButton.setImage(.tick?.withRenderingMode(.alwaysTemplate), for: .normal)
-            trackerRecordStore.toggleTrackerRecord(trackerRecord, trackerRecordState: .notExist)
+            trackerRecordViewModel?.toggleTrackerRecord(trackerRecord, trackerRecordState: .notExist)
+        case .none:
+            break
         }
         
-        let countOfCompletedDaysForTracker = trackerRecordStore.getCountOfCompletedDaysForTracker(trackerRecord.id)
+        let countOfCompletedDaysForTracker = trackerRecordViewModel?.getCountOfCompletedDaysForTracker(trackerRecord.id)
         daysCountLabel.text = "\(countOfCompletedDaysForTracker ?? -1) дней"
     }
 }

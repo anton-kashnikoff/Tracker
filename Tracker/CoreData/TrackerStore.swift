@@ -75,6 +75,10 @@ final class TrackerStore: NSObject {
     func isFetchedObjectsEmpty() -> Bool {
         fetchedResultsController.fetchedObjects == nil || fetchedResultsController.fetchedObjects == []
     }
+    
+    func setDelegate(_ delegate: TrackersViewController?) {
+        self.delegate = delegate
+    }
 }
 
 extension TrackerStore: NSFetchedResultsControllerDelegate {

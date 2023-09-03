@@ -8,7 +8,7 @@
 import UIKit
 
 final class CategoryViewController: UIViewController {
-    static let didChangeNotification = Notification.Name(rawValue: "CategoryDidChange")
+//    static let didChangeNotification = Notification.Name(rawValue: "CategoryDidChange")
     
     let imageView: UIImageView = {
         let imageView = UIImageView(image: .star)
@@ -174,9 +174,9 @@ extension CategoryViewController: UITableViewDelegate {
         cell.checkmarkImageView.isHidden = false
         
         newTrackerViewController?.category = viewModel.getObjectAt(indexPath: indexPath)
-        newTrackerViewController?.tryActivateCreateButton()
+        newTrackerViewController?.trackerViewModel?.categorySelected()
         
-        NotificationCenter.default.post(name: CategoryViewController.didChangeNotification, object: self)
+//        NotificationCenter.default.post(name: CategoryViewController.didChangeNotification, object: self)
         navigationController?.popViewController(animated: true)
     }
 }
