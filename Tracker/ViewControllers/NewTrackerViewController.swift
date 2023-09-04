@@ -123,7 +123,7 @@ final class NewTrackerViewController: UIViewController {
     
     
     var habitTrackerData: (id: UUID?, name: String?, color: UIColor?, emoji: String?, schedule: Schedule?)
-    var daysOfWeek = [(Int, String, Bool)]()
+    var daysOfWeek = [(Int, Schedule.DayOfWeek, Bool)]()
     var category: TrackerCategoryCoreData?
     var trackerViewModel: TrackerViewModel?
     
@@ -142,6 +142,10 @@ final class NewTrackerViewController: UIViewController {
             tableViewCells = ["Категория", "Расписание"]
         case .irregularEvent:
             tableViewCells = ["Категория"]
+        }
+        
+        for i in 0...6 {
+            daysOfWeek.append((i, Schedule.DayOfWeek.allCases[i], false))
         }
     }
     
@@ -322,15 +326,11 @@ final class NewTrackerViewController: UIViewController {
     }
     
     private func getDaysOfWeekString() -> String {
-        let daysOfWeekSorted = daysOfWeek.sorted {
-            $0.0 < $1.0
-        }
-        
         var selectedDays = [String]()
         
-        for (_, briefDay, value) in daysOfWeekSorted {
-            if value {
-                selectedDays.append(briefDay)
+        for (_, day, isSelected) in daysOfWeek {
+            if isSelected {
+                selectedDays.append(day.getBriefDayOfWeek())
             }
         }
         
@@ -404,11 +404,22 @@ extension NewTrackerViewController: UITableViewDelegate {
             let scheduleViewController = ScheduleViewController()
             scheduleViewController.newTrackerViewController = self
             
-            daysOfWeek.removeAll()
-            
             trackerViewModel?.onScheduleChange = { [weak self] in
-                self?.tryActivateCreateButton()
-                self?.tableView.reloadData()
+                guard let self else {
+                    return
+                }
+                
+                var selectedDays = Set<Schedule.DayOfWeek>()
+                
+                for (_, day, isSelected) in self.daysOfWeek {
+                    if isSelected {
+                        selectedDays.insert(day)
+                    }
+                }
+                
+                self.habitTrackerData.schedule = Schedule(daysOfWeek: selectedDays)
+                self.tryActivateCreateButton()
+                self.tableView.reloadData()
             }
             
             navigationController?.pushViewController(scheduleViewController, animated: true)
