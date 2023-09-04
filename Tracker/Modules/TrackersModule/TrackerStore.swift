@@ -24,6 +24,16 @@ final class TrackerStore: NSObject {
         return fetchedResultsController
     }()
     
+    private func makeString(from daysOfWeek: Set<Schedule.DayOfWeek>) -> String {
+        var daysArray = [String]()
+        
+        daysOfWeek.forEach { day in
+            daysArray.append(day.rawValue)
+        }
+        
+        return daysArray.joined(separator: ", ")
+    }
+    
     func addNewTracker(_ tracker: Tracker, to category: TrackerCategoryCoreData) {
         let trackerCoreData = TrackerCoreData(context: context)
         trackerCoreData.id = tracker.id
@@ -48,16 +58,6 @@ final class TrackerStore: NSObject {
             return Tracker(id: id, name: name, color: uiColorMarshalling.getColor(from: colorString), emoji: emoji, schedule: Schedule(daysOfWeek: daysOfWeek))
         }
         return nil
-    }
-    
-    private func makeString(from daysOfWeek: Set<Schedule.DayOfWeek>) -> String {
-        var daysArray = [String]()
-        
-        daysOfWeek.forEach { day in
-            daysArray.append(day.rawValue)
-        }
-        
-        return daysArray.joined(separator: ", ")
     }
     
     func numberOfSections() -> Int {

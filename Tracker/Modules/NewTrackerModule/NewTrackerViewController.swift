@@ -8,8 +8,6 @@
 import UIKit
 
 final class NewTrackerViewController: UIViewController {
-//    static let didChangeNotification = Notification.Name(rawValue: "NewTrackerDidChange")
-    
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -114,24 +112,19 @@ final class NewTrackerViewController: UIViewController {
         return createButton
     }()
     
-    private let trackerType: TrackerType
-//    private let trackerCategoryStore = TrackerCategoryStore()
-//    private let trackerStore = TrackerStore()
-    
     let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     let colors: [UIColor] = [.colorSelection1, .colorSelection2, .colorSelection3, .colorSelection4, .colorSelection5, .colorSelection6, .colorSelection7, .colorSelection8, .colorSelection9, .colorSelection10, .colorSelection11, .colorSelection12, .colorSelection13, .colorSelection14, .colorSelection15, .colorSelection16, .colorSelection17, .colorSelection18]
     
+    private let trackerType: TrackerType
     
     var habitTrackerData: (id: UUID?, name: String?, color: UIColor?, emoji: String?, schedule: Schedule?)
     var daysOfWeek = [(Int, Schedule.DayOfWeek, Bool)]()
     var category: TrackerCategoryCoreData?
     var trackerViewModel: TrackerViewModel?
     
-//    private var categoryObserver: NSObjectProtocol?
-//    private var scheduleObserver: NSObjectProtocol?
-    private var tableViewCells = [String]()
-    
     weak var trackersViewController: TrackersViewController?
+    
+    private var tableViewCells = [String]()
     
     init(trackerType: TrackerType) {
         self.trackerType = trackerType
@@ -162,14 +155,6 @@ final class NewTrackerViewController: UIViewController {
         
         navigationItem.hidesBackButton = true
         navigationItem.title = "Новая привычка"
-        
-//        categoryObserver = NotificationCenter.default.addObserver(forName: CategoryViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-//            self?.tableView.reloadData()
-//        })
-        
-//        scheduleObserver = NotificationCenter.default.addObserver(forName: ScheduleViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-//            self?.tableView.reloadData()
-//        })
         
         setupScrollView()
         setupContentView()
@@ -220,7 +205,7 @@ final class NewTrackerViewController: UIViewController {
         ])
     }
     
-    func setupRestrictionLabel() {
+    private func setupRestrictionLabel() {
         contentView.addSubview(restrictionLabel)
         
         NSLayoutConstraint.activate([
@@ -337,22 +322,6 @@ final class NewTrackerViewController: UIViewController {
         return selectedDays.count == 7 ? "Каждый день" : selectedDays.joined(separator: ", ")
     }
     
-    func showRestrictionLabel() {
-        restrictionLabel.text = "Ограничение 38 символов"
-        restrictionLabel.isHidden = false
-        setupTableView()
-    }
-    
-    func hideRestrictionLabel() {
-        restrictionLabel.text = nil
-        restrictionLabel.isHidden = true
-        setupTableView()
-    }
-    
-    func tryActivateCreateButton() {
-        createButton.backgroundColor = isDataForTrackerReady ? .ypBlack : .ypGray
-    }
-    
     private var isDataForTrackerReady: Bool {
         switch trackerType {
         case .habit:
@@ -372,15 +341,29 @@ final class NewTrackerViewController: UIViewController {
         }
         
         let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
-        
         trackersViewController?.trackerViewModel.addNewTracker(tracker, to: category)
-//        NotificationCenter.default.post(name: NewTrackerViewController.didChangeNotification, object: self)
         dismiss(animated: true)
     }
     
     @objc
     private func cancelButtonDidTap() {
         dismiss(animated: true)
+    }
+    
+    func showRestrictionLabel() {
+        restrictionLabel.text = "Ограничение 38 символов"
+        restrictionLabel.isHidden = false
+        setupTableView()
+    }
+    
+    func hideRestrictionLabel() {
+        restrictionLabel.text = nil
+        restrictionLabel.isHidden = true
+        setupTableView()
+    }
+    
+    func tryActivateCreateButton() {
+        createButton.backgroundColor = isDataForTrackerReady ? .ypBlack : .ypGray
     }
 }
 

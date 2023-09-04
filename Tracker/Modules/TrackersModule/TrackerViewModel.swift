@@ -8,11 +8,11 @@
 import Foundation
 
 final class TrackerViewModel {
+    private let store: TrackerStore
+    
     var onCategoryChange: Binding?
     var onScheduleChange: Binding?
     var onTrackerChange: Binding?
-    
-    private let store: TrackerStore
     
     init(store: TrackerStore) {
         self.store = store
@@ -41,10 +41,8 @@ final class TrackerViewModel {
     
     func setPredicate(date dayOfWeek: String, text: String) {
         if text.isEmpty {
-            // фильтруем только по дате
             store.fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(TrackerCoreData.schedule), dayOfWeek)
         } else {
-            // фильтр по дате и тексту
             store.fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text)
         }
     }

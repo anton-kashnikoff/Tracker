@@ -8,8 +8,6 @@
 import UIKit
 
 final class ScheduleViewController: UIViewController {
-//    static let didChangeNotification = Notification.Name(rawValue: "ScheduleDidChange")
-    
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.isScrollEnabled = false
@@ -89,7 +87,6 @@ final class ScheduleViewController: UIViewController {
     @objc
     private func doneButtonDidTap() {
         newTrackerViewController?.trackerViewModel?.scheduleSelected()
-//        NotificationCenter.default.post(name: ScheduleViewController.didChangeNotification, object: self)
         navigationController?.popViewController(animated: true)
     }
     

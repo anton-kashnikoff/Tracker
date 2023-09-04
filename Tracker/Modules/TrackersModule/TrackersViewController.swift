@@ -8,7 +8,7 @@
 import UIKit
 
 final class TrackersViewController: UIViewController {
-    let collectionView: TrackersCollectionView = {
+    private let collectionView: TrackersCollectionView = {
         let collectionView = TrackersCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .ypWhite
         collectionView.register(TrackerCollectionViewCell.self, forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier)
@@ -17,21 +17,21 @@ final class TrackersViewController: UIViewController {
         return collectionView
     }()
     
-    let barButtonItem: UIBarButtonItem = {
+    private let barButtonItem: UIBarButtonItem = {
         let barButtonItem = UIBarButtonItem()
         barButtonItem.image = .addTrackerIcon
         barButtonItem.tintColor = .ypBlack
         return barButtonItem
     }()
     
-    let datePicker: UIDatePicker = {
+    private let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
         return datePicker
     }()
     
-    let searchTextField: UISearchTextField = {
+    private let searchTextField: UISearchTextField = {
         let searchTextField = UISearchTextField()
         searchTextField.placeholder = "Поиск"
         searchTextField.clearButtonMode = .never
@@ -40,7 +40,7 @@ final class TrackersViewController: UIViewController {
         return searchTextField
     }()
     
-    let searchCancelButton: UIButton = {
+    private let searchCancelButton: UIButton = {
         let button = UIButton()
         button.frame.size = CGSize(width: 83, height: 36)
         button.setTitle("Отменить", for: .normal)
@@ -50,32 +50,24 @@ final class TrackersViewController: UIViewController {
         return button
     }()
     
-    let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    let label: UILabel = {
+    private let label: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    // TODO: Избавиться от сторов
-//    let trackerCategoryStore = TrackerCategoryStore()
-//    let trackerStore = TrackerStore()
-//    private let trackerRecordStore = TrackerRecordStore()
-    
-//    private var newTrackerObserver: NSObjectProtocol?
     private var constraintToCancelButton: NSLayoutConstraint?
     private var constraintToSuperview: NSLayoutConstraint?
     private var currentText: String?
     
     var currentDate = Date()
-    
-    // TODO: Сделать единую ссылку на модель
     var trackerViewModel = TrackerViewModel(store: TrackerStore())
     var trackerRecordViewModel = TrackerRecordViewModel(store: TrackerRecordStore())
     
@@ -90,11 +82,6 @@ final class TrackersViewController: UIViewController {
         currentText = searchTextField.text
         
         trackerViewModel.setDelegate(self)
-//        trackerRecordStore.delegate = self
-        
-//        newTrackerObserver = NotificationCenter.default.addObserver(forName: NewTrackerViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-//            self?.reloadData()
-//        })
         
         setupNavigationBar()
         setupSearchTextField()
@@ -186,6 +173,23 @@ final class TrackersViewController: UIViewController {
         constraintToSuperview?.isActive = true
     }
     
+    private func reloadPlaceholderView() {
+        if trackerViewModel.isFetchedObjectsEmpty() && currentText != "" {
+            imageView.image = .nothingFound
+            label.text = "Ничего не найдено"
+            imageView.isHidden = false
+            label.isHidden = false
+        } else if trackerViewModel.isFetchedObjectsEmpty() {
+            imageView.image = .star
+            label.text = "Что будем отслеживать?"
+            imageView.isHidden = false
+            label.isHidden = false
+        } else {
+            imageView.isHidden = true
+            label.isHidden = true
+        }
+    }
+    
     @objc
     private func addTracker() {
         let trackerTypeViewController = TrackerTypeViewController()
@@ -211,23 +215,6 @@ final class TrackersViewController: UIViewController {
         currentText = nil
         reloadData()
         hideCancelButton()
-    }
-    
-    private func reloadPlaceholderView() {
-        if trackerViewModel.isFetchedObjectsEmpty() && currentText != "" {
-            imageView.image = .nothingFound
-            label.text = "Ничего не найдено"
-            imageView.isHidden = false
-            label.isHidden = false
-        } else if trackerViewModel.isFetchedObjectsEmpty() {
-            imageView.image = .star
-            label.text = "Что будем отслеживать?"
-            imageView.isHidden = false
-            label.isHidden = false
-        } else {
-            imageView.isHidden = true
-            label.isHidden = true
-        }
     }
 }
 

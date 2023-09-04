@@ -8,15 +8,13 @@
 import UIKit
 
 final class CategoryViewController: UIViewController {
-//    static let didChangeNotification = Notification.Name(rawValue: "CategoryDidChange")
-    
-    let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView(image: .star)
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    let label: UILabel = {
+    private let label: UILabel = {
         let label = UILabel()
         label.text = "Привычки и события можно\nобъединить по смыслу"
         label.font = UIFont.systemFont(ofSize: 12)
@@ -26,7 +24,7 @@ final class CategoryViewController: UIViewController {
         return label
     }()
     
-    let button: UIButton = {
+    private let button: UIButton = {
         let button = UIButton()
         button.backgroundColor = .ypBlack
         button.layer.cornerRadius = 16
@@ -37,7 +35,7 @@ final class CategoryViewController: UIViewController {
         return button
     }()
     
-    let tableView: UITableView = {
+    private let tableView: UITableView = {
         let tableView = UITableView()
         tableView.separatorStyle = .none
         tableView.isScrollEnabled = false
@@ -48,12 +46,10 @@ final class CategoryViewController: UIViewController {
         return tableView
     }()
     
-//    private let trackerCategoryStore = TrackerCategoryStore()
-    var viewModel = CategoriesViewModel(store: TrackerCategoryStore())
-    
-//    private var categoriesListObserver: NSObjectProtocol?
     private var tableViewHeightConstraint: NSLayoutConstraint?
     
+    var viewModel = CategoriesViewModel(store: TrackerCategoryStore())
+
     weak var newTrackerViewController: NewTrackerViewController?
     
     override func viewDidLoad() {
@@ -65,17 +61,6 @@ final class CategoryViewController: UIViewController {
         navigationItem.title = "Категория"
         
         viewModel.setDelegate(self)
-        
-//        categoriesListObserver = NotificationCenter.default.addObserver(forName: NewCategoryViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-//            guard let self else {
-//                return
-//            }
-//            
-//            self.imageView.removeFromSuperview()
-//            self.label.removeFromSuperview()
-//            self.updateTableViewHeight(to: CGFloat(self.viewModel.numberOfObjects()) * self.tableView.rowHeight)
-//            self.tableView.reloadData()
-//        })
         
         if viewModel.isFetchedObjectsEmpty() {
             showEmptyView()
@@ -124,7 +109,7 @@ final class CategoryViewController: UIViewController {
         ])
     }
     
-    func setupTableView() {
+    private func setupTableView() {
         tableView.delegate = self
         tableView.dataSource = self
         view.addSubview(tableView)
@@ -176,7 +161,6 @@ extension CategoryViewController: UITableViewDelegate {
         newTrackerViewController?.category = viewModel.getObjectAt(indexPath: indexPath)
         newTrackerViewController?.trackerViewModel?.categorySelected()
         
-//        NotificationCenter.default.post(name: CategoryViewController.didChangeNotification, object: self)
         navigationController?.popViewController(animated: true)
     }
 }

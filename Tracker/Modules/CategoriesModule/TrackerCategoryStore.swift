@@ -28,6 +28,7 @@ final class TrackerCategoryStore: NSObject {
         guard let existingCategoriesObjects = fetchedResultsController.fetchedObjects else {
             return nil
         }
+        
         return existingCategoriesObjects.first {
             $0.name == trackerCategory.name
         }

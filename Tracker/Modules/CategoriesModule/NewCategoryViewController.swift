@@ -8,9 +8,7 @@
 import UIKit
 
 final class NewCategoryViewController: UIViewController {
-//    static let didChangeNotification = Notification.Name(rawValue: "CategoriesListDidChange")
-    
-    let textField: TextField = {
+    private let textField: TextField = {
         let textField = TextField()
         textField.identifier = "newCategory"
         textField.placeholder = "Введите название категории"
@@ -31,8 +29,6 @@ final class NewCategoryViewController: UIViewController {
         return button
     }()
     
-//    private let trackerCategoryStore = TrackerCategoryStore()
-//    private var viewModel = CategoriesViewModel(store: TrackerCategoryStore())
     weak var categoryViewController: CategoryViewController?
     
     override func viewDidLoad() {
@@ -76,7 +72,6 @@ final class NewCategoryViewController: UIViewController {
     @objc
     private func doneButtonDidTap() {
         categoryViewController?.viewModel.addNewTrackerCategory(TrackerCategory(name: textField.text ?? "", trackers: []))
-//        NotificationCenter.default.post(name: NewCategoryViewController.didChangeNotification, object: self)
         navigationController?.popViewController(animated: true)
     }
 }

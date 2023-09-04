@@ -19,7 +19,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         return view
     }()
     
-    let emojiView: UIView = {
+    private let emojiView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(white: 1, alpha: 0.3)
         view.layer.cornerRadius = 12
@@ -44,7 +44,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    let quantityManagementView: UIView = {
+    private let quantityManagementView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -65,7 +65,6 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         return button
     }()
     
-//    let trackerRecordStore = TrackerRecordStore()
     var trackerRecordViewModel: TrackerRecordViewModel?
     var tracker: Tracker?
     var date: Date?
