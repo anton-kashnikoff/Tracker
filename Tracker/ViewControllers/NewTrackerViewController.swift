@@ -404,6 +404,8 @@ extension NewTrackerViewController: UITableViewDelegate {
             let scheduleViewController = ScheduleViewController()
             scheduleViewController.newTrackerViewController = self
             
+            daysOfWeek.removeAll()
+            
             trackerViewModel?.onScheduleChange = { [weak self] in
                 self?.tryActivateCreateButton()
                 self?.tableView.reloadData()

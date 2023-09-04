@@ -63,7 +63,6 @@ extension TrackersCollectionView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("\ncollectionView(_:cellForItemAt:) starts")
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier, for: indexPath) as? TrackerCollectionViewCell else {
             print("Unable to create TrackerCollectionViewCell")
             return UICollectionViewCell()

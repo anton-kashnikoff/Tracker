@@ -11,7 +11,7 @@ final class OnboardingViewController: UIViewController {
     private let label: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
-        label.textColor = .ypBlack
+        label.textColor = .ypAlwaysBlack
         label.numberOfLines = 2
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -20,10 +20,10 @@ final class OnboardingViewController: UIViewController {
     
     private let button: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .ypBlack
+        button.backgroundColor = .ypAlwaysBlack
         button.layer.cornerRadius = 16
         button.setTitle("Вот это технологии!", for: .normal)
-        button.setTitleColor(.ypWhite, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
