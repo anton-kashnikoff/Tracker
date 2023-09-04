@@ -15,8 +15,30 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         
+        var viewController: UIViewController!
+        
+        if UserDefaults.standard.hasOnboarded {
+            let tabBarController = UITabBarController()
+            tabBarController.tabBar.layer.borderWidth = 0.5
+            tabBarController.tabBar.layer.borderColor = UIColor.tabBarBorderColor.cgColor
+            
+            let trackersViewController = TrackersViewController()
+            
+            let temporaryVC = UIViewController()
+            temporaryVC.view.backgroundColor = .systemBackground
+            
+            let navigationController = UINavigationController(rootViewController: trackersViewController)
+            navigationController.tabBarItem = UITabBarItem(title: "Трекеры", image: .trackerIcon, selectedImage: nil)
+            temporaryVC.tabBarItem = UITabBarItem(title: "Статистика", image: .statisticsIcon, selectedImage: nil)
+            tabBarController.viewControllers = [navigationController, temporaryVC]
+            
+            viewController = tabBarController
+        } else {
+            viewController = OnboardingPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        }
+        
         window = UIWindow(windowScene: windowScene)
-        window?.rootViewController = OnboardingPageViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
+        window?.rootViewController = viewController
         window?.makeKeyAndVisible()
     }
 }

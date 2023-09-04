@@ -92,6 +92,8 @@ final class OnboardingViewController: UIViewController {
             return
         }
         
+        UserDefaults.standard.hasOnboarded = true
+        
         let tabBarController = UITabBarController()
         tabBarController.tabBar.layer.borderWidth = 0.5
         tabBarController.tabBar.layer.borderColor = UIColor.tabBarBorderColor.cgColor
