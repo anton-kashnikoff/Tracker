@@ -189,7 +189,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
             break
         }
         
-        let countOfCompletedDaysForTracker = trackerRecordViewModel?.getCountOfCompletedDaysForTracker(trackerRecord.id)
-        daysCountLabel.text = "\(countOfCompletedDaysForTracker ?? -1) дней"
+        let countOfCompletedDaysForTracker = trackerRecordViewModel?.getCountOfCompletedDaysForTracker(trackerRecord.id) ?? -1
+        daysCountLabel.text = String.localizedStringWithFormat(NSLocalizedString("numberOfDays", comment: "Number of days completed for tracker"), countOfCompletedDaysForTracker)
     }
 }

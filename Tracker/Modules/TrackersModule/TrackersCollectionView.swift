@@ -87,7 +87,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
         cell.emojiLabel.text = tracker.emoji
         cell.trackerTitleLabel.text = tracker.name
         
-        let countOfCompletedDaysForTracker = cell.trackerRecordViewModel?.getCountOfCompletedDaysForTracker(tracker.id)
+        let countOfCompletedDaysForTracker = cell.trackerRecordViewModel?.getCountOfCompletedDaysForTracker(tracker.id) ?? -1
         
         let trackerRecordState = cell.trackerRecordViewModel?.checkTrackerRecordForDate(trackersViewController.currentDate, id: tracker.id)
         
@@ -104,7 +104,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             break
         }
         
-        cell.daysCountLabel.text = "\(countOfCompletedDaysForTracker ?? -1) дней"
+        cell.daysCountLabel.text = String.localizedStringWithFormat(NSLocalizedString("numberOfDays", comment: "Number of days completed for tracker"), countOfCompletedDaysForTracker)
         cell.completedButton.tintColor = cell.cardView.backgroundColor
         return cell
     }
