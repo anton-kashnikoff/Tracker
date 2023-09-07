@@ -8,8 +8,6 @@
 import UIKit
 
 final class NewTrackerViewController: UIViewController {
-    static let didChangeNotification = Notification.Name(rawValue: "NewTrackerDidChange")
-    
     let scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -114,23 +112,19 @@ final class NewTrackerViewController: UIViewController {
         return createButton
     }()
     
-    private let trackerType: TrackerType
-    private let trackerCategoryStore = TrackerCategoryStore()
-    private let trackerStore = TrackerStore()
-    
     let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     let colors: [UIColor] = [.colorSelection1, .colorSelection2, .colorSelection3, .colorSelection4, .colorSelection5, .colorSelection6, .colorSelection7, .colorSelection8, .colorSelection9, .colorSelection10, .colorSelection11, .colorSelection12, .colorSelection13, .colorSelection14, .colorSelection15, .colorSelection16, .colorSelection17, .colorSelection18]
     
+    private let trackerType: TrackerType
     
     var habitTrackerData: (id: UUID?, name: String?, color: UIColor?, emoji: String?, schedule: Schedule?)
+    var daysOfWeek = [(Int, Schedule.DayOfWeek, Bool)]()
     var category: TrackerCategoryCoreData?
-    var daysOfWeek = [(Int, String, Bool)]()
-    
-    private var categoryObserver: NSObjectProtocol?
-    private var scheduleObserver: NSObjectProtocol?
-    private var tableViewCells = [String]()
+    var trackerViewModel: TrackerViewModel?
     
     weak var trackersViewController: TrackersViewController?
+    
+    private var tableViewCells = [String]()
     
     init(trackerType: TrackerType) {
         self.trackerType = trackerType
@@ -141,6 +135,10 @@ final class NewTrackerViewController: UIViewController {
             tableViewCells = ["Категория", "Расписание"]
         case .irregularEvent:
             tableViewCells = ["Категория"]
+        }
+        
+        for i in 0...6 {
+            daysOfWeek.append((i, Schedule.DayOfWeek.allCases[i], false))
         }
     }
     
@@ -157,16 +155,6 @@ final class NewTrackerViewController: UIViewController {
         
         navigationItem.hidesBackButton = true
         navigationItem.title = "Новая привычка"
-        
-        categoryObserver = NotificationCenter.default.addObserver(forName: CategoryViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-            self?.tableView.reloadData()
-        })
-        
-        scheduleObserver = NotificationCenter.default.addObserver(forName: ScheduleViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-            self?.tableView.reloadData()
-        })
-        
-        habitTrackerData.id = UUID()
         
         setupScrollView()
         setupContentView()
@@ -217,7 +205,7 @@ final class NewTrackerViewController: UIViewController {
         ])
     }
     
-    func setupRestrictionLabel() {
+    private func setupRestrictionLabel() {
         contentView.addSubview(restrictionLabel)
         
         NSLayoutConstraint.activate([
@@ -323,19 +311,43 @@ final class NewTrackerViewController: UIViewController {
     }
     
     private func getDaysOfWeekString() -> String {
-        let daysOfWeekSorted = daysOfWeek.sorted {
-            $0.0 < $1.0
-        }
-        
         var selectedDays = [String]()
         
-        for (_, briefDay, value) in daysOfWeekSorted {
-            if value {
-                selectedDays.append(briefDay)
+        for (_, day, isSelected) in daysOfWeek {
+            if isSelected {
+                selectedDays.append(day.getBriefDayOfWeek())
             }
         }
         
         return selectedDays.count == 7 ? "Каждый день" : selectedDays.joined(separator: ", ")
+    }
+    
+    private var isDataForTrackerReady: Bool {
+        switch trackerType {
+        case .habit:
+            return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && habitTrackerData.schedule != nil && category?.name != nil
+        case .irregularEvent:
+            return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && category?.name != nil
+        }
+    }
+    
+    @objc
+    private func createButtonDidTap() {
+        habitTrackerData.id = UUID()
+        
+        guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let category = category else {
+            print("Not all data exists")
+            return
+        }
+        
+        let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
+        trackersViewController?.trackerViewModel.addNewTracker(tracker, to: category)
+        dismiss(animated: true)
+    }
+    
+    @objc
+    private func cancelButtonDidTap() {
+        dismiss(animated: true)
     }
     
     func showRestrictionLabel() {
@@ -353,34 +365,6 @@ final class NewTrackerViewController: UIViewController {
     func tryActivateCreateButton() {
         createButton.backgroundColor = isDataForTrackerReady ? .ypBlack : .ypGray
     }
-    
-    private var isDataForTrackerReady: Bool {
-        switch trackerType {
-        case .habit:
-            return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && habitTrackerData.schedule != nil && category?.name != nil
-        case .irregularEvent:
-            return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && category?.name != nil
-        }
-    }
-    
-    @objc
-    private func createButtonDidTap() {
-        guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let category = category else {
-            print("Not all data exists")
-            return
-        }
-        
-        let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
-        trackerStore.addNewTracker(tracker, to: category)
-        
-        NotificationCenter.default.post(name: NewTrackerViewController.didChangeNotification, object: self)
-        dismiss(animated: true)
-    }
-    
-    @objc
-    private func cancelButtonDidTap() {
-        dismiss(animated: true)
-    }
 }
 
 extension NewTrackerViewController: UITableViewDelegate {
@@ -392,10 +376,35 @@ extension NewTrackerViewController: UITableViewDelegate {
         if indexPath.row == 0 {
             let categoryViewController = CategoryViewController()
             categoryViewController.newTrackerViewController = self
+            
+            trackerViewModel?.onCategoryChange = { [weak self] in
+                self?.tryActivateCreateButton()
+                self?.tableView.reloadData()
+            }
+            
             navigationController?.pushViewController(categoryViewController, animated: true)
         } else if indexPath.row == 1 {
             let scheduleViewController = ScheduleViewController()
             scheduleViewController.newTrackerViewController = self
+            
+            trackerViewModel?.onScheduleChange = { [weak self] in
+                guard let self else {
+                    return
+                }
+                
+                var selectedDays = Set<Schedule.DayOfWeek>()
+                
+                for (_, day, isSelected) in self.daysOfWeek {
+                    if isSelected {
+                        selectedDays.insert(day)
+                    }
+                }
+                
+                self.habitTrackerData.schedule = Schedule(daysOfWeek: selectedDays)
+                self.tryActivateCreateButton()
+                self.tableView.reloadData()
+            }
+            
             navigationController?.pushViewController(scheduleViewController, animated: true)
         }
     }

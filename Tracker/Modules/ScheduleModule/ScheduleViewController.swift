@@ -8,8 +8,6 @@
 import UIKit
 
 final class ScheduleViewController: UIViewController {
-    static let didChangeNotification = Notification.Name(rawValue: "ScheduleDidChange")
-    
     let tableView: UITableView = {
         let tableView = UITableView()
         tableView.isScrollEnabled = false
@@ -31,8 +29,6 @@ final class ScheduleViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-    
-    var selectedDays: Set<Schedule.DayOfWeek> = []
     
     weak var newTrackerViewController: NewTrackerViewController?
     
@@ -75,29 +71,29 @@ final class ScheduleViewController: UIViewController {
     
     private func getSwitch(for indexPath: IndexPath) -> UISwitch {
         let switchView = UISwitch(frame: .zero)
-        switchView.setOn(false, animated: true)
+        let index = indexPath.row
+        
+        guard let newTrackerViewController else {
+            return UISwitch()
+        }
+        
+        switchView.setOn(newTrackerViewController.daysOfWeek[index].2, animated: false)
         switchView.onTintColor = .ypBlue
-        switchView.tag = indexPath.row
+        switchView.tag = index
         switchView.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
         return switchView
     }
     
     @objc
     private func doneButtonDidTap() {
-        NotificationCenter.default.post(name: ScheduleViewController.didChangeNotification, object: self)
+        newTrackerViewController?.trackerViewModel?.scheduleSelected()
         navigationController?.popViewController(animated: true)
     }
     
     @objc
     private func switchChanged(_ sender: UISwitch) {
         let index = sender.tag
-        if sender.isOn {
-            selectedDays.insert(Schedule.DayOfWeek.allCases[index])
-        }
-        
-        newTrackerViewController?.daysOfWeek.append((index, Schedule.DayOfWeek.allCases[index].getBriefDayOfWeek(), sender.isOn))
-        newTrackerViewController?.habitTrackerData.schedule = Schedule(daysOfWeek: selectedDays)
-        newTrackerViewController?.tryActivateCreateButton()
+        newTrackerViewController?.daysOfWeek[index] = (index, Schedule.DayOfWeek.allCases[index], sender.isOn)
     }
 }
 

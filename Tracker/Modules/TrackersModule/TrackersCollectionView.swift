@@ -50,7 +50,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return 0
         }
         
-        return trackersViewController.trackerStore.numberOfSections()
+        return trackersViewController.trackerViewModel.numberOfSections()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -59,11 +59,10 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return 0
         }
         
-        return trackersViewController.trackerStore.numberOfItemsInSection(section)
+        return trackersViewController.trackerViewModel.numberOfItemsInSection(section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        print("\ncollectionView(_:cellForItemAt:) starts")
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier, for: indexPath) as? TrackerCollectionViewCell else {
             print("Unable to create TrackerCollectionViewCell")
             return UICollectionViewCell()
@@ -74,12 +73,13 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let trackerObject = trackersViewController.trackerStore.getObjectAt(indexPath: indexPath)
+        let trackerObject = trackersViewController.trackerViewModel.getObjectAt(indexPath: indexPath)
 
-        guard let tracker = trackersViewController.trackerStore.makeTracker(from: trackerObject) else {
+        guard let tracker = trackersViewController.trackerViewModel.makeTracker(from: trackerObject) else {
             return UICollectionViewCell()
         }
         
+        cell.trackerRecordViewModel = trackersViewController.trackerRecordViewModel
         cell.tracker = tracker
         cell.date = trackersViewController.currentDate
         
@@ -87,9 +87,9 @@ extension TrackersCollectionView: UICollectionViewDataSource {
         cell.emojiLabel.text = tracker.emoji
         cell.trackerTitleLabel.text = tracker.name
         
-        let countOfCompletedDaysForTracker = cell.trackerRecordStore.getCountOfCompletedDaysForTracker(tracker.id)
+        let countOfCompletedDaysForTracker = cell.trackerRecordViewModel?.getCountOfCompletedDaysForTracker(tracker.id)
         
-        let trackerRecordState = cell.trackerRecordStore.checkTrackerRecordForDate(trackersViewController.currentDate, id: tracker.id)
+        let trackerRecordState = cell.trackerRecordViewModel?.checkTrackerRecordForDate(trackersViewController.currentDate, id: tracker.id)
         
         switch trackerRecordState {
         case .existForDate:
@@ -100,6 +100,8 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             // если listOfDatesForTracker не содержит ни одной записи для этого трекера, то
             // при отображении кнопка-плюсик, текст = кол-во дат в массиве для этого трекера, то есть 0
             cell.completedButton.setImage(.plus?.withRenderingMode(.alwaysTemplate), for: .normal)
+        case .none:
+            break
         }
         
         cell.daysCountLabel.text = "\(countOfCompletedDaysForTracker ?? -1) дней"
@@ -118,7 +120,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        let trackerObject = trackersViewController.trackerStore.getObjectAt(indexPath: indexPath)
+        let trackerObject = trackersViewController.trackerViewModel.getObjectAt(indexPath: indexPath)
         headerView.titleLabel.text = trackerObject.category?.name
         
         return headerView

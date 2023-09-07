@@ -8,7 +8,8 @@
 import UIKit
 
 final class TextField: UITextField {
-    let padding = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 41)
+    private let padding = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 41)
+    
     var newHabitViewController: NewTrackerViewController?
     var newCategoryViewController: NewCategoryViewController?
     var identifier: String?
@@ -59,8 +60,6 @@ extension TextField: UITextFieldDelegate {
             }
             
             newHabitViewController?.tryActivateCreateButton()
-//            print("currentString = \(currentString)")
-//            print("newText = \(newTextNSString)")
             
             return newTextNSString.length <= maxLength
         } else if textField.identifier == "newCategory" {

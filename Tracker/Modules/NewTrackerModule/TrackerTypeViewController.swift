@@ -43,7 +43,7 @@ final class TrackerTypeViewController: UIViewController {
         setupIrregularEventButton()
     }
     
-    var trackersViewController: TrackersViewController?
+    weak var trackersViewController: TrackersViewController?
     
     private func setupHabitButton() {
         habitButton.addTarget(self, action: #selector(didTapHabitButton), for: .touchUpInside)
@@ -73,6 +73,7 @@ final class TrackerTypeViewController: UIViewController {
     private func didTapHabitButton() {
         let newHabitViewController = NewTrackerViewController(trackerType: .habit)
         newHabitViewController.trackersViewController = trackersViewController
+        newHabitViewController.trackerViewModel = trackersViewController?.trackerViewModel
         navigationController?.pushViewController(newHabitViewController, animated: true)
     }
     
@@ -80,6 +81,7 @@ final class TrackerTypeViewController: UIViewController {
     private func didTapIrregularEventButton() {
         let newIrregularEventViewController = NewTrackerViewController(trackerType: .irregularEvent)
         newIrregularEventViewController.trackersViewController = trackersViewController
+        newIrregularEventViewController.trackerViewModel = trackersViewController?.trackerViewModel
         navigationController?.pushViewController(newIrregularEventViewController, animated: true)
     }
 }

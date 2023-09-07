@@ -8,7 +8,7 @@
 import UIKit
 
 final class TrackersViewController: UIViewController {
-    let collectionView: TrackersCollectionView = {
+    private let collectionView: TrackersCollectionView = {
         let collectionView = TrackersCollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.backgroundColor = .ypWhite
         collectionView.register(TrackerCollectionViewCell.self, forCellWithReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier)
@@ -17,21 +17,21 @@ final class TrackersViewController: UIViewController {
         return collectionView
     }()
     
-    let barButtonItem: UIBarButtonItem = {
+    private let barButtonItem: UIBarButtonItem = {
         let barButtonItem = UIBarButtonItem()
         barButtonItem.image = .addTrackerIcon
         barButtonItem.tintColor = .ypBlack
         return barButtonItem
     }()
     
-    let datePicker: UIDatePicker = {
+    private let datePicker: UIDatePicker = {
         let datePicker = UIDatePicker()
         datePicker.preferredDatePickerStyle = .compact
         datePicker.datePickerMode = .date
         return datePicker
     }()
     
-    let searchTextField: UISearchTextField = {
+    private let searchTextField: UISearchTextField = {
         let searchTextField = UISearchTextField()
         searchTextField.placeholder = "Поиск"
         searchTextField.clearButtonMode = .never
@@ -40,7 +40,7 @@ final class TrackersViewController: UIViewController {
         return searchTextField
     }()
     
-    let searchCancelButton: UIButton = {
+    private let searchCancelButton: UIButton = {
         let button = UIButton()
         button.frame.size = CGSize(width: 83, height: 36)
         button.setTitle("Отменить", for: .normal)
@@ -50,28 +50,26 @@ final class TrackersViewController: UIViewController {
         return button
     }()
     
-    let imageView: UIImageView = {
+    private let imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    let label: UILabel = {
+    private let label: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    let trackerCategoryStore = TrackerCategoryStore()
-    let trackerStore = TrackerStore()
-    private let trackerRecordStore = TrackerRecordStore()
-    
-    private var newTrackerObserver: NSObjectProtocol?
     private var constraintToCancelButton: NSLayoutConstraint?
     private var constraintToSuperview: NSLayoutConstraint?
     private var currentText: String?
+    
     var currentDate = Date()
+    var trackerViewModel = TrackerViewModel(store: TrackerStore())
+    var trackerRecordViewModel = TrackerRecordViewModel(store: TrackerRecordStore())
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,12 +81,7 @@ final class TrackersViewController: UIViewController {
         currentDate = datePicker.date.withZeroTime
         currentText = searchTextField.text
         
-        trackerStore.delegate = self
-        trackerRecordStore.delegate = self
-        
-        newTrackerObserver = NotificationCenter.default.addObserver(forName: NewTrackerViewController.didChangeNotification, object: nil, queue: .main, using: { [weak self] _ in
-            self?.reloadData()
-        })
+        trackerViewModel.setDelegate(self)
         
         setupNavigationBar()
         setupSearchTextField()
@@ -180,10 +173,32 @@ final class TrackersViewController: UIViewController {
         constraintToSuperview?.isActive = true
     }
     
+    private func reloadPlaceholderView() {
+        if trackerViewModel.isFetchedObjectsEmpty() && currentText != "" {
+            imageView.image = .nothingFound
+            label.text = "Ничего не найдено"
+            imageView.isHidden = false
+            label.isHidden = false
+        } else if trackerViewModel.isFetchedObjectsEmpty() {
+            imageView.image = .star
+            label.text = "Что будем отслеживать?"
+            imageView.isHidden = false
+            label.isHidden = false
+        } else {
+            imageView.isHidden = true
+            label.isHidden = true
+        }
+    }
+    
     @objc
     private func addTracker() {
         let trackerTypeViewController = TrackerTypeViewController()
         trackerTypeViewController.trackersViewController = self
+        
+        trackerViewModel.onTrackerChange = { [weak self] in
+            self?.reloadData()
+        }
+        
         let navigationController = UINavigationController(rootViewController: trackerTypeViewController)
         present(navigationController, animated: true)
     }
@@ -200,23 +215,6 @@ final class TrackersViewController: UIViewController {
         currentText = nil
         reloadData()
         hideCancelButton()
-    }
-    
-    private func reloadPlaceholderView() {
-        if trackerStore.isFetchedObjectsEmpty() && currentText != "" {
-            imageView.image = .nothingFound
-            label.text = "Ничего не найдено"
-            imageView.isHidden = false
-            label.isHidden = false
-        } else if trackerStore.isFetchedObjectsEmpty() {
-            imageView.image = .star
-            label.text = "Что будем отслеживать?"
-            imageView.isHidden = false
-            label.isHidden = false
-        } else {
-            imageView.isHidden = true
-            label.isHidden = true
-        }
     }
 }
 
@@ -250,17 +248,11 @@ extension TrackersViewController {
         let dayOfWeek = Schedule.getNameOfDay(Calendar.current.component(.weekday, from: currentDate))
         let text = currentText ?? ""
         
-        if text.isEmpty {
-            // фильтруем только по дате
-            trackerStore.fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "%K CONTAINS[cd] %@", #keyPath(TrackerCoreData.schedule), dayOfWeek)
-        } else {
-            // фильтр по дате и тексту
-            trackerStore.fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text)
-        }
+        trackerViewModel.setPredicate(date: dayOfWeek, text: text)
         
         do {
-            try trackerStore.fetchedResultsController.performFetch()
-            try trackerRecordStore.fetchedResultsController.performFetch()
+            try trackerViewModel.performFetch()
+            try trackerRecordViewModel.performFetch()
         } catch let error as NSError  {
             print("Error: \(error)")
         }

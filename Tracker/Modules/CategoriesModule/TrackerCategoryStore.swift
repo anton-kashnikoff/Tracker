@@ -28,6 +28,7 @@ final class TrackerCategoryStore: NSObject {
         guard let existingCategoriesObjects = fetchedResultsController.fetchedObjects else {
             return nil
         }
+        
         return existingCategoriesObjects.first {
             $0.name == trackerCategory.name
         }
@@ -65,6 +66,10 @@ final class TrackerCategoryStore: NSObject {
             return TrackerCategory(name: name, trackers: [])
         }
         return nil
+    }
+    
+    func setDelegate(_ delegate: CategoryViewController?) {
+        self.delegate = delegate
     }
 }
 
