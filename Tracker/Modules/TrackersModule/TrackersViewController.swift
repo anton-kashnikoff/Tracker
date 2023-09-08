@@ -33,7 +33,7 @@ final class TrackersViewController: UIViewController {
     
     private let searchTextField: UISearchTextField = {
         let searchTextField = UISearchTextField()
-        searchTextField.placeholder = "Поиск"
+        searchTextField.placeholder = NSLocalizedString("search", comment: "Search text field placeholder")
         searchTextField.clearButtonMode = .never
         searchTextField.backgroundColor = .searchTextFieldColor
         searchTextField.translatesAutoresizingMaskIntoConstraints = false
@@ -43,7 +43,7 @@ final class TrackersViewController: UIViewController {
     private let searchCancelButton: UIButton = {
         let button = UIButton()
         button.frame.size = CGSize(width: 83, height: 36)
-        button.setTitle("Отменить", for: .normal)
+        button.setTitle(NSLocalizedString("cancel", comment: "Search cancel button title"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
         button.setTitleColor(.ypBlue, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -93,7 +93,7 @@ final class TrackersViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        title = "Трекеры"
+        title = NSLocalizedString("trackersTitle", comment: "Title for navigation bar")
         navigationController?.navigationBar.prefersLargeTitles = true
         
         setupDatePicker()
@@ -176,12 +176,12 @@ final class TrackersViewController: UIViewController {
     private func reloadPlaceholderView() {
         if trackerViewModel.isFetchedObjectsEmpty() && currentText != "" {
             imageView.image = .nothingFound
-            label.text = "Ничего не найдено"
+            label.text = NSLocalizedString("trackers.placeholder.nothingFound", comment: "Text for placeholder view when nothing found")
             imageView.isHidden = false
             label.isHidden = false
         } else if trackerViewModel.isFetchedObjectsEmpty() {
             imageView.image = .star
-            label.text = "Что будем отслеживать?"
+            label.text = NSLocalizedString("trackers.placeholder.noTrackers", comment: "Text for placeholder view when no trackers created")
             imageView.isHidden = false
             label.isHidden = false
         } else {

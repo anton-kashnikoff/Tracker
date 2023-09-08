@@ -1,0 +1,57 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Антон Кашников on 08/09/2023.
+  
+*/
+
+trackersTitle = "Trackers";
+cancel = "Cancel";
+create = "Create";
+category = "Category";
+done = "Done";
+search = "Search";
+schedule = "Schedule";
+
+tabbar.statisticsItem.title = "Statistics";
+
+onboarding.title1 = "Track only what you want";
+onboarding.title2 = "Even if it's not liters of water and yoga";
+onboarding.button.title = "These are technologies!";
+
+schedule.dayOfWeek.monday = "Monday";
+schedule.dayOfWeek.tuesday = "Tuesday";
+schedule.dayOfWeek.wednesday = "Wednesday";
+schedule.dayOfWeek.thursday = "Thursday";
+schedule.dayOfWeek.friday = "Friday";
+schedule.dayOfWeek.saturday = "Saturday";
+schedule.dayOfWeek.sunday = "Sunday";
+
+schedule.briefDayOfWeek.monday = "Mon";
+schedule.briefDayOfWeek.tuesday = "Tue";
+schedule.briefDayOfWeek.wednesday = "Wed";
+schedule.briefDayOfWeek.thursday = "Thu";
+schedule.briefDayOfWeek.friday = "Fri";
+schedule.briefDayOfWeek.saturday = "Sat";
+schedule.briefDayOfWeek.sunday = "Sun";
+
+trackerType.habitButton.title = "Habit";
+trackerType.irregularEventButton.title = "Irregular event";
+trackerType.navigationItem.title = "Creating a tracker";
+
+newTracker.textField.placeholder = "Enter the name of the tracker";
+newTracker.emojiLabel.title = "Emoji";
+newTracker.colorLabel.title = "Color";
+newTracker.navigationItem.title = "A new habit";
+newTracker.schedule.everyDay = "Every day";
+newTracker.restrictionLabel.title = "Limit of 38 characters";
+
+category.placeholder.text = "Habits and events\ncan be combined in meaning";
+category.addButton.title = "Add a category";
+
+newCategory.textField.placeholder = "Enter the category name";
+newCategory.navigationItem.title = "New category";
+
+trackers.placeholder.nothingFound = "Nothing found";
+trackers.placeholder.noTrackers = "What will we track?";

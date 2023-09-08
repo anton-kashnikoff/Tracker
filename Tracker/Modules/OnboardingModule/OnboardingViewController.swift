@@ -22,7 +22,7 @@ final class OnboardingViewController: UIViewController {
         let button = UIButton()
         button.backgroundColor = .ypAlwaysBlack
         button.layer.cornerRadius = 16
-        button.setTitle("Вот это технологии!", for: .normal)
+        button.setTitle(NSLocalizedString("onboarding.button.title", comment: "Title for button on onboarding screen"), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -104,8 +104,8 @@ final class OnboardingViewController: UIViewController {
         temporaryVC.view.backgroundColor = .systemBackground
         
         let navigationController = UINavigationController(rootViewController: trackersViewController)
-        navigationController.tabBarItem = UITabBarItem(title: "Трекеры", image: .trackerIcon, selectedImage: nil)
-        temporaryVC.tabBarItem = UITabBarItem(title: "Статистика", image: .statisticsIcon, selectedImage: nil)
+        navigationController.tabBarItem = UITabBarItem(title: NSLocalizedString("trackersTitle", comment: "Title for Trackers tab bar item"), image: .trackerIcon, selectedImage: nil)
+        temporaryVC.tabBarItem = UITabBarItem(title: NSLocalizedString("tabbar.statisticsItem.title", comment: "Title for Statistics tab bar item"), image: .statisticsIcon, selectedImage: nil)
         tabBarController.viewControllers = [navigationController, temporaryVC]
         
         sceneDelegate.window?.rootViewController = tabBarController

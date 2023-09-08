@@ -11,7 +11,7 @@ final class NewCategoryViewController: UIViewController {
     private let textField: TextField = {
         let textField = TextField()
         textField.identifier = "newCategory"
-        textField.placeholder = "Введите название категории"
+        textField.placeholder = NSLocalizedString("newCategory.textField.placeholder", comment: "Placeholder for text field to add new category")
         textField.layer.cornerRadius = 16
         textField.backgroundColor = .ypBackground
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -22,7 +22,7 @@ final class NewCategoryViewController: UIViewController {
         let button = UIButton()
         button.backgroundColor = .ypGray
         button.layer.cornerRadius = 16
-        button.setTitle("Готово", for: .normal)
+        button.setTitle(NSLocalizedString("done", comment: "Done title"), for: .normal)
         button.setTitleColor(.ypWhite, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -39,7 +39,7 @@ final class NewCategoryViewController: UIViewController {
         view.backgroundColor = .ypWhite
         
         navigationItem.hidesBackButton = true
-        navigationItem.title = "Новая категория"
+        navigationItem.title = NSLocalizedString("newCategory.navigationItem.title", comment: "Title for new category screen")
         
         setupTextField()
         setupButton()

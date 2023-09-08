@@ -5,6 +5,8 @@
 //  Created by Антон Кашников on 02.08.2023.
 //
 
+import Foundation
+
 struct Schedule {
     enum DayOfWeek: String, CaseIterable {
         case monday = "Понедельник"
@@ -31,26 +33,24 @@ struct Schedule {
             return index + 2
         }
         
-
-        
         func getBriefDayOfWeek() -> String {
             let index = getIndexOfCase()
             
             switch index {
             case 0:
-                return "Пн"
+                return NSLocalizedString("schedule.briefDayOfWeek.monday", comment: "Brief string for Monday")
             case 1:
-                return "Вт"
+                return NSLocalizedString("schedule.briefDayOfWeek.tuesday", comment: "Brief string for Tuesday")
             case 2:
-                return "Ср"
+                return NSLocalizedString("schedule.briefDayOfWeek.wednesday", comment: "Brief string for Wednesday")
             case 3:
-                return "Чт"
+                return NSLocalizedString("schedule.briefDayOfWeek.thursady", comment: "Brief string for Thursady")
             case 4:
-                return "Пт"
+                return NSLocalizedString("schedule.briefDayOfWeek.friday", comment: "Brief string for Friday")
             case 5:
-                return "Сб"
+                return NSLocalizedString("schedule.briefDayOfWeek.saturday", comment: "Brief string for Saturday")
             case 6:
-                return "Вс"
+                return NSLocalizedString("schedule.briefDayOfWeek.sunday", comment: "Brief string for Sunday")
             default:
                 return ""
             }
@@ -62,19 +62,19 @@ struct Schedule {
     static func getNameOfDay(_ number: Int) -> String {
         switch number {
         case 1:
-            return "Воскресенье"
+            return NSLocalizedString("schedule.dayOfWeek.sunday", comment: "String for Sunday")
         case 2:
-            return "Понедельник"
+            return NSLocalizedString("schedule.dayOfWeek.monday", comment: "String for Monday")
         case 3:
-            return "Вторник"
+            return NSLocalizedString("schedule.dayOfWeek.tuesday", comment: "String for Tuesday")
         case 4:
-            return "Среда"
+            return NSLocalizedString("schedule.dayOfWeek.wednesday", comment: "String for Wednesday")
         case 5:
-            return "Четверг"
+            return NSLocalizedString("schedule.dayOfWeek.thursady", comment: "String for Thursady")
         case 6:
-            return "Пятница"
+            return NSLocalizedString("schedule.dayOfWeek.friday", comment: "String for Friday")
         case 7:
-            return "Суббота"
+            return NSLocalizedString("schedule.dayOfWeek.saturday", comment: "String for Saturday")
         default:
             return ""
         }

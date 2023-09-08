@@ -23,7 +23,7 @@ final class NewTrackerViewController: UIViewController {
     let textField: TextField = {
         let textField = TextField()
         textField.identifier = "newHabit"
-        textField.placeholder = "Введите название трекера"
+        textField.placeholder = NSLocalizedString("newTracker.textField.placeholder", comment: "Placeholder tezxt for text field on new tracker screen")
         textField.clearButtonMode = .whileEditing
         textField.layer.cornerRadius = 16
         textField.backgroundColor = .ypBackground
@@ -60,7 +60,7 @@ final class NewTrackerViewController: UIViewController {
     
     let emojiLabel: UILabel = {
         let emojiLabel = UILabel()
-        emojiLabel.text = "Emoji"
+        emojiLabel.text = NSLocalizedString("newTracker.emojiLabel.title", comment: "Title for emoji collection")
         emojiLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
         emojiLabel.translatesAutoresizingMaskIntoConstraints = false
         return emojiLabel
@@ -68,7 +68,7 @@ final class NewTrackerViewController: UIViewController {
     
     let colorLabel: UILabel = {
         let colorLabel = UILabel()
-        colorLabel.text = "Цвет"
+        colorLabel.text = NSLocalizedString("newTracker.colorLabel.title", comment: "Title for color collection")
         colorLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
         colorLabel.translatesAutoresizingMaskIntoConstraints = false
         return colorLabel
@@ -91,7 +91,7 @@ final class NewTrackerViewController: UIViewController {
     let cancelButton: UIButton = {
         let cancelButton = UIButton()
         cancelButton.backgroundColor = .ypWhite
-        cancelButton.setTitle("Отменить", for: .normal)
+        cancelButton.setTitle(NSLocalizedString("cancel", comment: "Cancel title"), for: .normal)
         cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         cancelButton.setTitleColor(.ypRed, for: .normal)
         cancelButton.layer.borderWidth = 1
@@ -104,7 +104,7 @@ final class NewTrackerViewController: UIViewController {
     let createButton: UIButton = {
         let createButton = UIButton()
         createButton.backgroundColor = .ypGray
-        createButton.setTitle("Создать", for: .normal)
+        createButton.setTitle(NSLocalizedString("create", comment: "Create title"), for: .normal)
         createButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         createButton.setTitleColor(.ypWhite, for: .normal)
         createButton.layer.cornerRadius = 16
@@ -132,9 +132,9 @@ final class NewTrackerViewController: UIViewController {
         
         switch trackerType {
         case .habit:
-            tableViewCells = ["Категория", "Расписание"]
+            tableViewCells = [NSLocalizedString("category", comment: "Category title for table cell"), NSLocalizedString("schedule", comment: "Schedule title for table cell")]
         case .irregularEvent:
-            tableViewCells = ["Категория"]
+            tableViewCells = [NSLocalizedString("category", comment: "Category title for table cell")]
         }
         
         for i in 0...6 {
@@ -154,7 +154,7 @@ final class NewTrackerViewController: UIViewController {
         view.backgroundColor = .ypWhite
         
         navigationItem.hidesBackButton = true
-        navigationItem.title = "Новая привычка"
+        navigationItem.title = NSLocalizedString("newTracker.navigationItem.title", comment: "Title for new tracker screen")
         
         setupScrollView()
         setupContentView()
@@ -319,7 +319,7 @@ final class NewTrackerViewController: UIViewController {
             }
         }
         
-        return selectedDays.count == 7 ? "Каждый день" : selectedDays.joined(separator: ", ")
+        return selectedDays.count == 7 ? NSLocalizedString("newTracker.schedule.everyDay", comment: "String for all selected days of week") : selectedDays.joined(separator: ", ")
     }
     
     private var isDataForTrackerReady: Bool {
@@ -351,7 +351,7 @@ final class NewTrackerViewController: UIViewController {
     }
     
     func showRestrictionLabel() {
-        restrictionLabel.text = "Ограничение 38 символов"
+        restrictionLabel.text = NSLocalizedString("newTracker.restrictionLabel.title", comment: "Text for restriction label")
         restrictionLabel.isHidden = false
         setupTableView()
     }
@@ -432,9 +432,9 @@ extension NewTrackerViewController: UITableViewDataSource {
             var content = cell.defaultContentConfiguration()
             content.text = tableViewCells[indexPath.row]
             
-            if tableViewCells[indexPath.row] == "Категория" {
+            if tableViewCells[indexPath.row] == NSLocalizedString("category", comment: "Category title for table cell") {
                 content.secondaryText = category?.name
-            } else if tableViewCells[indexPath.row] == "Расписание" {
+            } else if tableViewCells[indexPath.row] == NSLocalizedString("schedule", comment: "Schedule title for table cell") {
                 content.secondaryText = getDaysOfWeekString()
             }
             
@@ -444,9 +444,9 @@ extension NewTrackerViewController: UITableViewDataSource {
             cell.contentConfiguration = content
         } else {
             cell.textLabel?.text = tableViewCells[indexPath.row]
-            if tableViewCells[indexPath.row] == "Категория" {
+            if tableViewCells[indexPath.row] == NSLocalizedString("category", comment: "Category title for table cell") {
                 cell.detailTextLabel?.text = category?.name
-            } else if tableViewCells[indexPath.row] == "Расписание" {
+            } else if tableViewCells[indexPath.row] == NSLocalizedString("schedule", comment: "Schedule title for table cell") {
                 cell.detailTextLabel?.text = getDaysOfWeekString()
             }
             

@@ -13,7 +13,7 @@ final class TrackerTypeViewController: UIViewController {
         habitButton.backgroundColor = .ypBlack
         habitButton.layer.cornerRadius = 16
         habitButton.layer.masksToBounds = true
-        habitButton.setTitle("Привычка", for: .normal)
+        habitButton.setTitle(NSLocalizedString("trackerType.habitButton.title", comment: "Title fo habit button"), for: .normal)
         habitButton.setTitleColor(.ypWhite, for: .normal)
         habitButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         habitButton.translatesAutoresizingMaskIntoConstraints = false
@@ -25,7 +25,7 @@ final class TrackerTypeViewController: UIViewController {
         irregularEventButton.backgroundColor = .ypBlack
         irregularEventButton.layer.cornerRadius = 16
         irregularEventButton.layer.masksToBounds = true
-        irregularEventButton.setTitle("Нерегулярное событие", for: .normal)
+        irregularEventButton.setTitle(NSLocalizedString("trackerType.irregularEventButton.title", comment: "Title for irregular event button"), for: .normal)
         irregularEventButton.setTitleColor(.ypWhite, for: .normal)
         irregularEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         irregularEventButton.translatesAutoresizingMaskIntoConstraints = false
@@ -36,7 +36,7 @@ final class TrackerTypeViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .systemBackground
-        navigationItem.title = "Создание трекера"
+        navigationItem.title = NSLocalizedString("trackerType.navigationItem.title", comment: "Title for tracker type screen")
         navigationController?.navigationBar.titleTextAttributes = [.font: UIFont.systemFont(ofSize: 16, weight: .medium)]
         
         setupHabitButton()

@@ -16,7 +16,7 @@ final class CategoryViewController: UIViewController {
     
     private let label: UILabel = {
         let label = UILabel()
-        label.text = "Привычки и события можно\nобъединить по смыслу"
+        label.text = NSLocalizedString("category.placeholder.text", comment: "Text for empty view on category list screen")
         label.font = UIFont.systemFont(ofSize: 12)
         label.numberOfLines = 2
         label.textAlignment = .center
@@ -28,7 +28,7 @@ final class CategoryViewController: UIViewController {
         let button = UIButton()
         button.backgroundColor = .ypBlack
         button.layer.cornerRadius = 16
-        button.setTitle("Добавить категорию", for: .normal)
+        button.setTitle(NSLocalizedString("category.addButton.title", comment: "Title for button to add new category"), for: .normal)
         button.setTitleColor(.ypWhite, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -58,7 +58,7 @@ final class CategoryViewController: UIViewController {
         view.backgroundColor = .ypWhite
         
         navigationItem.hidesBackButton = true
-        navigationItem.title = "Категория"
+        navigationItem.title = NSLocalizedString("category", comment: "Category title")
         
         viewModel.setDelegate(self)
         

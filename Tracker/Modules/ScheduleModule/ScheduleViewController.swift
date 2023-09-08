@@ -23,7 +23,7 @@ final class ScheduleViewController: UIViewController {
         let button = UIButton()
         button.backgroundColor = .ypBlack
         button.layer.cornerRadius = 16
-        button.setTitle("Готово", for: .normal)
+        button.setTitle(NSLocalizedString("done", comment: "Title for button on Schedule screen"), for: .normal)
         button.setTitleColor(.ypWhite, for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -38,7 +38,7 @@ final class ScheduleViewController: UIViewController {
         view.backgroundColor = .ypWhite
         
         navigationItem.hidesBackButton = true
-        navigationItem.title = "Расписание"
+        navigationItem.title = NSLocalizedString("schedule", comment: "Title for Schedule screen")
         
         setupTableView()
         setupButton()

@@ -28,8 +28,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             temporaryVC.view.backgroundColor = .systemBackground
             
             let navigationController = UINavigationController(rootViewController: trackersViewController)
-            navigationController.tabBarItem = UITabBarItem(title: "Трекеры", image: .trackerIcon, selectedImage: nil)
-            temporaryVC.tabBarItem = UITabBarItem(title: "Статистика", image: .statisticsIcon, selectedImage: nil)
+            navigationController.tabBarItem = UITabBarItem(title: NSLocalizedString("trackersTitle", comment: "Title for Trackers tab bar item"), image: .trackerIcon, selectedImage: nil)
+            temporaryVC.tabBarItem = UITabBarItem(title: NSLocalizedString("tabbar.statisticsItem.title", comment: "Title for Statistics tab bar item"), image: .statisticsIcon, selectedImage: nil)
             tabBarController.viewControllers = [navigationController, temporaryVC]
             
             viewController = tabBarController

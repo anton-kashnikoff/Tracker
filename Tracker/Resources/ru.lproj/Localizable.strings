@@ -1,0 +1,57 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Антон Кашников on 08/09/2023.
+  
+*/
+
+trackersTitle = "Трекеры";
+cancel = "Отменить";
+create = "Создать";
+category = "Категория";
+done = "Готово";
+search = "Поиск";
+schedule = "Расписание";
+
+tabbar.statisticsItem.title = "Статистика";
+
+onboarding.title1 = "Отслеживайте только то, что хотите";
+onboarding.title2 = "Даже если это не литры воды и йога";
+onboarding.button.title = "Вот это технологии!";
+
+schedule.dayOfWeek.monday = "Понедельник";
+schedule.dayOfWeek.tuesday = "Вторник";
+schedule.dayOfWeek.wednesday = "Среда";
+schedule.dayOfWeek.thursday = "Четверг";
+schedule.dayOfWeek.friday = "Пятница";
+schedule.dayOfWeek.saturday = "Суббота";
+schedule.dayOfWeek.sunday = "Воскресенье";
+
+schedule.briefDayOfWeek.monday = "Пн";
+schedule.briefDayOfWeek.tuesday = "Вт";
+schedule.briefDayOfWeek.wednesday = "Ср";
+schedule.briefDayOfWeek.thursday = "Чт";
+schedule.briefDayOfWeek.friday = "Пт";
+schedule.briefDayOfWeek.saturday = "Сб";
+schedule.briefDayOfWeek.sunday = "Вс";
+
+trackerType.habitButton.title = "Привычка";
+trackerType.irregularEventButton.title = "Нерегулярное событие";
+trackerType.navigationItem.title = "Создание трекера";
+
+newTracker.textField.placeholder = "Введите название трекера";
+newTracker.emojiLabel.title = "Emoji";
+newTracker.colorLabel.title = "Цвет";
+newTracker.navigationItem.title = "Новая привычка";
+newTracker.schedule.everyDay = "Каждый день";
+newTracker.restrictionLabel.title = "Ограничение 38 символов";
+
+category.placeholder.text = "Привычки и события можно\nобъединить по смыслу";
+category.addButton.title = "Добавить категорию";
+
+newCategory.textField.placeholder = "Введите название категории";
+newCategory.navigationItem.title = "Новая категория";
+
+trackers.placeholder.nothingFound = "Ничего не найдено";
+trackers.placeholder.noTrackers = "Что будем отслеживать?";
