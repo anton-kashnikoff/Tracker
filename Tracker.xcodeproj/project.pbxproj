@@ -11,6 +11,7 @@
 		CB10365D2A7E6F4A00CD06DB /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB10365C2A7E6F4A00CD06DB /* NewCategoryViewController.swift */; };
 		CB1036622A7EB6E200CD06DB /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1036612A7EB6E200CD06DB /* ScheduleViewController.swift */; };
 		CB105F9A2A8EBA10000B5123 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB105F992A8EBA10000B5123 /* CategoryTableViewCell.swift */; };
+		CB1F84472AAB33EC0063D449 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB1F84492AAB33EC0063D449 /* InfoPlist.strings */; };
 		CB2849A82A83F2290009280F /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2849A72A83F2290009280F /* UIViewController+Extensions.swift */; };
 		CB3640B92AA6287400211E7D /* UserDefaults+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3640B82AA6287400211E7D /* UserDefaults+Extensions.swift */; };
 		CB49F1882A81135300C37A24 /* HeaderCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */; };
@@ -58,6 +59,8 @@
 		CB10365C2A7E6F4A00CD06DB /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
 		CB1036612A7EB6E200CD06DB /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		CB105F992A8EBA10000B5123 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		CB1F84482AAB33EC0063D449 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CB1F844A2AAB33EE0063D449 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CB2849A72A83F2290009280F /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		CB3640B82AA6287400211E7D /* UserDefaults+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extensions.swift"; sourceTree = "<group>"; };
 		CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionView.swift; sourceTree = "<group>"; };
@@ -274,6 +277,7 @@
 			isa = PBXGroup;
 			children = (
 				CBE5EFAA2AAA0F3B0041F053 /* Localizable.stringsdict */,
+				CB1F84492AAB33EC0063D449 /* InfoPlist.strings */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -338,6 +342,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CB846D7C2A74533E00128231 /* LaunchScreen.storyboard in Resources */,
+				CB1F84472AAB33EC0063D449 /* InfoPlist.strings in Resources */,
 				CB846D792A74533E00128231 /* Assets.xcassets in Resources */,
 				CBE5EFA82AAA0F3B0041F053 /* Localizable.stringsdict in Resources */,
 			);
@@ -397,6 +402,15 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
+		CB1F84492AAB33EC0063D449 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CB1F84482AAB33EC0063D449 /* en */,
+				CB1F844A2AAB33EE0063D449 /* ru */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		CB846D7A2A74533E00128231 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
