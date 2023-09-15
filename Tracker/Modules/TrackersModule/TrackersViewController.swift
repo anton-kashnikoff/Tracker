@@ -248,6 +248,7 @@ extension TrackersViewController {
         let dayOfWeek = Schedule.getNameOfDay(Calendar.current.component(.weekday, from: currentDate))
         let text = currentText ?? ""
         
+        trackerViewModel.setPredicate()
         trackerViewModel.setPredicate(date: dayOfWeek, text: text)
         
         do {

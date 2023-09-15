@@ -24,6 +24,16 @@ final class TrackerStore: NSObject {
         return fetchedResultsController
     }()
     
+    lazy var fetchedResultsControllerForPinnedTrackers: NSFetchedResultsController<TrackerCoreData> = {
+        let fetchRequest = TrackerCoreData.fetchRequest()
+        fetchRequest.sortDescriptors = [NSSortDescriptor(key: "category.name", ascending: true)]
+        
+        let fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: context, sectionNameKeyPath: "category.name", cacheName: nil)
+        fetchedResultsController.delegate = self
+        try? fetchedResultsController.performFetch()
+        return fetchedResultsController
+    }()
+    
     private func makeString(from daysOfWeek: Set<Schedule.DayOfWeek>) -> String {
         var daysArray = [String]()
         
@@ -42,6 +52,7 @@ final class TrackerStore: NSObject {
         trackerCoreData.color = uiColorMarshalling.getHEXString(from: tracker.color)
         trackerCoreData.schedule = makeString(from: tracker.schedule.daysOfWeek)
         trackerCoreData.category = category
+        trackerCoreData.isPinned = false
         
         do {
             try context.save()
@@ -72,12 +83,58 @@ final class TrackerStore: NSObject {
         fetchedResultsController.object(at: indexPath)
     }
     
+    func getPinnedObjectAt(indexPath: IndexPath) -> TrackerCoreData {
+        fetchedResultsControllerForPinnedTrackers.object(at: indexPath)
+    }
+    
     func isFetchedObjectsEmpty() -> Bool {
         fetchedResultsController.fetchedObjects == nil || fetchedResultsController.fetchedObjects == []
     }
     
+    func isPinnedFetchedObjectsEmpty() -> Bool {
+        fetchedResultsControllerForPinnedTrackers.fetchedObjects == nil || fetchedResultsControllerForPinnedTrackers.fetchedObjects == []
+    }
+    
     func setDelegate(_ delegate: TrackersViewController?) {
         self.delegate = delegate
+    }
+    
+    func pinTracker(at indexPath: IndexPath) {
+        var trackerObject: TrackerCoreData
+        
+        if isPinnedFetchedObjectsEmpty() {
+            //значит это по любому не закреплённый трекер
+            print("значит это по любому не закреплённый трекер")
+            trackerObject = getObjectAt(indexPath: indexPath)
+        } else if indexPath.section == 0 {
+            // если есть закреплённые трекеры и у этого трекера секция = 0, то он закреплён
+            print("если есть закреплённые трекеры и у этого трекера секция = 0, то он закреплён. indexPath = \(indexPath)")
+            trackerObject = getPinnedObjectAt(indexPath: indexPath)
+        } else {
+            // если есть закреплённые трекеры и у этого трекера секция отличная от нуля, то он не закреплён
+            
+            let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
+            print("если есть закреплённые трекеры и у этого трекера секция отличная от нуля, то он не закреплён. newindexPath = \(newIndexPath)")
+            trackerObject = getObjectAt(indexPath: newIndexPath)
+        }
+        
+        print("trackerObject = \(trackerObject)")
+        trackerObject.isPinned = !trackerObject.isPinned
+        
+        do {
+            try context.save()
+        } catch {
+            print("decodingErrorInvalidTrackerCategory")
+        }
+    }
+    
+    func isTrackerPinned(_ indexPath: IndexPath) -> Bool {
+        let trackerObject = getObjectAt(indexPath: indexPath)
+        return trackerObject.isPinned
+    }
+    
+    func getCountOfAllPinnedTrackers() -> Int {
+        fetchedResultsControllerForPinnedTrackers.fetchedObjects?.count ?? 0
     }
 }
 

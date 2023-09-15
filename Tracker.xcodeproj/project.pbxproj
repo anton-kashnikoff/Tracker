@@ -232,9 +232,9 @@
 		CB846D6E2A74533B00128231 /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
-				CBE5EFA52AAA0E530041F053 /* Resources */,
 				CB846D6F2A74533B00128231 /* AppDelegate.swift */,
 				CB846D712A74533B00128231 /* SceneDelegate.swift */,
+				CBE5EFA52AAA0E530041F053 /* Resources */,
 				CB3640B12AA624AD00211E7D /* Modules */,
 				CBD15D982A94F15C00DC6FAE /* CoreData */,
 				CB49F18D2A813D9400C37A24 /* Helpers */,

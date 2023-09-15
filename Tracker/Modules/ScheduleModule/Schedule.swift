@@ -44,7 +44,7 @@ struct Schedule {
             case 2:
                 return NSLocalizedString("schedule.briefDayOfWeek.wednesday", comment: "Brief string for Wednesday")
             case 3:
-                return NSLocalizedString("schedule.briefDayOfWeek.thursady", comment: "Brief string for Thursady")
+                return NSLocalizedString("schedule.briefDayOfWeek.thursday", comment: "Brief string for Thursday")
             case 4:
                 return NSLocalizedString("schedule.briefDayOfWeek.friday", comment: "Brief string for Friday")
             case 5:
@@ -70,7 +70,7 @@ struct Schedule {
         case 4:
             return NSLocalizedString("schedule.dayOfWeek.wednesday", comment: "String for Wednesday")
         case 5:
-            return NSLocalizedString("schedule.dayOfWeek.thursady", comment: "String for Thursady")
+            return NSLocalizedString("schedule.dayOfWeek.thursday", comment: "String for Thursday")
         case 6:
             return NSLocalizedString("schedule.dayOfWeek.friday", comment: "String for Friday")
         case 7:

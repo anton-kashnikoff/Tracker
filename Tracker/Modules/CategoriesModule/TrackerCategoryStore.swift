@@ -24,7 +24,7 @@ final class TrackerCategoryStore: NSObject {
         return fetchedResultsController
     }()
     
-    private func getExistingCategoryObject(_ trackerCategory: TrackerCategory) -> TrackerCategoryCoreData? {
+    func getExistingCategoryObject(_ trackerCategory: TrackerCategory) -> TrackerCategoryCoreData? {
         guard let existingCategoriesObjects = fetchedResultsController.fetchedObjects else {
             return nil
         }

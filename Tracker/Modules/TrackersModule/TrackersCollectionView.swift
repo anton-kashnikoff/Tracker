@@ -10,6 +10,7 @@ import UIKit
 final class TrackersCollectionView: UICollectionView {
     var trackersViewController: TrackersViewController?
     let params = GeometricParams(cellCount: 2, leftInset: 0, rightInset: 0, cellSpacing: 9)
+    let trackerCategoryViewModel = CategoriesViewModel(store: TrackerCategoryStore())
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -21,13 +22,17 @@ final class TrackersCollectionView: UICollectionView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    private func pinItemAt(indexPath: IndexPath) {
+        trackersViewController?.trackerViewModel.pinTracker(at: indexPath)
+    }
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
 
 extension TrackersCollectionView: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: collectionView.frame.width, height: 30)
+        CGSize(width: collectionView.frame.width, height: 30)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -41,6 +46,53 @@ extension TrackersCollectionView: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// MARK: - UICollectionViewDelegate
+
+extension TrackersCollectionView: UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        guard let trackersViewController, !indexPaths.isEmpty else {
+            return nil
+        }
+        print("contextMenuConfigurationForItemsAt")
+        
+        let indexPath = indexPaths[0]
+        
+        var title: String
+        
+        if trackersViewController.trackerViewModel.isPinnedFetchedObjectsEmpty() {
+            //значит это по любому не закреплённый трекер
+            title = "Закрепить"
+        } else if indexPath.section == 0 {
+            // если есть закреплённые трекеры и у этого трекера секция = 0, то он закреплён
+            title = "Открепить"
+        } else {
+            // если есть закреплённые трекеры и у этого трекера секция отличная от нуля, то он не закреплён
+            title = "Закрепить"
+        }
+        
+        
+        print("title = \(title)")
+        print("indexPath = \(indexPath)")
+        print("TRACKERS = \(trackersViewController.trackerViewModel.getAll())")
+        
+        let pinAction = UIAction(title: title) { [weak self] _ in
+            self?.pinItemAt(indexPath: indexPath)
+        }
+        
+        return UIContextMenuConfiguration(actionProvider:  { [weak self] actions in
+            return UIMenu(children: [
+                pinAction,
+                UIAction(title: "Редактировать") { [weak self] _ in
+//                    self?.makeItalic(indexPath: indexPath)
+                },
+                UIAction(title: "Удалить") { [weak self] _ in
+//                    self?.makeItalic(indexPath: indexPath)
+                }
+            ])
+        })
+    }
+}
+
 // MARK: - UICollectionViewDataSource
 
 extension TrackersCollectionView: UICollectionViewDataSource {
@@ -50,7 +102,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return 0
         }
         
-        return trackersViewController.trackerViewModel.numberOfSections()
+        return trackersViewController.trackerViewModel.getNumberOfSections()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -59,25 +111,20 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return 0
         }
         
-        return trackersViewController.trackerViewModel.numberOfItemsInSection(section)
+        return trackersViewController.trackerViewModel.getNumberOfItemsInSection(section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier, for: indexPath) as? TrackerCollectionViewCell else {
-            print("Unable to create TrackerCollectionViewCell")
+        guard let trackersViewController, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier, for: indexPath) as? TrackerCollectionViewCell else {
             return UICollectionViewCell()
         }
+        print("INDEXPATH of tracker = \(indexPath)")
+        let trackerObject = trackersViewController.trackerViewModel.getTrackerObject(at: indexPath)
         
-        guard let trackersViewController else {
-            print("Unable to find TrackersViewController - collectionView(_:cellForItemAt:)")
-            return UICollectionViewCell()
-        }
-        
-        let trackerObject = trackersViewController.trackerViewModel.getObjectAt(indexPath: indexPath)
-
         guard let tracker = trackersViewController.trackerViewModel.makeTracker(from: trackerObject) else {
             return UICollectionViewCell()
         }
+        print("tracker = \(tracker)")
         
         cell.trackerRecordViewModel = trackersViewController.trackerRecordViewModel
         cell.tracker = tracker
@@ -110,18 +157,11 @@ extension TrackersCollectionView: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        guard let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? HeaderCollectionView else {
-            print("Impossible to create HeaderCollectionView")
+        guard let trackersViewController, let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as? HeaderCollectionView else {
             return UICollectionReusableView()
         }
         
-        guard let trackersViewController else {
-            print("Unable to find TrackersViewController - collectionView(_:viewForSupplementaryElementOfKind:at:)")
-            return UICollectionViewCell()
-        }
-        
-        let trackerObject = trackersViewController.trackerViewModel.getObjectAt(indexPath: indexPath)
-        headerView.titleLabel.text = trackerObject.category?.name
+        headerView.titleLabel.text = trackersViewController.trackerViewModel.getSectionTitle(for: indexPath)
         
         return headerView
     }
