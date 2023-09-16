@@ -138,6 +138,7 @@ final class NewTrackerViewController: UIViewController {
             tableViewCells = [NSLocalizedString("category", comment: "Category title for table cell"), NSLocalizedString("schedule", comment: "Schedule title for table cell")]
         case .irregularEvent:
             tableViewCells = [NSLocalizedString("category", comment: "Category title for table cell")]
+            habitTrackerData.schedule = Schedule(daysOfWeek: Set(Schedule.DayOfWeek.allCases))
         }
         
         for i in 0...6 {
@@ -379,28 +380,13 @@ final class NewTrackerViewController: UIViewController {
             habitTrackerData.id = UUID()
         }
         
-        if isDataForTrackerReady {
-            switch trackerType {
-            case .habit:
-                guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let category = category else {
-                    print("Not all data exists")
-                    return
-                }
-                
-                let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
-                trackersViewController?.trackerViewModel.addNewTracker(tracker, to: category)
-            case .irregularEvent:
-                guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let category = category else {
-                    print("Not all data exists")
-                    return
-                }
-                
-                let schedule = Schedule(daysOfWeek: Set(Schedule.DayOfWeek.allCases))
-                
-                let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
-                trackersViewController?.trackerViewModel.addNewTracker(tracker, to: category)
-            }
+        guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let category = category else {
+            print("Not all data exists")
+            return
         }
+        
+        let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
+        trackersViewController?.trackerViewModel.addNewTracker(tracker, to: category)
         
         dismiss(animated: true)
     }
