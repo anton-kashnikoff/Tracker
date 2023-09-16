@@ -116,18 +116,21 @@ final class NewTrackerViewController: UIViewController {
     let colors: [UIColor] = [.colorSelection1, .colorSelection2, .colorSelection3, .colorSelection4, .colorSelection5, .colorSelection6, .colorSelection7, .colorSelection8, .colorSelection9, .colorSelection10, .colorSelection11, .colorSelection12, .colorSelection13, .colorSelection14, .colorSelection15, .colorSelection16, .colorSelection17, .colorSelection18]
     
     private let trackerType: TrackerType
+    private let mode: NewTrackerMode
     
     var habitTrackerData: (id: UUID?, name: String?, color: UIColor?, emoji: String?, schedule: Schedule?)
     var daysOfWeek = [(Int, Schedule.DayOfWeek, Bool)]()
     var category: TrackerCategoryCoreData?
+    var trackerObjectInfo: TrackerCoreData?
     var trackerViewModel: TrackerViewModel?
     
     weak var trackersViewController: TrackersViewController?
     
     private var tableViewCells = [String]()
     
-    init(trackerType: TrackerType) {
+    init(trackerType: TrackerType, mode: NewTrackerMode) {
         self.trackerType = trackerType
+        self.mode = mode
         super.init(nibName: nil, bundle: nil)
         
         switch trackerType {
@@ -154,7 +157,6 @@ final class NewTrackerViewController: UIViewController {
         view.backgroundColor = .ypWhite
         
         navigationItem.hidesBackButton = true
-        navigationItem.title = NSLocalizedString("newTracker.navigationItem.title", comment: "Title for new tracker screen")
         
         setupScrollView()
         setupContentView()
@@ -168,6 +170,14 @@ final class NewTrackerViewController: UIViewController {
         setupButtonsStackView()
         setupCreateButton()
         setupCancelButton()
+        
+        switch mode {
+        case .create:
+            navigationItem.title = NSLocalizedString("newTracker.navigationItem.title", comment: "Title for new tracker screen")
+        case .edit:
+            navigationItem.title = "Редактирование привычки"
+            turnEditMode(for: trackerObjectInfo!)
+        }
     }
     
     private func setupScrollView() {
@@ -329,6 +339,39 @@ final class NewTrackerViewController: UIViewController {
         case .irregularEvent:
             return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && category?.name != nil
         }
+    }
+    
+    func turnEditMode(for trackerObject: TrackerCoreData) {
+        guard let tracker = trackerViewModel?.makeTracker(from: trackerObject) else {
+            return
+        }
+        
+        textField.text = tracker.name
+        category = trackerObject.category
+        
+        // "Пн, Ср, Пт" -> [(0, .monday, true), (1, .tuesday, false)...]
+
+        let trackerDaysOfWeek = tracker.schedule.daysOfWeek // Set(.monday, .wednesday, .friday)
+        
+        var array = [(Int, Schedule.DayOfWeek, Bool)]()
+        
+        for dayCase in Schedule.DayOfWeek.allCases {
+            array.append((dayCase.getIndexOfCase(), dayCase, trackerDaysOfWeek.contains(dayCase)))
+        }
+        
+        daysOfWeek = array
+        
+        // найти индекспас ячейки которую нужно выделить
+        // "❤️" -> cell.label.text =
+        let emojiString = tracker.emoji
+//        let emojiIndex = emoji.firstIndex(of: emojiString) ?? 0
+//        let emojiIndexPath = IndexPath(item: emojiIndex, section: 0)
+        emojiCollectionView.selectedEmoji = tracker.emoji
+        
+//        cell.backgroundColor = .ypLightGrey
+        
+//        habitTrackerData.emoji = cell.label.text
+        tryActivateCreateButton()
     }
     
     @objc

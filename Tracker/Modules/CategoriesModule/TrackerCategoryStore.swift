@@ -24,13 +24,13 @@ final class TrackerCategoryStore: NSObject {
         return fetchedResultsController
     }()
     
-    func getExistingCategoryObject(_ trackerCategory: TrackerCategory) -> TrackerCategoryCoreData? {
+    func getExistingCategoryObject(_ trackerCategoryName: String) -> TrackerCategoryCoreData? {
         guard let existingCategoriesObjects = fetchedResultsController.fetchedObjects else {
             return nil
         }
         
         return existingCategoriesObjects.first {
-            $0.name == trackerCategory.name
+            $0.name == trackerCategoryName
         }
     }
     

@@ -34,7 +34,7 @@ final class TrackerStore: NSObject {
         return fetchedResultsController
     }()
     
-    private func makeString(from daysOfWeek: Set<Schedule.DayOfWeek>) -> String {
+    func makeString(from daysOfWeek: Set<Schedule.DayOfWeek>) -> String {
         var daysArray = [String]()
         
         daysOfWeek.forEach { day in
@@ -129,12 +129,21 @@ final class TrackerStore: NSObject {
     }
     
     func isTrackerPinned(_ indexPath: IndexPath) -> Bool {
-        let trackerObject = getObjectAt(indexPath: indexPath)
-        return trackerObject.isPinned
+        getObjectAt(indexPath: indexPath).isPinned
     }
     
     func getCountOfAllPinnedTrackers() -> Int {
         fetchedResultsControllerForPinnedTrackers.fetchedObjects?.count ?? 0
+    }
+    
+    func editTracker(at indexPath: IndexPath) {
+        let trackerObject = getObjectAt(indexPath: indexPath)
+        let tracker = makeTracker(from: trackerObject)
+    }
+    
+    func editPinnedTracker(at indexPath: IndexPath) {
+        let trackerObject = getPinnedObjectAt(indexPath: indexPath)
+        let tracker = makeTracker(from: trackerObject)
     }
 }
 

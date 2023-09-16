@@ -190,6 +190,16 @@ final class TrackersViewController: UIViewController {
         }
     }
     
+    func openEditFlow(for trackerObject: TrackerCoreData) {
+        let newHabitViewController = NewTrackerViewController(trackerType: .habit, mode: .edit)
+        newHabitViewController.trackersViewController = self
+        newHabitViewController.trackerViewModel = self.trackerViewModel
+        newHabitViewController.trackerObjectInfo = trackerObject
+        
+        let navigationController = UINavigationController(rootViewController: newHabitViewController)
+        present(navigationController, animated: true)
+    }
+    
     @objc
     private func addTracker() {
         let trackerTypeViewController = TrackerTypeViewController()

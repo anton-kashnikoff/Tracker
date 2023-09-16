@@ -50,6 +50,7 @@
 		CBD46B382A7C0CF700AB4F88 /* NewTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBD46B372A7C0CF700AB4F88 /* NewTrackerViewController.swift */; };
 		CBE5EFA82AAA0F3B0041F053 /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = CBE5EFAA2AAA0F3B0041F053 /* Localizable.stringsdict */; };
 		CBEA39F92A950AE600DACB08 /* UIColorMarshalling.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBEA39F82A950AE600DACB08 /* UIColorMarshalling.swift */; };
+		CBF10ABE2AB5EE160026EF68 /* NewTrackerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF10ABD2AB5EE160026EF68 /* NewTrackerMode.swift */; };
 		CBF3B2782A7CFCB200A540CA /* TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF3B2772A7CFCB200A540CA /* TextField.swift */; };
 		CBF3B27C2A7D0DCD00A540CA /* EmojiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF3B27B2A7D0DCD00A540CA /* EmojiCollectionViewCell.swift */; };
 		CBF3B2802A7D27C300A540CA /* ColorCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBF3B27F2A7D27C300A540CA /* ColorCollectionViewCell.swift */; };
@@ -104,6 +105,7 @@
 		CBE5EFA92AAA0F3B0041F053 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		CBE5EFAB2AAA10700041F053 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = ru; path = ru.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		CBEA39F82A950AE600DACB08 /* UIColorMarshalling.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorMarshalling.swift; sourceTree = "<group>"; };
+		CBF10ABD2AB5EE160026EF68 /* NewTrackerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewTrackerMode.swift; sourceTree = "<group>"; };
 		CBF3B2772A7CFCB200A540CA /* TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextField.swift; sourceTree = "<group>"; };
 		CBF3B27B2A7D0DCD00A540CA /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
 		CBF3B27F2A7D27C300A540CA /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -201,6 +203,7 @@
 				CBEA39F82A950AE600DACB08 /* UIColorMarshalling.swift */,
 				CB8D4D962A84462F00A9708E /* TrackerRecordState.swift */,
 				CB49F1892A8124F100C37A24 /* GeometricParams.swift */,
+				CBF10ABD2AB5EE160026EF68 /* NewTrackerMode.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 				CBD46B2E2A7AF4F400AB4F88 /* Tracker.swift in Sources */,
 				CBCFDA2A2A7FFAA200CA505F /* TrackersCollectionView.swift in Sources */,
 				CBF3B27C2A7D0DCD00A540CA /* EmojiCollectionViewCell.swift in Sources */,
+				CBF10ABE2AB5EE160026EF68 /* NewTrackerMode.swift in Sources */,
 				CB49F18A2A8124F100C37A24 /* GeometricParams.swift in Sources */,
 				CB846D722A74533B00128231 /* SceneDelegate.swift in Sources */,
 				CB53AFA02AA4DF8D00BCE101 /* TrackerViewModel.swift in Sources */,

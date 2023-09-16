@@ -26,6 +26,11 @@ final class TrackersCollectionView: UICollectionView {
     private func pinItemAt(indexPath: IndexPath) {
         trackersViewController?.trackerViewModel.pinTracker(at: indexPath)
     }
+    
+    private func editItemAt(indexPath: IndexPath) {
+        trackersViewController?.trackerViewModel.editTracker(at: indexPath)
+    }
+    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -58,18 +63,22 @@ extension TrackersCollectionView: UICollectionViewDelegate {
         let indexPath = indexPaths[0]
         
         var title: String
+        var trackerObject: TrackerCoreData
         
         if trackersViewController.trackerViewModel.isPinnedFetchedObjectsEmpty() {
             //значит это по любому не закреплённый трекер
             title = "Закрепить"
+            trackerObject = trackersViewController.trackerViewModel.getObjectAt(indexPath: indexPath)
         } else if indexPath.section == 0 {
             // если есть закреплённые трекеры и у этого трекера секция = 0, то он закреплён
             title = "Открепить"
+            trackerObject = trackersViewController.trackerViewModel.getPinnedObjectAt(indexPath: indexPath)
         } else {
             // если есть закреплённые трекеры и у этого трекера секция отличная от нуля, то он не закреплён
             title = "Закрепить"
+            let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
+            trackerObject = trackersViewController.trackerViewModel.getObjectAt(indexPath: newIndexPath)
         }
-        
         
         print("title = \(title)")
         print("indexPath = \(indexPath)")
@@ -79,11 +88,12 @@ extension TrackersCollectionView: UICollectionViewDelegate {
             self?.pinItemAt(indexPath: indexPath)
         }
         
+        
         return UIContextMenuConfiguration(actionProvider:  { [weak self] actions in
             return UIMenu(children: [
                 pinAction,
                 UIAction(title: "Редактировать") { [weak self] _ in
-//                    self?.makeItalic(indexPath: indexPath)
+                    self?.trackersViewController?.openEditFlow(for: trackerObject)
                 },
                 UIAction(title: "Удалить") { [weak self] _ in
 //                    self?.makeItalic(indexPath: indexPath)

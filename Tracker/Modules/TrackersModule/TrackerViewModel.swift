@@ -104,6 +104,10 @@ final class TrackerViewModel {
         }
     }
     
+    func makeString(from daysOfWeek: Set<Schedule.DayOfWeek>) -> String {
+        store.makeString(from: daysOfWeek)
+    }
+    
     func getNumberOfItemsInSection(_ section: Int) -> Int {
         if isPinnedFetchedObjectsEmpty() {
             return store.numberOfItemsInSection(section)
@@ -157,5 +161,16 @@ final class TrackerViewModel {
     
     func getAll() -> [TrackerCoreData] {
         store.fetchedResultsController.fetchedObjects ?? []
+    }
+    
+    func editTracker(at indexPath: IndexPath) {
+        if isPinnedFetchedObjectsEmpty() {
+            return store.editTracker(at: indexPath)
+        } else if indexPath.section == 0 {
+            return store.editPinnedTracker(at: indexPath)
+        } else {
+            let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
+            return store.editTracker(at: newIndexPath)
+        }
     }
 }

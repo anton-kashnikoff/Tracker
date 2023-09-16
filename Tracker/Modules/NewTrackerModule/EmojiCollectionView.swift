@@ -9,6 +9,7 @@ import UIKit
 
 final class EmojiCollectionView: UICollectionView {
     var newHabitViewController: NewTrackerViewController?
+    var selectedEmoji: String?
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -55,7 +56,9 @@ extension EmojiCollectionView: UICollectionViewDataSource {
             print("Unable to create EmojiCollectionViewCell")
             return UICollectionViewCell()
         }
-
+        
+        cell.backgroundColor = cell.label.text == selectedEmoji ? .ypLightGrey : .ypWhite
+        
         cell.label.text = newHabitViewController?.emoji[indexPath.row]
         cell.label.font = UIFont.systemFont(ofSize: 32)
         cell.layer.cornerRadius = 16

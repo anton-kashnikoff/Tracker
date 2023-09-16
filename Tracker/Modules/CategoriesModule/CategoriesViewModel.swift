@@ -41,6 +41,10 @@ final class CategoriesViewModel {
         store.makeTrackerCategory(from: trackerObjectCategory)
     }
     
+    func getExistingCategoryObject(_ trackerCategoryName: String) -> TrackerCategoryCoreData? {
+        store.getExistingCategoryObject(trackerCategoryName)
+    }
+    
     func setDelegate(_ delegate: CategoryViewController?) {
         store.setDelegate(delegate)
     }
