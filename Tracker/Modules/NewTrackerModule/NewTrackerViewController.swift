@@ -379,13 +379,29 @@ final class NewTrackerViewController: UIViewController {
             habitTrackerData.id = UUID()
         }
         
-        guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let category = category else {
-            print("Not all data exists")
-            return
+        if isDataForTrackerReady {
+            switch trackerType {
+            case .habit:
+                guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let category = category else {
+                    print("Not all data exists")
+                    return
+                }
+                
+                let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
+                trackersViewController?.trackerViewModel.addNewTracker(tracker, to: category)
+            case .irregularEvent:
+                guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let category = category else {
+                    print("Not all data exists")
+                    return
+                }
+                
+                let schedule = Schedule(daysOfWeek: Set(Schedule.DayOfWeek.allCases))
+                
+                let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
+                trackersViewController?.trackerViewModel.addNewTracker(tracker, to: category)
+            }
         }
         
-        let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
-        trackersViewController?.trackerViewModel.addNewTracker(tracker, to: category)
         dismiss(animated: true)
     }
     
