@@ -9,6 +9,7 @@ import UIKit
 
 final class ColorCollectionView: UICollectionView {
     var newHabitViewController: NewTrackerViewController?
+    var selectedColor: String?
     
     override init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout) {
         super.init(frame: frame, collectionViewLayout: layout)
@@ -56,11 +57,14 @@ extension ColorCollectionView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
+        let backgroundColor = (newHabitViewController?.colors[indexPath.row])!
+        let color = UIColorMarshalling().getHEXString(from: backgroundColor)
+        
         cell.layer.cornerRadius = 8
         cell.layer.borderWidth = 3
-        cell.layer.borderColor = UIColor.ypWhite.cgColor
         cell.view.backgroundColor = newHabitViewController?.colors[indexPath.row]
         cell.view.layer.cornerRadius = 8
+        cell.layer.borderColor = color == selectedColor ? cell.view.backgroundColor?.withAlphaComponent(0.3).cgColor : UIColor.ypWhite.cgColor
         return cell
     }
 }

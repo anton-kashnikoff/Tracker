@@ -346,10 +346,12 @@ final class NewTrackerViewController: UIViewController {
             return
         }
         
-        textField.text = tracker.name
-        category = trackerObject.category
+        habitTrackerData.id = tracker.id
         
-        // "Пн, Ср, Пт" -> [(0, .monday, true), (1, .tuesday, false)...]
+        textField.text = tracker.name
+        habitTrackerData.name = tracker.name
+        
+        category = trackerObject.category
 
         let trackerDaysOfWeek = tracker.schedule.daysOfWeek // Set(.monday, .wednesday, .friday)
         
@@ -360,23 +362,21 @@ final class NewTrackerViewController: UIViewController {
         }
         
         daysOfWeek = array
+        habitTrackerData.schedule = Schedule(daysOfWeek: trackerDaysOfWeek)
         
-        // найти индекспас ячейки которую нужно выделить
-        // "❤️" -> cell.label.text =
-        let emojiString = tracker.emoji
-//        let emojiIndex = emoji.firstIndex(of: emojiString) ?? 0
-//        let emojiIndexPath = IndexPath(item: emojiIndex, section: 0)
         emojiCollectionView.selectedEmoji = tracker.emoji
-        
-//        cell.backgroundColor = .ypLightGrey
-        
-//        habitTrackerData.emoji = cell.label.text
+        habitTrackerData.emoji = emojiCollectionView.selectedEmoji
+        colorCollectionView.selectedColor = trackerObject.color
+        habitTrackerData.color = tracker.color
+        print(habitTrackerData)
         tryActivateCreateButton()
     }
     
     @objc
     private func createButtonDidTap() {
-        habitTrackerData.id = UUID()
+        if habitTrackerData.id == nil {
+            habitTrackerData.id = UUID()
+        }
         
         guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let category = category else {
             print("Not all data exists")

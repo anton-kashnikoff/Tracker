@@ -57,10 +57,9 @@ extension EmojiCollectionView: UICollectionViewDataSource {
             return UICollectionViewCell()
         }
         
-        cell.backgroundColor = cell.label.text == selectedEmoji ? .ypLightGrey : .ypWhite
-        
         cell.label.text = newHabitViewController?.emoji[indexPath.row]
         cell.label.font = UIFont.systemFont(ofSize: 32)
+        cell.backgroundColor = cell.label.text == selectedEmoji ? .ypLightGrey : .ypWhite
         cell.layer.cornerRadius = 16
         return cell
     }
