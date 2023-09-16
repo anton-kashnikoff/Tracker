@@ -31,6 +31,10 @@ final class TrackersCollectionView: UICollectionView {
         trackersViewController?.trackerViewModel.editTracker(at: indexPath)
     }
     
+    private func removeItem(_ trackerObject: TrackerCoreData) {
+        trackersViewController?.trackerViewModel.removeTracker(trackerObject)
+    }
+    
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
@@ -88,17 +92,16 @@ extension TrackersCollectionView: UICollectionViewDelegate {
             self?.pinItemAt(indexPath: indexPath)
         }
         
+        let editAction = UIAction(title: "Редактировать") { [weak self] _ in
+            self?.trackersViewController?.openEditFlow(for: trackerObject)
+        }
         
-        return UIContextMenuConfiguration(actionProvider:  { [weak self] actions in
-            return UIMenu(children: [
-                pinAction,
-                UIAction(title: "Редактировать") { [weak self] _ in
-                    self?.trackersViewController?.openEditFlow(for: trackerObject)
-                },
-                UIAction(title: "Удалить") { [weak self] _ in
-//                    self?.makeItalic(indexPath: indexPath)
-                }
-            ])
+        let removeAction = UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
+            self?.removeItem(trackerObject)
+        }
+        
+        return UIContextMenuConfiguration(actionProvider: { _ in
+            UIMenu(children: [pinAction, editAction, removeAction])
         })
     }
 }
