@@ -31,6 +31,10 @@ final class TrackerViewModel {
         onTrackerChange?()
     }
     
+    func removeTracker(_ trackerObject: TrackerCoreData) {
+        store.removeTracker(trackerObject)
+    }
+    
     func setDelegate(_ delegate: TrackersViewController?) {
         store.setDelegate(delegate)
     }

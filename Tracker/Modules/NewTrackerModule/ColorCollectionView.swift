@@ -64,7 +64,14 @@ extension ColorCollectionView: UICollectionViewDataSource {
         cell.layer.borderWidth = 3
         cell.view.backgroundColor = newHabitViewController?.colors[indexPath.row]
         cell.view.layer.cornerRadius = 8
-        cell.layer.borderColor = color == selectedColor ? cell.view.backgroundColor?.withAlphaComponent(0.3).cgColor : UIColor.ypWhite.cgColor
+        
+        if color == selectedColor {
+            cell.layer.borderColor = cell.view.backgroundColor?.withAlphaComponent(0.3).cgColor
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+        } else {
+            cell.layer.borderColor = UIColor.ypWhite.cgColor
+        }
+        
         return cell
     }
 }

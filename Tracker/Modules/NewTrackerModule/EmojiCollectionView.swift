@@ -29,10 +29,11 @@ extension EmojiCollectionView: UICollectionViewDelegate {
             print("Unable to create EmojiCollectionViewCell")
             return
         }
-
+        
+        selectedEmoji = cell.label.text
         cell.backgroundColor = .ypLightGrey
         
-        newHabitViewController?.habitTrackerData.emoji = cell.label.text
+        newHabitViewController?.habitTrackerData.emoji = selectedEmoji
         newHabitViewController?.tryActivateCreateButton()
     }
     
@@ -43,6 +44,9 @@ extension EmojiCollectionView: UICollectionViewDelegate {
         }
 
         cell.backgroundColor = .ypWhite
+        
+        newHabitViewController?.habitTrackerData.emoji = nil
+        newHabitViewController?.tryActivateCreateButton()
     }
 }
 
@@ -59,7 +63,14 @@ extension EmojiCollectionView: UICollectionViewDataSource {
         
         cell.label.text = newHabitViewController?.emoji[indexPath.row]
         cell.label.font = UIFont.systemFont(ofSize: 32)
-        cell.backgroundColor = cell.label.text == selectedEmoji ? .ypLightGrey : .ypWhite
+
+        if cell.label.text == selectedEmoji {
+            cell.backgroundColor = .ypLightGrey
+            collectionView.selectItem(at: indexPath, animated: false, scrollPosition: .top)
+        } else {
+            cell.backgroundColor = .ypWhite
+        }
+        
         cell.layer.cornerRadius = 16
         return cell
     }

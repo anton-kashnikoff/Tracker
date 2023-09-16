@@ -53,6 +53,8 @@ extension TextField: UITextFieldDelegate {
             
             newHabitViewController?.habitTrackerData.name = !newText.isEmpty ? newText : nil
             
+            print(newHabitViewController?.habitTrackerData)
+            
             if newTextNSString.length > maxLength {
                 newHabitViewController?.showRestrictionLabel()
             } else {

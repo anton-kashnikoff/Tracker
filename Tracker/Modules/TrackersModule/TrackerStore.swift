@@ -59,6 +59,21 @@ final class TrackerStore: NSObject {
         } catch {
             print("Unable to save context")
         }
+        
+        print("Я добавил трекер")
+        print(fetchedResultsController.fetchedObjects)
+    }
+    
+    func removeTracker(_ trackerObject: TrackerCoreData) {
+        context.delete(trackerObject)
+        
+        do {
+            try context.save()
+        } catch {
+            print("Unable to save context")
+        }
+        print("Я удалил трекер")
+        print(fetchedResultsController.fetchedObjects)
     }
     
     func makeTracker(from trackerObject: TrackerCoreData) -> Tracker? {

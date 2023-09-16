@@ -177,6 +177,7 @@ final class NewTrackerViewController: UIViewController {
         case .edit:
             navigationItem.title = "Редактирование привычки"
             turnEditMode(for: trackerObjectInfo!)
+            trackerViewModel?.removeTracker(trackerObjectInfo!)
         }
     }
     
