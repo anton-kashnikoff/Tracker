@@ -196,6 +196,12 @@ final class TrackersViewController: UIViewController {
         newHabitViewController.trackerViewModel = self.trackerViewModel
         newHabitViewController.trackerObjectInfo = trackerObject
         
+        guard let id = trackerObject.id else {
+            return
+        }
+        
+        newHabitViewController.dayCount = trackerRecordViewModel.getCountOfCompletedDaysForTracker(id)
+        
         let navigationController = UINavigationController(rootViewController: newHabitViewController)
         present(navigationController, animated: true)
     }

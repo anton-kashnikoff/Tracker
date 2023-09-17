@@ -15,9 +15,19 @@ final class NewTrackerViewController: UIViewController {
     }()
     
     let contentView: UIView = {
-        let contentView = UIView()
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        return contentView
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    lazy var dayCountLabel: UILabel = {
+        let label = UILabel()
+        label.isHidden = true
+        label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
+        label.textAlignment = .center
+        label.textColor = .ypBlack
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     let textField: TextField = {
@@ -121,10 +131,13 @@ final class NewTrackerViewController: UIViewController {
     
     var trackerObjectInfo: TrackerCoreData?
     var trackerViewModel: TrackerViewModel?
+    var dayCount: Int?
     
     weak var trackersViewController: TrackersViewController?
     
     private var tableViewCells = [String]()
+    private var topDayCountLabelConstraint: NSLayoutConstraint?
+    private var topTextFieldConstraint: NSLayoutConstraint?
     
     init(trackerType: TrackerType, mode: NewTrackerMode) {
         self.trackerType = trackerType
@@ -156,6 +169,7 @@ final class NewTrackerViewController: UIViewController {
         
         setupScrollView()
         setupContentView()
+        setupDayCountLabel()
         setupTextField()
         setupRestrictionLabel()
         setupTableView()
@@ -200,13 +214,37 @@ final class NewTrackerViewController: UIViewController {
         
     }
     
+    private func setupDayCountLabel() {
+        contentView.addSubview(dayCountLabel)
+        
+        topDayCountLabelConstraint = dayCountLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0)
+        topDayCountLabelConstraint?.isActive = true
+        
+        if mode == .edit {
+            showDayCountLabel()
+        }
+        
+        NSLayoutConstraint.activate([
+            dayCountLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
+            dayCountLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
+        ])
+    }
+    
     private func setupTextField() {
         textField.newHabitViewController = self
         contentView.addSubview(textField)
         
+        switch mode {
+        case .create:
+            topTextFieldConstraint = textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24)
+        case .edit:
+            topTextFieldConstraint = textField.topAnchor.constraint(equalTo: dayCountLabel.bottomAnchor, constant: 40)
+        }
+        
+        topTextFieldConstraint?.isActive = true
+        
         NSLayoutConstraint.activate([
             textField.heightAnchor.constraint(equalToConstant: 75),
-            textField.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24),
             textField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
             textField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16)
         ])
@@ -372,6 +410,14 @@ final class NewTrackerViewController: UIViewController {
         restrictionLabel.text = nil
         restrictionLabel.isHidden = true
         setupTableView()
+    }
+    
+    private func showDayCountLabel() {
+        dayCountLabel.text = "\(dayCount ?? -1) дней"
+        dayCountLabel.isHidden = false
+        topDayCountLabelConstraint?.isActive = false
+        topDayCountLabelConstraint = dayCountLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24)
+        topDayCountLabelConstraint?.isActive = true
     }
     
     func tryActivateCreateButton() {
