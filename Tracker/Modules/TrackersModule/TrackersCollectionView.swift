@@ -32,7 +32,18 @@ final class TrackersCollectionView: UICollectionView {
     }
     
     private func removeItem(_ trackerObject: TrackerCoreData) {
-        trackersViewController?.trackerViewModel.removeTracker(trackerObject)
+        let alertController = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
+        
+        let message = NSMutableAttributedString(string: "Уверены что хотите удалить трекер?")
+        message.addAttribute(.font, value: UIFont.systemFont(ofSize: 13), range: NSRange(location: 0, length: message.length))
+        
+        alertController.setValue(message, forKey: "attributedMessage")
+        alertController.addAction(UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+            self?.trackersViewController?.trackerViewModel.removeTracker(trackerObject)
+        })
+        alertController.addAction(UIAlertAction(title: "Отменить", style: .cancel))
+        
+        trackersViewController?.present(alertController, animated: true)
     }
     
 }
