@@ -74,10 +74,18 @@ final class ScheduleViewController: UIViewController {
         let index = indexPath.row
         
         guard let newTrackerViewController else {
-            return UISwitch()
+            return UISwitch(frame: .zero)
         }
         
-        switchView.setOn(newTrackerViewController.daysOfWeek[index].2, animated: false)
+        var isDayOfWeekSelected = false
+        
+        do {
+            isDayOfWeekSelected = try newTrackerViewController.dataHelper.getDayOfWeek(index).isSelected
+        } catch {
+            print("Unable to get day of week")
+        }
+        
+        switchView.setOn(isDayOfWeekSelected, animated: false)
         switchView.onTintColor = .ypBlue
         switchView.tag = index
         switchView.addTarget(self, action: #selector(switchChanged), for: .valueChanged)
@@ -92,8 +100,7 @@ final class ScheduleViewController: UIViewController {
     
     @objc
     private func switchChanged(_ sender: UISwitch) {
-        let index = sender.tag
-        newTrackerViewController?.daysOfWeek[index] = (index, Schedule.DayOfWeek.allCases[index], sender.isOn)
+        newTrackerViewController?.dataHelper.addDayOfWeek(index: sender.tag, isSelected: sender.isOn)
     }
 }
 

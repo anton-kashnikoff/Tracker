@@ -39,7 +39,6 @@ final class TextField: UITextField {
 
 extension TextField: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        
         guard let textField = textField as? TextField else {
             return false
         }
@@ -51,9 +50,7 @@ extension TextField: UITextFieldDelegate {
             let maxLength = 38
             let newTextNSString = currentString.replacingCharacters(in: range, with: string) as NSString
             
-            newHabitViewController?.habitTrackerData.name = !newText.isEmpty ? newText : nil
-            
-            print(newHabitViewController?.habitTrackerData)
+            newHabitViewController?.dataHelper.addName(!newText.isEmpty ? newText : nil)
             
             if newTextNSString.length > maxLength {
                 newHabitViewController?.showRestrictionLabel()

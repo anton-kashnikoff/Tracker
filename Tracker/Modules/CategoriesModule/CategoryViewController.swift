@@ -158,7 +158,8 @@ extension CategoryViewController: UITableViewDelegate {
         
         cell.checkmarkImageView.isHidden = false
         
-        newTrackerViewController?.category = viewModel.getObjectAt(indexPath: indexPath)
+//        newTrackerViewController?.category = viewModel.getObjectAt(indexPath: indexPath)
+        newTrackerViewController?.dataHelper.addCategory(viewModel.getObjectAt(indexPath: indexPath))
         newTrackerViewController?.trackerViewModel?.categorySelected()
         
         navigationController?.popViewController(animated: true)

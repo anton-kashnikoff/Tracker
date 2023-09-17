@@ -114,13 +114,11 @@ final class NewTrackerViewController: UIViewController {
     
     let emoji = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     let colors: [UIColor] = [.colorSelection1, .colorSelection2, .colorSelection3, .colorSelection4, .colorSelection5, .colorSelection6, .colorSelection7, .colorSelection8, .colorSelection9, .colorSelection10, .colorSelection11, .colorSelection12, .colorSelection13, .colorSelection14, .colorSelection15, .colorSelection16, .colorSelection17, .colorSelection18]
+    let dataHelper = DataHelper()
     
     private let trackerType: TrackerType
     private let mode: NewTrackerMode
     
-    var habitTrackerData: (id: UUID?, name: String?, color: UIColor?, emoji: String?, schedule: Schedule?)
-    var daysOfWeek = [(Int, Schedule.DayOfWeek, Bool)]()
-    var category: TrackerCategoryCoreData?
     var trackerObjectInfo: TrackerCoreData?
     var trackerViewModel: TrackerViewModel?
     
@@ -136,13 +134,10 @@ final class NewTrackerViewController: UIViewController {
         switch trackerType {
         case .habit:
             tableViewCells = [NSLocalizedString("category", comment: "Category title for table cell"), NSLocalizedString("schedule", comment: "Schedule title for table cell")]
+            dataHelper.fillEmptyDaysOfWeek()
         case .irregularEvent:
             tableViewCells = [NSLocalizedString("category", comment: "Category title for table cell")]
-            habitTrackerData.schedule = Schedule(daysOfWeek: Set(Schedule.DayOfWeek.allCases))
-        }
-        
-        for i in 0...6 {
-            daysOfWeek.append((i, Schedule.DayOfWeek.allCases[i], false))
+            dataHelper.addSchedule(schedule: Schedule(daysOfWeek: Set(Schedule.DayOfWeek.allCases)))
         }
     }
     
@@ -322,71 +317,42 @@ final class NewTrackerViewController: UIViewController {
         ])
     }
     
-    private func getDaysOfWeekString() -> String {
-        var selectedDays = [String]()
-        
-        for (_, day, isSelected) in daysOfWeek {
-            if isSelected {
-                selectedDays.append(day.getBriefDayOfWeek())
-            }
-        }
-        
-        return selectedDays.count == 7 ? NSLocalizedString("newTracker.schedule.everyDay", comment: "String for all selected days of week") : selectedDays.joined(separator: ", ")
-    }
-    
-    private var isDataForTrackerReady: Bool {
-        switch trackerType {
-        case .habit:
-            return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && habitTrackerData.schedule != nil && category?.name != nil
-        case .irregularEvent:
-            return habitTrackerData.name != nil && habitTrackerData.emoji != nil && habitTrackerData.color != nil && category?.name != nil
-        }
-    }
-    
     func turnEditMode(for trackerObject: TrackerCoreData) {
         guard let tracker = trackerViewModel?.makeTracker(from: trackerObject) else {
             return
         }
         
-        habitTrackerData.id = tracker.id
+        dataHelper.addID()
         
         textField.text = tracker.name
-        habitTrackerData.name = tracker.name
+        dataHelper.addName(tracker.name)
         
-        category = trackerObject.category
+        dataHelper.addCategory(trackerObject.category)
 
-        let trackerDaysOfWeek = tracker.schedule.daysOfWeek // Set(.monday, .wednesday, .friday)
-        
-        var array = [(Int, Schedule.DayOfWeek, Bool)]()
-        
-        for dayCase in Schedule.DayOfWeek.allCases {
-            array.append((dayCase.getIndexOfCase(), dayCase, trackerDaysOfWeek.contains(dayCase)))
-        }
-        
-        daysOfWeek = array
-        habitTrackerData.schedule = Schedule(daysOfWeek: trackerDaysOfWeek)
+        let trackerDaysOfWeek = tracker.schedule.daysOfWeek
+        dataHelper.addDaysOfWeekFromTracker(trackerDaysOfWeek)
+        dataHelper.addSchedule(schedule: Schedule(daysOfWeek: trackerDaysOfWeek))
         
         emojiCollectionView.selectedEmoji = tracker.emoji
-        habitTrackerData.emoji = emojiCollectionView.selectedEmoji
+        dataHelper.addEmoji(emoji: emojiCollectionView.selectedEmoji)
+        
         colorCollectionView.selectedColor = trackerObject.color
-        habitTrackerData.color = tracker.color
-        print(habitTrackerData)
+        dataHelper.addColor(color: tracker.color)
+        
         tryActivateCreateButton()
     }
     
     @objc
     private func createButtonDidTap() {
-        if habitTrackerData.id == nil {
-            habitTrackerData.id = UUID()
+        dataHelper.addID()
+
+        do {
+            let tracker = try dataHelper.getTracker()
+            let category = try dataHelper.getCategoryObject()
+            trackersViewController?.trackerViewModel.addNewTracker(tracker, to: category)
+        } catch {
+            print("There was a problem trying to create a tracker")
         }
-        
-        guard let id = habitTrackerData.id, let name = habitTrackerData.name, let color = habitTrackerData.color, let emoji = habitTrackerData.emoji, let schedule = habitTrackerData.schedule, let category = category else {
-            print("Not all data exists")
-            return
-        }
-        
-        let tracker = Tracker(id: id, name: name, color: color, emoji: emoji, schedule: schedule)
-        trackersViewController?.trackerViewModel.addNewTracker(tracker, to: category)
         
         dismiss(animated: true)
     }
@@ -409,7 +375,7 @@ final class NewTrackerViewController: UIViewController {
     }
     
     func tryActivateCreateButton() {
-        createButton.backgroundColor = isDataForTrackerReady ? .ypBlack : .ypGray
+        createButton.backgroundColor = dataHelper.isDataForTrackerReady(trackerType) ? .ypBlack : .ypGray
     }
 }
 
@@ -440,13 +406,13 @@ extension NewTrackerViewController: UITableViewDelegate {
                 
                 var selectedDays = Set<Schedule.DayOfWeek>()
                 
-                for (_, day, isSelected) in self.daysOfWeek {
-                    if isSelected {
-                        selectedDays.insert(day)
-                    }
+                do {
+                    selectedDays = try dataHelper.createSchedule()
+                } catch {
+                    print("Unable to find selected days")
                 }
                 
-                self.habitTrackerData.schedule = Schedule(daysOfWeek: selectedDays)
+                dataHelper.addSchedule(schedule: Schedule(daysOfWeek: selectedDays))
                 self.tryActivateCreateButton()
                 self.tableView.reloadData()
             }
@@ -479,9 +445,9 @@ extension NewTrackerViewController: UITableViewDataSource {
             content.text = tableViewCells[indexPath.row]
             
             if tableViewCells[indexPath.row] == NSLocalizedString("category", comment: "Category title for table cell") {
-                content.secondaryText = category?.name
+                content.secondaryText = try? dataHelper.getCategoryName()
             } else if tableViewCells[indexPath.row] == NSLocalizedString("schedule", comment: "Schedule title for table cell") {
-                content.secondaryText = getDaysOfWeekString()
+                content.secondaryText = try? dataHelper.getDaysOfWeekString()
             }
             
             content.secondaryTextProperties.font = UIFont.systemFont(ofSize: 17)
@@ -491,9 +457,9 @@ extension NewTrackerViewController: UITableViewDataSource {
         } else {
             cell.textLabel?.text = tableViewCells[indexPath.row]
             if tableViewCells[indexPath.row] == NSLocalizedString("category", comment: "Category title for table cell") {
-                cell.detailTextLabel?.text = category?.name
+                cell.detailTextLabel?.text = try? dataHelper.getCategoryName()
             } else if tableViewCells[indexPath.row] == NSLocalizedString("schedule", comment: "Schedule title for table cell") {
-                cell.detailTextLabel?.text = getDaysOfWeekString()
+                cell.detailTextLabel?.text = try? dataHelper.getDaysOfWeekString()
             }
             
             cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17)

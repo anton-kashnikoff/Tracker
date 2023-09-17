@@ -32,7 +32,7 @@ extension ColorCollectionView: UICollectionViewDelegate {
         
         cell.layer.borderColor = cell.view.backgroundColor?.withAlphaComponent(0.3).cgColor
         
-        newHabitViewController?.habitTrackerData.color = cell.view.backgroundColor
+        newHabitViewController?.dataHelper.addColor(color: cell.view.backgroundColor)
         newHabitViewController?.tryActivateCreateButton()
     }
     

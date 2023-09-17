@@ -30,6 +30,7 @@
 		CB846D742A74533B00128231 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB846D732A74533B00128231 /* TrackersViewController.swift */; };
 		CB846D792A74533E00128231 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CB846D782A74533E00128231 /* Assets.xcassets */; };
 		CB846D7C2A74533E00128231 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CB846D7A2A74533E00128231 /* LaunchScreen.storyboard */; };
+		CB8B2B542AB6271F0052C553 /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8B2B532AB6271F0052C553 /* DataHelper.swift */; };
 		CB8D4D972A84462F00A9708E /* TrackerRecordState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB8D4D962A84462F00A9708E /* TrackerRecordState.swift */; };
 		CBB4395C2A853FE50075BFFE /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB4395B2A853FE50075BFFE /* Date+Extensions.swift */; };
 		CBCFDA252A7FF45100CA505F /* EmojiCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBCFDA242A7FF45100CA505F /* EmojiCollectionView.swift */; };
@@ -84,6 +85,7 @@
 		CB846D782A74533E00128231 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CB846D7B2A74533E00128231 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CB846D7D2A74533E00128231 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CB8B2B532AB6271F0052C553 /* DataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
 		CB8D4D962A84462F00A9708E /* TrackerRecordState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordState.swift; sourceTree = "<group>"; };
 		CBB4395B2A853FE50075BFFE /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		CBCFDA242A7FF45100CA505F /* EmojiCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionView.swift; sourceTree = "<group>"; };
@@ -246,6 +248,7 @@
 				CB846D7A2A74533E00128231 /* LaunchScreen.storyboard */,
 				CB846D782A74533E00128231 /* Assets.xcassets */,
 				CB846D7D2A74533E00128231 /* Info.plist */,
+				CB8B2B532AB6271F0052C553 /* DataHelper.swift */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";
@@ -366,6 +369,7 @@
 				CB3640B92AA6287400211E7D /* UserDefaults+Extensions.swift in Sources */,
 				CBD46B302A7AF68200AB4F88 /* TrackerCategory.swift in Sources */,
 				CB760D8D2A9A903D006C88E3 /* ScheduleTableViewCell.swift in Sources */,
+				CB8B2B542AB6271F0052C553 /* DataHelper.swift in Sources */,
 				CBCFDA252A7FF45100CA505F /* EmojiCollectionView.swift in Sources */,
 				CBF3B2802A7D27C300A540CA /* ColorCollectionViewCell.swift in Sources */,
 				CB105F9A2A8EBA10000B5123 /* CategoryTableViewCell.swift in Sources */,

@@ -61,11 +61,7 @@ final class TrackerViewModel {
     
     func performFetch() throws {
         try store.fetchedResultsControllerForPinnedTrackers.performFetch()
-        print("PINNED")
-        print(store.fetchedResultsControllerForPinnedTrackers.fetchedObjects)
-        print("TRACKERS")
         try store.fetchedResultsController.performFetch()
-        print(store.fetchedResultsController.fetchedObjects)
     }
     
 //    func numberOfSections() -> Int {
@@ -128,43 +124,30 @@ final class TrackerViewModel {
         if isPinnedFetchedObjectsEmpty() {
             //значит это по любому не закреплённый трекер
             let trackerObject = getObjectAt(indexPath: indexPath)
-            print("SECTION TITLE.1")
             return trackerObject.category?.name
         } else if indexPath.section == 0 {
             // если есть закреплённые трекеры и у этого трекера секция = 0, то он закреплён
-            print("SECTION TITLE.2")
             return "Закреплённые"
         } else {
             // если есть закреплённые трекеры и у этого трекера секция отличная от нуля, то он не закреплён
             let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
             let trackerObject = getObjectAt(indexPath: newIndexPath)
-            print("SECTION TITLE.3")
             return trackerObject.category?.name
         }
     }
     
     func getTrackerObject(at indexPath: IndexPath) -> TrackerCoreData {
-        print("Все закреплённые трекеры = \(store.fetchedResultsControllerForPinnedTrackers.fetchedObjects)")
-        print("Все остальные трекеры = \(store.fetchedResultsController.fetchedObjects)")
         if isPinnedFetchedObjectsEmpty() {
             //значит это по любому не закреплённый трекер
-            print("Закреплённых нет")
             return getObjectAt(indexPath: indexPath)
         } else if indexPath.section == 0 {
             // если есть закреплённые трекеры и у этого трекера секция = 0, то он закреплён
-            print("Трекер закреплён")
-            
             return getPinnedObjectAt(indexPath: indexPath)
         } else {
             // если есть закреплённые трекеры и у этого трекера секция отличная от нуля, то он не закреплён
             let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
-            print("Трекер не закреплён. Получаю трекер с newIndexPath = \(newIndexPath)")
             return getObjectAt(indexPath: newIndexPath)
         }
-    }
-    
-    func getAll() -> [TrackerCoreData] {
-        store.fetchedResultsController.fetchedObjects ?? []
     }
     
     func editTracker(at indexPath: IndexPath) {

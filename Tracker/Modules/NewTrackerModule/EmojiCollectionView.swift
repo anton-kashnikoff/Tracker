@@ -33,7 +33,7 @@ extension EmojiCollectionView: UICollectionViewDelegate {
         selectedEmoji = cell.label.text
         cell.backgroundColor = .ypLightGrey
         
-        newHabitViewController?.habitTrackerData.emoji = selectedEmoji
+        newHabitViewController?.dataHelper.addEmoji(emoji: selectedEmoji)
         newHabitViewController?.tryActivateCreateButton()
     }
     
@@ -45,7 +45,7 @@ extension EmojiCollectionView: UICollectionViewDelegate {
 
         cell.backgroundColor = .ypWhite
         
-        newHabitViewController?.habitTrackerData.emoji = nil
+        newHabitViewController?.dataHelper.addEmoji(emoji: nil)
         newHabitViewController?.tryActivateCreateButton()
     }
 }

@@ -62,7 +62,6 @@ extension TrackersCollectionView: UICollectionViewDelegate {
         guard let trackersViewController, !indexPaths.isEmpty else {
             return nil
         }
-        print("contextMenuConfigurationForItemsAt")
         
         let indexPath = indexPaths[0]
         
@@ -83,10 +82,6 @@ extension TrackersCollectionView: UICollectionViewDelegate {
             let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
             trackerObject = trackersViewController.trackerViewModel.getObjectAt(indexPath: newIndexPath)
         }
-        
-        print("title = \(title)")
-        print("indexPath = \(indexPath)")
-        print("TRACKERS = \(trackersViewController.trackerViewModel.getAll())")
         
         let pinAction = UIAction(title: title) { [weak self] _ in
             self?.pinItemAt(indexPath: indexPath)
@@ -131,13 +126,12 @@ extension TrackersCollectionView: UICollectionViewDataSource {
         guard let trackersViewController, let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TrackerCollectionViewCell.reuseIdentifier, for: indexPath) as? TrackerCollectionViewCell else {
             return UICollectionViewCell()
         }
-        print("INDEXPATH of tracker = \(indexPath)")
+        
         let trackerObject = trackersViewController.trackerViewModel.getTrackerObject(at: indexPath)
         
         guard let tracker = trackersViewController.trackerViewModel.makeTracker(from: trackerObject) else {
             return UICollectionViewCell()
         }
-        print("tracker = \(tracker)")
         
         cell.trackerRecordViewModel = trackersViewController.trackerRecordViewModel
         cell.tracker = tracker

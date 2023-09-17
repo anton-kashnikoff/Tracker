@@ -34,6 +34,14 @@ final class TrackerStore: NSObject {
         return fetchedResultsController
     }()
     
+    private func saveContext() {
+        do {
+            try context.save()
+        } catch {
+            print("Unable to save context")
+        }
+    }
+    
     func makeString(from daysOfWeek: Set<Schedule.DayOfWeek>) -> String {
         var daysArray = [String]()
         
@@ -54,26 +62,12 @@ final class TrackerStore: NSObject {
         trackerCoreData.category = category
         trackerCoreData.isPinned = false
         
-        do {
-            try context.save()
-        } catch {
-            print("Unable to save context")
-        }
-        
-        print("Я добавил трекер")
-        print(fetchedResultsController.fetchedObjects)
+        saveContext()
     }
     
     func removeTracker(_ trackerObject: TrackerCoreData) {
         context.delete(trackerObject)
-        
-        do {
-            try context.save()
-        } catch {
-            print("Unable to save context")
-        }
-        print("Я удалил трекер")
-        print(fetchedResultsController.fetchedObjects)
+        saveContext()
     }
     
     func makeTracker(from trackerObject: TrackerCoreData) -> Tracker? {
@@ -119,28 +113,19 @@ final class TrackerStore: NSObject {
         
         if isPinnedFetchedObjectsEmpty() {
             //значит это по любому не закреплённый трекер
-            print("значит это по любому не закреплённый трекер")
             trackerObject = getObjectAt(indexPath: indexPath)
         } else if indexPath.section == 0 {
             // если есть закреплённые трекеры и у этого трекера секция = 0, то он закреплён
-            print("если есть закреплённые трекеры и у этого трекера секция = 0, то он закреплён. indexPath = \(indexPath)")
             trackerObject = getPinnedObjectAt(indexPath: indexPath)
         } else {
             // если есть закреплённые трекеры и у этого трекера секция отличная от нуля, то он не закреплён
-            
             let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
-            print("если есть закреплённые трекеры и у этого трекера секция отличная от нуля, то он не закреплён. newindexPath = \(newIndexPath)")
             trackerObject = getObjectAt(indexPath: newIndexPath)
         }
         
-        print("trackerObject = \(trackerObject)")
         trackerObject.isPinned = !trackerObject.isPinned
         
-        do {
-            try context.save()
-        } catch {
-            print("decodingErrorInvalidTrackerCategory")
-        }
+        saveContext()
     }
     
     func isTrackerPinned(_ indexPath: IndexPath) -> Bool {
