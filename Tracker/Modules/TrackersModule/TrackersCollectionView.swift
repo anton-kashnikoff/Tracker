@@ -34,14 +34,14 @@ final class TrackersCollectionView: UICollectionView {
     private func removeItem(_ trackerObject: TrackerCoreData) {
         let alertController = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
         
-        let message = NSMutableAttributedString(string: "Уверены что хотите удалить трекер?")
+        let message = NSMutableAttributedString(string: NSLocalizedString("confirmationOfDeletion", comment: "Conformation of deletion tracker"))
         message.addAttribute(.font, value: UIFont.systemFont(ofSize: 13), range: NSRange(location: 0, length: message.length))
         
         alertController.setValue(message, forKey: "attributedMessage")
-        alertController.addAction(UIAlertAction(title: "Удалить", style: .destructive) { [weak self] _ in
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("delete", comment: "Removing of tracker"), style: .destructive) { [weak self] _ in
             self?.trackersViewController?.trackerViewModel.removeTracker(trackerObject)
         })
-        alertController.addAction(UIAlertAction(title: "Отменить", style: .cancel))
+        alertController.addAction(UIAlertAction(title: NSLocalizedString("cancel", comment: "Cancel action"), style: .cancel))
         
         trackersViewController?.present(alertController, animated: true)
     }
@@ -81,15 +81,15 @@ extension TrackersCollectionView: UICollectionViewDelegate {
         
         if trackersViewController.trackerViewModel.isPinnedFetchedObjectsEmpty() {
             //значит это по любому не закреплённый трекер
-            title = "Закрепить"
+            title = NSLocalizedString("pin", comment: "Pin tracker action")
             trackerObject = trackersViewController.trackerViewModel.getObjectAt(indexPath: indexPath)
         } else if indexPath.section == 0 {
             // если есть закреплённые трекеры и у этого трекера секция = 0, то он закреплён
-            title = "Открепить"
+            title = NSLocalizedString("unpin", comment: "unin tracker action")
             trackerObject = trackersViewController.trackerViewModel.getPinnedObjectAt(indexPath: indexPath)
         } else {
             // если есть закреплённые трекеры и у этого трекера секция отличная от нуля, то он не закреплён
-            title = "Закрепить"
+            title = NSLocalizedString("pin", comment: "Pin tracker action")
             let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
             trackerObject = trackersViewController.trackerViewModel.getObjectAt(indexPath: newIndexPath)
         }
@@ -98,11 +98,11 @@ extension TrackersCollectionView: UICollectionViewDelegate {
             self?.pinItemAt(indexPath: indexPath)
         }
         
-        let editAction = UIAction(title: "Редактировать") { [weak self] _ in
+        let editAction = UIAction(title: NSLocalizedString("edit", comment: "Edit tracker action")) { [weak self] _ in
             self?.trackersViewController?.openEditFlow(for: trackerObject)
         }
         
-        let removeAction = UIAction(title: "Удалить", attributes: .destructive) { [weak self] _ in
+        let removeAction = UIAction(title: NSLocalizedString("delete", comment: "Removing of tracker action"), attributes: .destructive) { [weak self] _ in
             self?.removeItem(trackerObject)
         }
         

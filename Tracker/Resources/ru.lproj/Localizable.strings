@@ -13,6 +13,11 @@ category = "Категория";
 done = "Готово";
 search = "Поиск";
 schedule = "Расписание";
+delete = "Удалить";
+edit = "Редактировать";
+pin = "Закрепить";
+unpin = "Открепить";
+confirmationOfDeletion = "Уверены что хотите удалить трекер?";
 
 tabbar.statisticsItem.title = "Статистика";
 
@@ -43,7 +48,9 @@ trackerType.navigationItem.title = "Создание трекера";
 newTracker.textField.placeholder = "Введите название трекера";
 newTracker.emojiLabel.title = "Emoji";
 newTracker.colorLabel.title = "Цвет";
-newTracker.navigationItem.title = "Новая привычка";
+newTracker.newHabit = "Новая привычка";
+newTracker.editHabit = "Редактирование привычки";
+
 newTracker.schedule.everyDay = "Каждый день";
 newTracker.restrictionLabel.title = "Ограничение 38 символов";
 

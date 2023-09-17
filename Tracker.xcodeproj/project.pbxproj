@@ -129,7 +129,6 @@
 			children = (
 				CB3640B62AA626B000211E7D /* OnboardingModule */,
 				CB3640B52AA6265B00211E7D /* ScheduleModule */,
-				CB3640B42AA625B900211E7D /* NewTrackerModule */,
 				CB3640B32AA6254500211E7D /* CategoriesModule */,
 				CB3640B22AA624C100211E7D /* TrackersModule */,
 			);
@@ -139,6 +138,7 @@
 		CB3640B22AA624C100211E7D /* TrackersModule */ = {
 			isa = PBXGroup;
 			children = (
+				CB3640B42AA625B900211E7D /* NewTrackerModule */,
 				CB846D732A74533B00128231 /* TrackersViewController.swift */,
 				CBD15D992A94F17700DC6FAE /* TrackerStore.swift */,
 				CB53AF9F2AA4DF8D00BCE101 /* TrackerViewModel.swift */,
@@ -206,6 +206,7 @@
 				CB8D4D962A84462F00A9708E /* TrackerRecordState.swift */,
 				CB49F1892A8124F100C37A24 /* GeometricParams.swift */,
 				CBF10ABD2AB5EE160026EF68 /* NewTrackerMode.swift */,
+				CB8B2B532AB6271F0052C553 /* DataHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -248,7 +249,6 @@
 				CB846D7A2A74533E00128231 /* LaunchScreen.storyboard */,
 				CB846D782A74533E00128231 /* Assets.xcassets */,
 				CB846D7D2A74533E00128231 /* Info.plist */,
-				CB8B2B532AB6271F0052C553 /* DataHelper.swift */,
 			);
 			path = Tracker;
 			sourceTree = "<group>";

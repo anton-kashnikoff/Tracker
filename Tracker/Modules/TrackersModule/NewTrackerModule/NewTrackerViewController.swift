@@ -183,9 +183,9 @@ final class NewTrackerViewController: UIViewController {
         
         switch mode {
         case .create:
-            navigationItem.title = NSLocalizedString("newTracker.navigationItem.title", comment: "Title for new tracker screen")
+            navigationItem.title = NSLocalizedString("newTracker.newHabit", comment: "Title for new tracker screen")
         case .edit:
-            navigationItem.title = "Редактирование привычки"
+            navigationItem.title = NSLocalizedString("newTracker.editHabit", comment: "Title for edit tracker screen")
             turnEditMode(for: trackerObjectInfo!)
             trackerViewModel?.removeTracker(trackerObjectInfo!)
         }
@@ -413,7 +413,7 @@ final class NewTrackerViewController: UIViewController {
     }
     
     private func showDayCountLabel() {
-        dayCountLabel.text = "\(dayCount ?? -1) дней"
+        dayCountLabel.text = String.localizedStringWithFormat(NSLocalizedString("numberOfDays", comment: "Number of days completed for tracker"), dayCount ?? -1)
         dayCountLabel.isHidden = false
         topDayCountLabelConstraint?.isActive = false
         topDayCountLabelConstraint = dayCountLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 24)

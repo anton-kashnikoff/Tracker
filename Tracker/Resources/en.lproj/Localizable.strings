@@ -13,6 +13,11 @@ category = "Category";
 done = "Done";
 search = "Search";
 schedule = "Schedule";
+delete = "Remove";
+edit = "Edit";
+pin = "Pin";
+unpin = "Unpin";
+confirmationOfDeletion = "Are you sure you want to delete the tracker?";
 
 tabbar.statisticsItem.title = "Statistics";
 
@@ -45,7 +50,8 @@ newTracker.emojiLabel.title = "Emoji";
 newTracker.colorLabel.title = "Color";
 newTracker.navigationItem.title = "A new habit";
 newTracker.schedule.everyDay = "Every day";
-newTracker.restrictionLabel.title = "Limit of 38 characters";
+newTracker.newHabit = "Limit of 38 characters";
+newTracker.editHabit = "Editing Habits";
 
 category.placeholder.text = "Habits and events\ncan be combined in meaning";
 category.addButton.title = "Add a category";
