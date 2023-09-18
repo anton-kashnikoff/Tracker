@@ -6,12 +6,19 @@
 //
 
 import Foundation
+import YandexMobileMetrica
 
 final class TrackerRecordViewModel {
     private let store: TrackerRecordStore
+    private let analyticsService = AnalyticsService()
     
     init(store: TrackerRecordStore) {
         self.store = store
+    }
+    
+    func completeTrackerTapped() {
+        analyticsService.report(event: "click", params: ["screen": "Main", "item": "track"])
+        print("Отправлен репорт по нажатию на кнопку выполнения трекера")
     }
     
     func performFetch() throws {

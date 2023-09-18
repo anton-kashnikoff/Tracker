@@ -135,16 +135,6 @@ final class TrackerStore: NSObject {
     func getCountOfAllPinnedTrackers() -> Int {
         fetchedResultsControllerForPinnedTrackers.fetchedObjects?.count ?? 0
     }
-    
-    func editTracker(at indexPath: IndexPath) {
-        let trackerObject = getObjectAt(indexPath: indexPath)
-        let tracker = makeTracker(from: trackerObject)
-    }
-    
-    func editPinnedTracker(at indexPath: IndexPath) {
-        let trackerObject = getPinnedObjectAt(indexPath: indexPath)
-        let tracker = makeTracker(from: trackerObject)
-    }
 }
 
 extension TrackerStore: NSFetchedResultsControllerDelegate {

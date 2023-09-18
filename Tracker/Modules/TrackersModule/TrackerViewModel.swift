@@ -9,6 +9,7 @@ import Foundation
 
 final class TrackerViewModel {
     private let store: TrackerStore
+    private let analyticsService = AnalyticsService()
     
     var onCategoryChange: Binding?
     var onScheduleChange: Binding?
@@ -16,6 +17,16 @@ final class TrackerViewModel {
     
     init(store: TrackerStore) {
         self.store = store
+    }
+    
+    func viewDidAppear() {
+        analyticsService.report(event: "open", params: ["screen": "Main"])
+        print("Отправлен репорт открытия главного экрана")
+    }
+    
+    func viewDidDisappear() {
+        analyticsService.report(event: "close", params: ["screen": "Main"])
+        print("Отправлен репорт закрытия главного экрана")
     }
     
     func categorySelected() {
@@ -150,14 +161,32 @@ final class TrackerViewModel {
         }
     }
     
-    func editTracker(at indexPath: IndexPath) {
-        if isPinnedFetchedObjectsEmpty() {
-            return store.editTracker(at: indexPath)
-        } else if indexPath.section == 0 {
-            return store.editPinnedTracker(at: indexPath)
-        } else {
-            let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
-            return store.editTracker(at: newIndexPath)
-        }
+//    func editTracker(at indexPath: IndexPath) {
+//        analyticsService.report(event: "click", params: ["screen": "Main", "item": "edit"])
+//        print("Отправлен репот по нажатию на кнопку редактирования трекера")
+//        
+//        if isPinnedFetchedObjectsEmpty() {
+//            return store.editTracker(at: indexPath)
+//        } else if indexPath.section == 0 {
+//            return store.editPinnedTracker(at: indexPath)
+//        } else {
+//            let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
+//            return store.editTracker(at: newIndexPath)
+//        }
+//    }
+    
+    func deleteTrackerTapped() {
+        analyticsService.report(event: "click", params: ["screen": "Main", "item": "delete"])
+        print("Отправлен репорт по нажатию на кнопку удаления трекера")
+    }
+    
+    func addTrackerTapped() {
+        analyticsService.report(event: "click", params: ["screen": "Main", "item": "add_track"])
+        print("Отправлен репорт по нажатию на кнопку добавления трекера")
+    }
+    
+    func editTrackerTapped() {
+        analyticsService.report(event: "click", params: ["screen": "Main", "item": "edit"])
+        print("Отправлен репорт по нажатию на кнопку редактирования трекера")
     }
 }

@@ -27,10 +27,6 @@ final class TrackersCollectionView: UICollectionView {
         trackersViewController?.trackerViewModel.pinTracker(at: indexPath)
     }
     
-    private func editItemAt(indexPath: IndexPath) {
-        trackersViewController?.trackerViewModel.editTracker(at: indexPath)
-    }
-    
     private func removeItem(_ trackerObject: TrackerCoreData) {
         let alertController = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
         
@@ -42,6 +38,8 @@ final class TrackersCollectionView: UICollectionView {
             self?.trackersViewController?.trackerViewModel.removeTracker(trackerObject)
         })
         alertController.addAction(UIAlertAction(title: NSLocalizedString("cancel", comment: "Cancel action"), style: .cancel))
+        
+        trackersViewController?.trackerViewModel.deleteTrackerTapped()
         
         trackersViewController?.present(alertController, animated: true)
     }

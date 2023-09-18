@@ -63,13 +63,24 @@ final class TrackersViewController: UIViewController {
         return label
     }()
     
+    let trackerViewModel = TrackerViewModel(store: TrackerStore())
+    let trackerRecordViewModel = TrackerRecordViewModel(store: TrackerRecordStore())
+    
     private var constraintToCancelButton: NSLayoutConstraint?
     private var constraintToSuperview: NSLayoutConstraint?
     private var currentText: String?
     
     var currentDate = Date()
-    var trackerViewModel = TrackerViewModel(store: TrackerStore())
-    var trackerRecordViewModel = TrackerRecordViewModel(store: TrackerRecordStore())
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        trackerViewModel.viewDidAppear()
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        trackerViewModel.viewDidDisappear()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -202,6 +213,8 @@ final class TrackersViewController: UIViewController {
         
         newHabitViewController.dayCount = trackerRecordViewModel.getCountOfCompletedDaysForTracker(id)
         
+        trackerViewModel.editTrackerTapped()
+        
         let navigationController = UINavigationController(rootViewController: newHabitViewController)
         present(navigationController, animated: true)
     }
@@ -214,6 +227,8 @@ final class TrackersViewController: UIViewController {
         trackerViewModel.onTrackerChange = { [weak self] in
             self?.reloadData()
         }
+        
+        trackerViewModel.addTrackerTapped()
         
         let navigationController = UINavigationController(rootViewController: trackerTypeViewController)
         present(navigationController, animated: true)
