@@ -104,7 +104,7 @@ final class TrackersViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        title = NSLocalizedString("trackersTitle", comment: "Title for navigation bar")
+        title = NSLocalizedString("trackersTitle", comment: "Title for navigation bar of trackers screen")
         navigationController?.navigationBar.prefersLargeTitles = true
         
         setupDatePicker()

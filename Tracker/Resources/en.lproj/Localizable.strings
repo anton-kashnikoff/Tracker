@@ -7,6 +7,7 @@
 */
 
 trackersTitle = "Trackers";
+statisticsTitle = "Statistics";
 cancel = "Cancel";
 create = "Create";
 category = "Category";
@@ -18,8 +19,6 @@ edit = "Edit";
 pin = "Pin";
 unpin = "Unpin";
 confirmationOfDeletion = "Are you sure you want to delete the tracker?";
-
-tabbar.statisticsItem.title = "Statistics";
 
 onboarding.title1 = "Track only what you want";
 onboarding.title2 = "Even if it's not liters of water and yoga";
@@ -61,3 +60,6 @@ newCategory.navigationItem.title = "New category";
 
 trackers.placeholder.nothingFound = "Nothing found";
 trackers.placeholder.noTrackers = "What will we track?";
+
+statistics.placeholder.nothingToAnalyze = "There is nothing to analyze yet";
+statistics.cellTitle.completedTrackers = "Trackers completed";

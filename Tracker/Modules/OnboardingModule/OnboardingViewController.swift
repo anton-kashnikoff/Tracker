@@ -100,13 +100,14 @@ final class OnboardingViewController: UIViewController {
         
         let trackersViewController = TrackersViewController()
         
-        let temporaryVC = UIViewController()
-        temporaryVC.view.backgroundColor = .systemBackground
+        let statisticsViewController = StatisticsViewController()
         
-        let navigationController = UINavigationController(rootViewController: trackersViewController)
-        navigationController.tabBarItem = UITabBarItem(title: NSLocalizedString("trackersTitle", comment: "Title for Trackers tab bar item"), image: .trackerIcon, selectedImage: nil)
-        temporaryVC.tabBarItem = UITabBarItem(title: NSLocalizedString("tabbar.statisticsItem.title", comment: "Title for Statistics tab bar item"), image: .statisticsIcon, selectedImage: nil)
-        tabBarController.viewControllers = [navigationController, temporaryVC]
+        let trackersNavigationController = UINavigationController(rootViewController: trackersViewController)
+        let statisticsNavigationController = UINavigationController(rootViewController: statisticsViewController)
+        
+        trackersNavigationController.tabBarItem = UITabBarItem(title: NSLocalizedString("trackersTitle", comment: "Title for Trackers tab bar item"), image: .trackerIcon, selectedImage: nil)
+        statisticsNavigationController.tabBarItem = UITabBarItem(title: NSLocalizedString("statisticsTitle", comment: "Title for Statistics tab bar item"), image: .statisticsIcon, selectedImage: nil)
+        tabBarController.viewControllers = [trackersNavigationController, statisticsNavigationController]
         
         sceneDelegate.window?.rootViewController = tabBarController
     }

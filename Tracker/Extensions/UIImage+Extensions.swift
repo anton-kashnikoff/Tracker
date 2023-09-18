@@ -11,6 +11,7 @@ extension UIImage {
     static let addTrackerIcon = UIImage(named: "Add tracker icon")
     static let checkmark = UIImage(named: "Checkmark")
     static let nothingFound = UIImage(named: "Nothing found")
+    static let nothingToAnalyze = UIImage(named: "Nothing to analyze")
     static let plus = UIImage(named: "Plus")
     static let star = UIImage(named: "Star")
     static let statisticsIcon = UIImage(named: "Statistics icon")

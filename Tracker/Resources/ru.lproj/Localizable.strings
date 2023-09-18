@@ -7,6 +7,7 @@
 */
 
 trackersTitle = "Трекеры";
+statisticsTitle = "Статистика";
 cancel = "Отменить";
 create = "Создать";
 category = "Категория";
@@ -18,8 +19,6 @@ edit = "Редактировать";
 pin = "Закрепить";
 unpin = "Открепить";
 confirmationOfDeletion = "Уверены что хотите удалить трекер?";
-
-tabbar.statisticsItem.title = "Статистика";
 
 onboarding.title1 = "Отслеживайте только то, что хотите";
 onboarding.title2 = "Даже если это не литры воды и йога";
@@ -62,3 +61,6 @@ newCategory.navigationItem.title = "Новая категория";
 
 trackers.placeholder.nothingFound = "Ничего не найдено";
 trackers.placeholder.noTrackers = "Что будем отслеживать?";
+
+statistics.placeholder.nothingToAnalyze = "Анализировать пока нечего";
+statistics.cellTitle.completedTrackers = "Трекеров завершено";
