@@ -30,6 +30,19 @@ final class StatisticsViewController: UIViewController {
         return label
     }()
     
+    private var trackerViewModel: TrackerViewModel
+    private var trackerRecordViewModel: TrackerRecordViewModel
+    
+    init(trackerViewModel: TrackerViewModel, trackerRecordViewModel: TrackerRecordViewModel) {
+        self.trackerViewModel = trackerViewModel
+        self.trackerRecordViewModel = trackerRecordViewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,11 +50,17 @@ final class StatisticsViewController: UIViewController {
         title = NSLocalizedString("statisticsTitle", comment: "Title for navigation bar of statistics screen")
         navigationController?.navigationBar.prefersLargeTitles = true
         
-//        setupImageView()
-//        setupLabel()
+        setupImageView()
+        setupLabel()
         setupTableView()
         
-//        reloadPlaceholderView()
+        reloadPlaceholderView()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        tableView.reloadData()
+        reloadPlaceholderView()
     }
     
     private func setupTableView() {
@@ -75,14 +94,22 @@ final class StatisticsViewController: UIViewController {
     }
     
     private func reloadPlaceholderView() {
-        if true {
+        if trackerViewModel.isFetchedObjectsEmpty() && trackerViewModel.isPinnedFetchedObjectsEmpty() {
             imageView.image = .nothingToAnalyze
             label.text = NSLocalizedString("statistics.placeholder.nothingToAnalyze", comment: "Text for placeholder view when nothing to analyze")
             imageView.isHidden = false
             label.isHidden = false
+            tableView.isHidden = true
         } else {
             imageView.isHidden = true
             label.isHidden = true
+            tableView.isHidden = false
+        }
+    }
+    
+    private func getCountOfCompletedTrackers() -> Int {
+        trackerViewModel.getAllTrackerIDs().reduce(0) { partialResult, id in
+            partialResult + (trackerRecordViewModel.getCountOfCompletedDaysForTracker(id) ?? 0)
         }
     }
 }
@@ -98,7 +125,7 @@ extension StatisticsViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.numberLabel.text = "5"
+        cell.numberLabel.text = "\(getCountOfCompletedTrackers())"
         
         return cell
     }

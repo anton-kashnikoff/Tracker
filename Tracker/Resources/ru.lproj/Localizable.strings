@@ -47,6 +47,7 @@ trackerType.navigationItem.title = "Создание трекера";
 newTracker.textField.placeholder = "Введите название трекера";
 newTracker.emojiLabel.title = "Emoji";
 newTracker.colorLabel.title = "Цвет";
+
 newTracker.newHabit = "Новая привычка";
 newTracker.editHabit = "Редактирование привычки";
 

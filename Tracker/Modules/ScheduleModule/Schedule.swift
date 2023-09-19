@@ -62,19 +62,19 @@ struct Schedule {
     static func getNameOfDay(_ number: Int) -> String {
         switch number {
         case 1:
-            return NSLocalizedString("schedule.dayOfWeek.sunday", comment: "String for Sunday")
+            return "Воскресенье"
         case 2:
-            return NSLocalizedString("schedule.dayOfWeek.monday", comment: "String for Monday")
+            return "Понедельник"
         case 3:
-            return NSLocalizedString("schedule.dayOfWeek.tuesday", comment: "String for Tuesday")
+            return "Вторник"
         case 4:
-            return NSLocalizedString("schedule.dayOfWeek.wednesday", comment: "String for Wednesday")
+            return "Среда"
         case 5:
-            return NSLocalizedString("schedule.dayOfWeek.thursday", comment: "String for Thursday")
+            return "Четверг"
         case 6:
-            return NSLocalizedString("schedule.dayOfWeek.friday", comment: "String for Friday")
+            return "Пятница"
         case 7:
-            return NSLocalizedString("schedule.dayOfWeek.saturday", comment: "String for Saturday")
+            return "Суббота"
         default:
             return ""
         }

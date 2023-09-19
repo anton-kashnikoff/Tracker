@@ -100,7 +100,7 @@ final class OnboardingViewController: UIViewController {
         
         let trackersViewController = TrackersViewController()
         
-        let statisticsViewController = StatisticsViewController()
+        let statisticsViewController = StatisticsViewController(trackerViewModel: trackersViewController.trackerViewModel, trackerRecordViewModel: trackersViewController.trackerRecordViewModel)
         
         let trackersNavigationController = UINavigationController(rootViewController: trackersViewController)
         let statisticsNavigationController = UINavigationController(rootViewController: statisticsViewController)

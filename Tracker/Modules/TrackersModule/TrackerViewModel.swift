@@ -161,19 +161,9 @@ final class TrackerViewModel {
         }
     }
     
-//    func editTracker(at indexPath: IndexPath) {
-//        analyticsService.report(event: "click", params: ["screen": "Main", "item": "edit"])
-//        print("Отправлен репот по нажатию на кнопку редактирования трекера")
-//        
-//        if isPinnedFetchedObjectsEmpty() {
-//            return store.editTracker(at: indexPath)
-//        } else if indexPath.section == 0 {
-//            return store.editPinnedTracker(at: indexPath)
-//        } else {
-//            let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
-//            return store.editTracker(at: newIndexPath)
-//        }
-//    }
+    func getAllTrackerIDs() -> [UUID] {
+        store.getAllTrackerIDs()
+    }
     
     func deleteTrackerTapped() {
         analyticsService.report(event: "click", params: ["screen": "Main", "item": "delete"])

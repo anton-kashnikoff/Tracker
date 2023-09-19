@@ -47,10 +47,12 @@ trackerType.navigationItem.title = "Creating a tracker";
 newTracker.textField.placeholder = "Enter the name of the tracker";
 newTracker.emojiLabel.title = "Emoji";
 newTracker.colorLabel.title = "Color";
-newTracker.navigationItem.title = "A new habit";
-newTracker.schedule.everyDay = "Every day";
-newTracker.newHabit = "Limit of 38 characters";
+
+newTracker.newHabit = "A new habit";
 newTracker.editHabit = "Editing Habits";
+
+newTracker.schedule.everyDay = "Every day";
+newTracker.restrictionLabel.title = "Limit of 38 characters";
 
 category.placeholder.text = "Habits and events\ncan be combined in meaning";
 category.addButton.title = "Add a category";

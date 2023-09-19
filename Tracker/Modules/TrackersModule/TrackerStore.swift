@@ -135,6 +135,33 @@ final class TrackerStore: NSObject {
     func getCountOfAllPinnedTrackers() -> Int {
         fetchedResultsControllerForPinnedTrackers.fetchedObjects?.count ?? 0
     }
+    
+    func getAllTrackerIDs() -> [UUID] {
+        // TODO: Может быть переделать через запрос
+        guard let trackerObjects = fetchedResultsController.fetchedObjects, let pinnedTrackerObjects = fetchedResultsControllerForPinnedTrackers.fetchedObjects else {
+            return []
+        }
+        
+        var trackersIDs = [UUID]()
+        
+        for object in trackerObjects {
+            guard let id = object.id else {
+                return []
+            }
+            
+            trackersIDs.append(id)
+        }
+        
+        for object in pinnedTrackerObjects {
+            guard let id = object.id else {
+                return []
+            }
+            
+            trackersIDs.append(id)
+        }
+        
+        return trackersIDs
+    }
 }
 
 extension TrackerStore: NSFetchedResultsControllerDelegate {
