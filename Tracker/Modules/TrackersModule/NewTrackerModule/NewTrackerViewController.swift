@@ -187,7 +187,6 @@ final class NewTrackerViewController: UIViewController {
         case .edit:
             navigationItem.title = NSLocalizedString("newTracker.editHabit", comment: "Title for edit tracker screen")
             turnEditMode(for: trackerObjectInfo!)
-            trackerViewModel?.removeTracker(trackerObjectInfo!)
         }
     }
     
@@ -382,6 +381,10 @@ final class NewTrackerViewController: UIViewController {
     
     @objc
     private func createButtonDidTap() {
+        if mode == .edit {
+            trackerViewModel?.removeTracker(trackerObjectInfo!)
+        }
+        
         dataHelper.addID()
 
         do {
