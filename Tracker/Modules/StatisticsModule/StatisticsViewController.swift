@@ -10,6 +10,8 @@ import UIKit
 final class StatisticsViewController: UIViewController {
     private let tableView: UITableView = {
         let tableView = UITableView()
+        tableView.backgroundColor = .ypWhite
+        tableView.isScrollEnabled = false
         tableView.separatorStyle = .none
         tableView.rowHeight = 90
         tableView.register(StatisticsTableViewCell.self, forCellReuseIdentifier: StatisticsTableViewCell.reuseIdentifier)
@@ -94,7 +96,7 @@ final class StatisticsViewController: UIViewController {
     }
     
     private func reloadPlaceholderView() {
-        if trackerViewModel.isFetchedObjectsEmpty() && trackerViewModel.isPinnedFetchedObjectsEmpty() {
+        if getCountOfCompletedTrackers() == 0 {
             imageView.image = .nothingToAnalyze
             label.text = NSLocalizedString("statistics.placeholder.nothingToAnalyze", comment: "Text for placeholder view when nothing to analyze")
             imageView.isHidden = false
