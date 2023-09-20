@@ -188,17 +188,19 @@ final class TrackersViewController: UIViewController {
         if trackerViewModel.isFetchedObjectsEmpty() && currentText != "" {
             imageView.image = .nothingFound
             label.text = NSLocalizedString("trackers.placeholder.nothingFound", comment: "Text for placeholder view when nothing found")
-            imageView.isHidden = false
-            label.isHidden = false
+            makePlaceholderViewHidden(false)
         } else if trackerViewModel.isFetchedObjectsEmpty() {
             imageView.image = .star
             label.text = NSLocalizedString("trackers.placeholder.noTrackers", comment: "Text for placeholder view when no trackers created")
-            imageView.isHidden = false
-            label.isHidden = false
+            makePlaceholderViewHidden(false)
         } else {
-            imageView.isHidden = true
-            label.isHidden = true
+            makePlaceholderViewHidden(true)
         }
+    }
+    
+    private func makePlaceholderViewHidden(_ isHidden: Bool) {
+        imageView.isHidden = isHidden
+        label.isHidden = isHidden
     }
     
     func openEditFlow(for trackerObject: TrackerCoreData) {
