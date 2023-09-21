@@ -1,5 +1,5 @@
 //
-//  CategoryTableViewCell.swift
+//  CustomTableViewCell.swift
 //  Tracker
 //
 //  Created by Антон Кашников on 17.08.2023.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class CategoryTableViewCell: UITableViewCell {
+final class CustomTableViewCell: UITableViewCell {
     static let reuseIdentifier = "categoryCell"
     
     let titleLabel: UILabel = {
