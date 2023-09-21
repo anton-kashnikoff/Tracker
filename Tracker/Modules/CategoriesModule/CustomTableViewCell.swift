@@ -8,7 +8,7 @@
 import UIKit
 
 final class CustomTableViewCell: UITableViewCell {
-    static let reuseIdentifier = "categoryCell"
+    static let reuseIdentifier = "customCell"
     
     let titleLabel: UILabel = {
         let label = UILabel()

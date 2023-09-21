@@ -11,9 +11,10 @@
 		CB10365B2A7E693000CD06DB /* CategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB10365A2A7E693000CD06DB /* CategoryViewController.swift */; };
 		CB10365D2A7E6F4A00CD06DB /* NewCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB10365C2A7E6F4A00CD06DB /* NewCategoryViewController.swift */; };
 		CB1036622A7EB6E200CD06DB /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB1036612A7EB6E200CD06DB /* ScheduleViewController.swift */; };
-		CB105F9A2A8EBA10000B5123 /* CategoryTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB105F992A8EBA10000B5123 /* CategoryTableViewCell.swift */; };
+		CB105F9A2A8EBA10000B5123 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB105F992A8EBA10000B5123 /* CustomTableViewCell.swift */; };
 		CB1F84472AAB33EC0063D449 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB1F84492AAB33EC0063D449 /* InfoPlist.strings */; };
 		CB1F844D2AAB36130063D449 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CB1F844F2AAB36130063D449 /* Localizable.strings */; };
+		CB20DB592ABC64DD00725E41 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB20DB582ABC64DD00725E41 /* FiltersViewController.swift */; };
 		CB2849A82A83F2290009280F /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB2849A72A83F2290009280F /* UIViewController+Extensions.swift */; };
 		CB3640B92AA6287400211E7D /* UserDefaults+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB3640B82AA6287400211E7D /* UserDefaults+Extensions.swift */; };
 		CB40F87A2AB861A3004DBC91 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB40F8792AB861A3004DBC91 /* AnalyticsService.swift */; };
@@ -82,11 +83,12 @@
 		CB10365A2A7E693000CD06DB /* CategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryViewController.swift; sourceTree = "<group>"; };
 		CB10365C2A7E6F4A00CD06DB /* NewCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewCategoryViewController.swift; sourceTree = "<group>"; };
 		CB1036612A7EB6E200CD06DB /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
-		CB105F992A8EBA10000B5123 /* CategoryTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewCell.swift; sourceTree = "<group>"; };
+		CB105F992A8EBA10000B5123 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
 		CB1F84482AAB33EC0063D449 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CB1F844A2AAB33EE0063D449 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CB1F844E2AAB36130063D449 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CB1F84502AAB36180063D449 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CB20DB582ABC64DD00725E41 /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
 		CB2849A72A83F2290009280F /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		CB3640B82AA6287400211E7D /* UserDefaults+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extensions.swift"; sourceTree = "<group>"; };
 		CB40F8792AB861A3004DBC91 /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
@@ -182,9 +184,18 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		CB20DB572ABC64B900725E41 /* FiltersModule */ = {
+			isa = PBXGroup;
+			children = (
+				CB20DB582ABC64DD00725E41 /* FiltersViewController.swift */,
+			);
+			path = FiltersModule;
+			sourceTree = "<group>";
+		};
 		CB3640B12AA624AD00211E7D /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				CB20DB572ABC64B900725E41 /* FiltersModule */,
 				CB94BF1B2AB878A00078AF73 /* StatisticsModule */,
 				CB3640B62AA626B000211E7D /* OnboardingModule */,
 				CB3640B52AA6265B00211E7D /* ScheduleModule */,
@@ -220,7 +231,7 @@
 				CB10365C2A7E6F4A00CD06DB /* NewCategoryViewController.swift */,
 				CB53AF9D2AA4CF7800BCE101 /* CategoriesViewModel.swift */,
 				CBD15D9B2A94F18400DC6FAE /* TrackerCategoryStore.swift */,
-				CB105F992A8EBA10000B5123 /* CategoryTableViewCell.swift */,
+				CB105F992A8EBA10000B5123 /* CustomTableViewCell.swift */,
 				CBD46B2F2A7AF68200AB4F88 /* TrackerCategory.swift */,
 			);
 			path = CategoriesModule;
@@ -565,7 +576,7 @@
 				CBCFDA252A7FF45100CA505F /* EmojiCollectionView.swift in Sources */,
 				CBF3B2802A7D27C300A540CA /* ColorCollectionViewCell.swift in Sources */,
 				CB94BF1D2AB878C40078AF73 /* StatisticsViewController.swift in Sources */,
-				CB105F9A2A8EBA10000B5123 /* CategoryTableViewCell.swift in Sources */,
+				CB105F9A2A8EBA10000B5123 /* CustomTableViewCell.swift in Sources */,
 				CB10365B2A7E693000CD06DB /* CategoryViewController.swift in Sources */,
 				CB54E6362AA3635E009F2F19 /* OnboardingPageViewController.swift in Sources */,
 				CB1036622A7EB6E200CD06DB /* ScheduleViewController.swift in Sources */,
@@ -584,6 +595,7 @@
 				CBB4395C2A853FE50075BFFE /* Date+Extensions.swift in Sources */,
 				CBD15D9A2A94F17700DC6FAE /* TrackerStore.swift in Sources */,
 				CB10365D2A7E6F4A00CD06DB /* NewCategoryViewController.swift in Sources */,
+				CB20DB592ABC64DD00725E41 /* FiltersViewController.swift in Sources */,
 				CB2849A82A83F2290009280F /* UIViewController+Extensions.swift in Sources */,
 				CB49F1882A81135300C37A24 /* HeaderCollectionView.swift in Sources */,
 				CBD46B382A7C0CF700AB4F88 /* NewTrackerViewController.swift in Sources */,

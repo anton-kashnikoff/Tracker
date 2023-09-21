@@ -196,6 +196,7 @@ final class TrackersViewController: UIViewController {
     }
     
     private func setupFiltersButton() {
+        filtersButton.addTarget(self, action: #selector(filtersButtonDidTap), for: .touchUpInside)
         view.addSubview(filtersButton)
         
         NSLayoutConstraint.activate([
@@ -270,6 +271,13 @@ final class TrackersViewController: UIViewController {
         currentText = nil
         reloadData()
         hideCancelButton()
+    }
+    
+    @objc
+    private func filtersButtonDidTap() {
+        let filtersViewController = FiltersViewController()
+        let navigationController = UINavigationController(rootViewController: filtersViewController)
+        present(navigationController, animated: true)
     }
 }
 
