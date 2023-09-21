@@ -57,6 +57,12 @@ extension FiltersViewController: UITableViewDataSource {
         cell.separatorView.isHidden = indexPath.row == filters.count - 1
         cell.titleLabel.text = filters[indexPath.row]
         
+        // по умолчанию выбран фильтр "Трекеры на сегодня"
+        if indexPath.row == 1 {
+            cell.isSelected = true
+            cell.checkmarkImageView.isHidden = false
+        }
+        
         return cell
     }
 }
