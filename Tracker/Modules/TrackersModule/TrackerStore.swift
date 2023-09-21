@@ -136,6 +136,18 @@ final class TrackerStore: NSObject {
         fetchedResultsControllerForPinnedTrackers.fetchedObjects?.count ?? 0
     }
     
+    func getAllTrackers() -> [Tracker] {
+        guard let trackersObjects = fetchedResultsController.fetchedObjects else {
+            return []
+        }
+        
+        var trackers: [Tracker] = trackersObjects.compactMap {
+            makeTracker(from: $0)
+        }
+        
+        return trackers
+    }
+    
     func getAllTrackerIDs() -> [UUID] {
         // TODO: Может быть переделать через запрос
         guard let trackerObjects = fetchedResultsController.fetchedObjects, let pinnedTrackerObjects = fetchedResultsControllerForPinnedTrackers.fetchedObjects else {
@@ -161,6 +173,14 @@ final class TrackerStore: NSObject {
         }
         
         return trackersIDs
+    }
+    
+    func setPredicateForTrackers(_ predicate: NSPredicate?) {
+        fetchedResultsController.fetchRequest.predicate = predicate
+    }
+    
+    func setPredicateForPinnedTrackers(_ predicate: NSPredicate?) {
+        fetchedResultsControllerForPinnedTrackers.fetchRequest.predicate = predicate
     }
 }
 

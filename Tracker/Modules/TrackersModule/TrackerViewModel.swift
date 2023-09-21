@@ -58,17 +58,43 @@ final class TrackerViewModel {
         store.isPinnedFetchedObjectsEmpty()
     }
     
-    func setPredicate(date dayOfWeek: String, text: String) {
+    func filterTrackersForDay(date dayOfWeek: String, text: String) {
         if text.isEmpty {
-            store.fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K != YES)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.isPinned))
+            store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K != YES)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.isPinned)))
         } else {
-            store.fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@) AND (%K != YES)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.isPinned))
+            store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@) AND (%K != YES)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.isPinned)))
+        }
+        
+        store.setPredicateForPinnedTrackers(NSPredicate(format: "%K == YES", #keyPath(TrackerCoreData.isPinned)))
+        print("УСТАНОВИЛИ ПРЕДИКАТЫ")
+        
+        do {
+            try performFetch()
+        } catch {
+            print("Не смогли")
         }
     }
     
-    func setPredicate() {
-        store.fetchedResultsControllerForPinnedTrackers.fetchRequest.predicate = NSPredicate(format: "%K == YES", #keyPath(TrackerCoreData.isPinned))
+    func filterAllTrackers(text: String) {
+        if text.isEmpty {
+            store.setPredicateForTrackers(nil)
+        } else {
+            store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K != YES)", #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.isPinned)))
+        }
+        
+        store.setPredicateForPinnedTrackers(NSPredicate(format: "%K == YES", #keyPath(TrackerCoreData.isPinned)))
+        print("УСТАНОВИЛИ ПРЕДИКАТЫ ДЛЯ ВСЕХ ТРЕКЕРОВ")
+        
+        do {
+            try performFetch()
+        } catch {
+            print("Не смогли")
+        }
     }
+    
+//    func getAllTrackers() -> [Tracker] {
+//        store.getAllTrackers()
+//    }
     
     func performFetch() throws {
         try store.fetchedResultsControllerForPinnedTrackers.performFetch()

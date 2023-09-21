@@ -78,8 +78,8 @@ final class TrackersViewController: UIViewController {
     
     private var constraintToCancelButton: NSLayoutConstraint?
     private var constraintToSuperview: NSLayoutConstraint?
-    private var currentText: String?
     
+    var currentText: String?
     var currentDate = Date()
     
     override func viewDidAppear(_ animated: Bool) {
@@ -110,6 +110,11 @@ final class TrackersViewController: UIViewController {
         setupImageView()
         setupLabel()
         setupFiltersButton()
+        
+        let dayOfWeek = Schedule.getNameOfDay(Calendar.current.component(.weekday, from: currentDate))
+        let text = currentText ?? ""
+        trackerViewModel.filterTrackersForDay(date: dayOfWeek, text: text)
+        UserDefaults.standard.set(1, forKey: "indexOfSelectedCell")
         
         reloadData()
     }
@@ -276,6 +281,8 @@ final class TrackersViewController: UIViewController {
     @objc
     private func filtersButtonDidTap() {
         let filtersViewController = FiltersViewController()
+        filtersViewController.trackersViewController = self
+        
         let navigationController = UINavigationController(rootViewController: filtersViewController)
         present(navigationController, animated: true)
     }
@@ -308,11 +315,13 @@ extension TrackersViewController: UITextFieldDelegate {
 
 extension TrackersViewController {
     func reloadData() {
+        print("reload Data starts")
         let dayOfWeek = Schedule.getNameOfDay(Calendar.current.component(.weekday, from: currentDate))
         let text = currentText ?? ""
         
-        trackerViewModel.setPredicate()
-        trackerViewModel.setPredicate(date: dayOfWeek, text: text)
+//        trackerViewModel.setPredicate()
+//        trackerViewModel.setPredicate(date: dayOfWeek, text: text)
+//        trackerViewModel.filterTrackersForDay(date: dayOfWeek, text: text)
         
         do {
             try trackerViewModel.performFetch()
