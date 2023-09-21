@@ -63,6 +63,16 @@ final class TrackersViewController: UIViewController {
         return label
     }()
     
+    private let filtersButton: UIButton = {
+        let button  = UIButton()
+        button.backgroundColor = .ypBlue
+        button.setTitle("Фильтры", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.layer.cornerRadius = 16
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
     let trackerViewModel = TrackerViewModel(store: TrackerStore())
     let trackerRecordViewModel = TrackerRecordViewModel(store: TrackerRecordStore())
     
@@ -99,6 +109,7 @@ final class TrackersViewController: UIViewController {
         setupCollectionView()
         setupImageView()
         setupLabel()
+        setupFiltersButton()
         
         reloadData()
     }
@@ -182,6 +193,17 @@ final class TrackersViewController: UIViewController {
         searchCancelButton.removeFromSuperview()
         constraintToCancelButton?.isActive = false
         constraintToSuperview?.isActive = true
+    }
+    
+    private func setupFiltersButton() {
+        view.addSubview(filtersButton)
+        
+        NSLayoutConstraint.activate([
+            filtersButton.widthAnchor.constraint(equalToConstant: 114),
+            filtersButton.heightAnchor.constraint(equalToConstant: 50),
+            filtersButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            filtersButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16)
+        ])
     }
     
     private func reloadPlaceholderView() {
