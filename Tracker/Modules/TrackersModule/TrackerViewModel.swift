@@ -60,12 +60,13 @@ final class TrackerViewModel {
     
     func filterTrackersForDay(date dayOfWeek: String, text: String) {
         if text.isEmpty {
-            store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K != YES)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.isPinned)))
+            store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K == NO)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.isPinned)))
+            store.setPredicateForPinnedTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K == YES)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.isPinned)))
         } else {
-            store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@) AND (%K != YES)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.isPinned)))
+            store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@) AND (%K == NO)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.isPinned)))
+            store.setPredicateForPinnedTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@) AND (%K == YES)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.isPinned)))
         }
         
-        store.setPredicateForPinnedTrackers(NSPredicate(format: "%K == YES", #keyPath(TrackerCoreData.isPinned)))
         print("УСТАНОВИЛИ ПРЕДИКАТЫ")
         
         do {
@@ -77,12 +78,13 @@ final class TrackerViewModel {
     
     func filterAllTrackers(text: String) {
         if text.isEmpty {
-            store.setPredicateForTrackers(nil)
+            store.setPredicateForTrackers(NSPredicate(format: "%K == NO", #keyPath(TrackerCoreData.isPinned)))
+            store.setPredicateForPinnedTrackers(NSPredicate(format: "%K == YES", #keyPath(TrackerCoreData.isPinned)))
         } else {
-            store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K != YES)", #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.isPinned)))
+            store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K == NO)", #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.isPinned)))
+            store.setPredicateForPinnedTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K == YES)", #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.isPinned)))
         }
         
-        store.setPredicateForPinnedTrackers(NSPredicate(format: "%K == YES", #keyPath(TrackerCoreData.isPinned)))
         print("УСТАНОВИЛИ ПРЕДИКАТЫ ДЛЯ ВСЕХ ТРЕКЕРОВ")
         
         do {
@@ -92,9 +94,25 @@ final class TrackerViewModel {
         }
     }
     
-//    func getAllTrackers() -> [Tracker] {
-//        store.getAllTrackers()
-//    }
+    func filterCompletedTrackers(dayOfWeek: String, text: String, completedIDs: [UUID]) {
+        if text.isEmpty {
+            store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K IN %@) AND (%K == NO)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.trackerID), completedIDs, #keyPath(TrackerCoreData.isPinned)))
+            store.setPredicateForPinnedTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K IN %@) AND (%K == YES)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.trackerID), completedIDs, #keyPath(TrackerCoreData.isPinned)))
+        } else {
+            store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@) AND (%K IN %@) AND (%K == NO)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.trackerID), completedIDs, #keyPath(TrackerCoreData.isPinned)))
+            store.setPredicateForPinnedTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@) AND (%K IN %@) AND (%K == YES)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.trackerID), completedIDs, #keyPath(TrackerCoreData.isPinned)))
+        }
+        
+        print("УСТАНОВИЛИ ПРЕДИКАТЫ ДЛЯ ЗАВЕРШЁННЫХ")
+        
+        do {
+            try store.fetchedResultsController.performFetch()
+        } catch {
+            print("Не смогли")
+        }
+        
+        print(store.fetchedResultsController.fetchedObjects)
+    }
     
     func performFetch() throws {
         try store.fetchedResultsControllerForPinnedTrackers.performFetch()

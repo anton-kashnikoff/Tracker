@@ -10,6 +10,7 @@ import YandexMobileMetrica
 
 final class TrackerRecordViewModel {
     private let store: TrackerRecordStore
+//    private let trackerStore = TrackerStore()
     private let analyticsService = AnalyticsService()
     
     init(store: TrackerRecordStore) {
@@ -35,5 +36,11 @@ final class TrackerRecordViewModel {
     
     func getCountOfCompletedDaysForTracker(_ trackerID: UUID) -> Int? {
         store.getCountOfCompletedDaysForTracker(trackerID)
+    }
+    
+    func filterCompletedTrackers(date: Date) -> [UUID] {
+        let completedIDs = store.getTrackerRecordIDForDate(date) // [UUID]
+        print(completedIDs)
+        return completedIDs
     }
 }

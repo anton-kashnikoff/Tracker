@@ -237,7 +237,7 @@ final class TrackersViewController: UIViewController {
         newHabitViewController.trackerViewModel = self.trackerViewModel
         newHabitViewController.trackerObjectInfo = trackerObject
         
-        guard let id = trackerObject.id else {
+        guard let id = trackerObject.trackerID else {
             return
         }
         
@@ -316,19 +316,19 @@ extension TrackersViewController: UITextFieldDelegate {
 extension TrackersViewController {
     func reloadData() {
         print("reload Data starts")
-        let dayOfWeek = Schedule.getNameOfDay(Calendar.current.component(.weekday, from: currentDate))
-        let text = currentText ?? ""
+//        let dayOfWeek = Schedule.getNameOfDay(Calendar.current.component(.weekday, from: currentDate))
+//        let text = currentText ?? ""
         
 //        trackerViewModel.setPredicate()
 //        trackerViewModel.setPredicate(date: dayOfWeek, text: text)
 //        trackerViewModel.filterTrackersForDay(date: dayOfWeek, text: text)
         
-        do {
-            try trackerViewModel.performFetch()
-            try trackerRecordViewModel.performFetch()
-        } catch let error as NSError  {
-            print("Error: \(error)")
-        }
+//        do {
+//            try trackerViewModel.performFetch()
+//            try trackerRecordViewModel.performFetch()
+//        } catch let error as NSError  {
+//            print("Error: \(error)")
+//        }
         
         collectionView.reloadData()
         reloadPlaceholderView()

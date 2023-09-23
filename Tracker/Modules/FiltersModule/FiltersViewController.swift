@@ -76,6 +76,8 @@ extension FiltersViewController: UITableViewDelegate {
             return
         }
         
+        UserDefaults.standard.set(indexPath.row, forKey: "indexOfSelectedCell")
+        
         cell.isSelected = true
         cell.checkmarkImageView.isHidden = false
         
@@ -95,14 +97,15 @@ extension FiltersViewController: UITableViewDelegate {
             print("CASE 1")
             trackersViewController?.trackerViewModel.filterTrackersForDay(date: dayOfWeek, text: text)
         case 2:
-            break
+            print("CASE 2")
+            let ids = trackersViewController?.trackerRecordViewModel.filterCompletedTrackers(date: currentDate) ?? []
+            trackersViewController?.trackerViewModel.filterCompletedTrackers(dayOfWeek: dayOfWeek, text: text, completedIDs: ids)
         case 3:
             break
         default:
             break
         }
         
-        UserDefaults.standard.set(indexPath.row, forKey: "indexOfSelectedCell")
         trackersViewController?.reloadData()
         
         dismiss(animated: true)

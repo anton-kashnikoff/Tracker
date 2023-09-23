@@ -54,7 +54,7 @@ final class TrackerStore: NSObject {
     
     func addNewTracker(_ tracker: Tracker, to category: TrackerCategoryCoreData) {
         let trackerCoreData = TrackerCoreData(context: context)
-        trackerCoreData.id = tracker.id
+        trackerCoreData.trackerID = tracker.id
         trackerCoreData.name = tracker.name
         trackerCoreData.emoji = tracker.emoji
         trackerCoreData.color = uiColorMarshalling.getHEXString(from: tracker.color)
@@ -71,7 +71,7 @@ final class TrackerStore: NSObject {
     }
     
     func makeTracker(from trackerObject: TrackerCoreData) -> Tracker? {
-        if let id = trackerObject.id, let name = trackerObject.name, let emoji = trackerObject.emoji, let colorString = trackerObject.color, let scheduleString = trackerObject.schedule {
+        if let id = trackerObject.trackerID, let name = trackerObject.name, let emoji = trackerObject.emoji, let colorString = trackerObject.color, let scheduleString = trackerObject.schedule {
             let daysOfWeek = Set(scheduleString.components(separatedBy: ", ").compactMap {
                 Schedule.DayOfWeek(rawValue: $0)
             })
@@ -136,18 +136,6 @@ final class TrackerStore: NSObject {
         fetchedResultsControllerForPinnedTrackers.fetchedObjects?.count ?? 0
     }
     
-    func getAllTrackers() -> [Tracker] {
-        guard let trackersObjects = fetchedResultsController.fetchedObjects else {
-            return []
-        }
-        
-        var trackers: [Tracker] = trackersObjects.compactMap {
-            makeTracker(from: $0)
-        }
-        
-        return trackers
-    }
-    
     func getAllTrackerIDs() -> [UUID] {
         // TODO: Может быть переделать через запрос
         guard let trackerObjects = fetchedResultsController.fetchedObjects, let pinnedTrackerObjects = fetchedResultsControllerForPinnedTrackers.fetchedObjects else {
@@ -157,7 +145,7 @@ final class TrackerStore: NSObject {
         var trackersIDs = [UUID]()
         
         for object in trackerObjects {
-            guard let id = object.id else {
+            guard let id = object.trackerID else {
                 return []
             }
             
@@ -165,7 +153,7 @@ final class TrackerStore: NSObject {
         }
         
         for object in pinnedTrackerObjects {
-            guard let id = object.id else {
+            guard let id = object.trackerID else {
                 return []
             }
             

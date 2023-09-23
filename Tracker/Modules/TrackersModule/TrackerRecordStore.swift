@@ -23,14 +23,18 @@ final class TrackerRecordStore: NSObject {
         return fetchedResultsController
     }()
     
-    func checkTrackerRecordForDate(_ date: Date, id: UUID) -> TrackerRecordState {
-        fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "%K == %@", #keyPath(TrackerRecordCoreData.trackerID), id as CVarArg)
-        
+    private func performFetch() {
         do {
             try fetchedResultsController.performFetch()
         } catch let error as NSError  {
             print("Error: \(error)")
         }
+    }
+    
+    func checkTrackerRecordForDate(_ date: Date, id: UUID) -> TrackerRecordState {
+        fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "%K == %@", #keyPath(TrackerRecordCoreData.trackerID), id as CVarArg)
+        
+        performFetch()
         
         if let objects = fetchedResultsController.fetchedObjects {
             for object in objects {
@@ -41,6 +45,20 @@ final class TrackerRecordStore: NSObject {
         }
         
         return .notExist
+    }
+    
+    func getTrackerRecordIDForDate(_ date: Date) -> [UUID] {
+        fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "%K == %@", #keyPath(TrackerRecordCoreData.date), date as CVarArg)
+        
+        performFetch()
+        
+        guard let ids = fetchedResultsController.fetchedObjects?.compactMap({
+            $0.trackerID
+        }) else {
+            return []
+        }
+        
+        return ids
     }
     
     func toggleTrackerRecord(_ trackerRecord: TrackerRecord, trackerRecordState: TrackerRecordState) {
@@ -70,14 +88,18 @@ final class TrackerRecordStore: NSObject {
     func getCountOfCompletedDaysForTracker(_ trackerID: UUID) -> Int? {
         fetchedResultsController.fetchRequest.predicate = NSPredicate(format: "%K == %@", #keyPath(TrackerRecordCoreData.trackerID), trackerID as CVarArg)
         
-        do {
-            try fetchedResultsController.performFetch()
-        } catch let error as NSError  {
-            print("Error: \(error)")
-        }
+        performFetch()
         
         return fetchedResultsController.fetchedObjects?.count
     }
+    
+    func setPredicateForTrackers(_ predicate: NSPredicate?) {
+        fetchedResultsController.fetchRequest.predicate = predicate
+    }
+    
+//    func setPredicateForPinnedTrackers(_ predicate: NSPredicate?) {
+//        fetchedResultsControllerForPinnedTrackers.fetchRequest.predicate = predicate
+//    }
 }
 
 extension TrackerRecordStore: NSFetchedResultsControllerDelegate {

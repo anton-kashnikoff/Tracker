@@ -18,7 +18,7 @@ struct Schedule {
         case sunday = "Воскресенье"
         
         func getIndexOfCase() -> Int {
-            return Self.allCases.firstIndex {
+            Self.allCases.firstIndex {
                 self == $0
             } ?? -1
         }
@@ -77,6 +77,12 @@ struct Schedule {
             return "Суббота"
         default:
             return ""
+        }
+    }
+    
+    static func getDay(by index: Int) -> DayOfWeek? {
+        DayOfWeek.allCases.first {
+            $0.getIndexOfCase() == index
         }
     }
 }
