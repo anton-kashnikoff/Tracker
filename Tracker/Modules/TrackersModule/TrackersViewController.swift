@@ -111,12 +111,6 @@ final class TrackersViewController: UIViewController {
         setupLabel()
         setupFiltersButton()
         
-        let dayOfWeek = Schedule.getNameOfDay(Calendar.current.component(.weekday, from: currentDate))
-        let text = currentText ?? ""
-        
-        trackerViewModel.filterTrackersForDay(date: dayOfWeek, text: text)
-        trackerViewModel.performFetch()
-        
         UserDefaults.standard.set(1, forKey: "indexOfSelectedCell")
         
         reloadData()
