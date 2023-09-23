@@ -18,6 +18,7 @@ delete = "Remove";
 edit = "Edit";
 pin = "Pin";
 unpin = "Unpin";
+pinned = "Pinned";
 filters = "Filters";
 confirmationOfDeletion = "Are you sure you want to delete the tracker?";
 

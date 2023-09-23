@@ -162,7 +162,7 @@ final class TrackerViewModel {
             return trackerObject.category?.name
         } else if indexPath.section == 0 {
             // если есть закреплённые трекеры и у этого трекера секция = 0, то он закреплён
-            return "Закреплённые"
+            return NSLocalizedString("pinned", comment: "Title for pinned trackers section")
         } else {
             // если есть закреплённые трекеры и у этого трекера секция отличная от нуля, то он не закреплён
             let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
