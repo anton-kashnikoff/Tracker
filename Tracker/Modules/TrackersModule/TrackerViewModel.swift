@@ -119,14 +119,6 @@ final class TrackerViewModel {
         try store.fetchedResultsController.performFetch()
     }
     
-//    func numberOfSections() -> Int {
-//        store.numberOfSections()
-//    }
-    
-//    func numberOfItemsInSection(_ section: Int) -> Int {
-//        store.numberOfItemsInSection(section)
-//    }
-    
     func getObjectAt(indexPath: IndexPath) -> TrackerCoreData {
         store.getObjectAt(indexPath: indexPath)
     }
@@ -151,7 +143,7 @@ final class TrackerViewModel {
         store.getCountOfAllPinnedTrackers()
     }
     
-    func getNumberOfSections() -> Int {
+    func numberOfSections() -> Int {
         if isPinnedFetchedObjectsEmpty() {
             return store.numberOfSections()
         } else {
@@ -163,7 +155,7 @@ final class TrackerViewModel {
         store.makeString(from: daysOfWeek)
     }
     
-    func getNumberOfItemsInSection(_ section: Int) -> Int {
+    func numberOfItemsInSection(_ section: Int) -> Int {
         if isPinnedFetchedObjectsEmpty() {
             return store.numberOfItemsInSection(section)
         } else {

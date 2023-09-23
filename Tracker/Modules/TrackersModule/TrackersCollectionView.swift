@@ -119,7 +119,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return 0
         }
         
-        return trackersViewController.trackerViewModel.getNumberOfSections()
+        return trackersViewController.trackerViewModel.numberOfSections()
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -128,7 +128,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
             return 0
         }
         
-        return trackersViewController.trackerViewModel.getNumberOfItemsInSection(section)
+        return trackersViewController.trackerViewModel.numberOfItemsInSection(section)
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
