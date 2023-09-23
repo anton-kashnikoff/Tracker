@@ -103,7 +103,7 @@ final class TrackerViewModel {
             try store.fetchedResultsControllerForPinnedTrackers.performFetch()
             try store.fetchedResultsController.performFetch()
         } catch {
-            print("Не смогли")
+            print("Unable to perform fetch")
         }
     }
     

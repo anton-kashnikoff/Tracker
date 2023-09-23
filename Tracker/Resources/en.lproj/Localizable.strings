@@ -18,6 +18,7 @@ delete = "Remove";
 edit = "Edit";
 pin = "Pin";
 unpin = "Unpin";
+filters = "Filters";
 confirmationOfDeletion = "Are you sure you want to delete the tracker?";
 
 onboarding.title1 = "Track only what you want";
@@ -65,3 +66,8 @@ trackers.placeholder.noTrackers = "What will we track?";
 
 statistics.placeholder.nothingToAnalyze = "There is nothing to analyze yet";
 statistics.cellTitle.completedTrackers = "Trackers completed";
+
+filters.allTrackers = "All trackers";
+filters.trackersForToday = "Trackers for today";
+filters.completedTrackers = "Completed";
+filters.uncompletedTrackers = "Uncompleted";

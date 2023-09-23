@@ -19,14 +19,14 @@ final class FiltersViewController: UIViewController {
         return tableView
     }()
     
-    private let filters = ["Все трекеры", "Трекеры на сегодня", "Завершенные", "Не завершенные"]
+    private let filters = [NSLocalizedString("filters.allTrackers", comment: "Title for all trackers filter"), NSLocalizedString("filters.trackersForToday", comment: "Title for trackers for today filter"), NSLocalizedString("filters.completedTrackers", comment: "Title for completed trackers filter"), NSLocalizedString("filters.uncompletedTrackers", comment: "Title for uncompleted trackers filter")]
     
     weak var trackersViewController: TrackersViewController?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        title = "Фильтры"
+        title = NSLocalizedString("filters", comment: "Title for Filters screen")
         view.backgroundColor = .ypWhite
         
         setupTableView()

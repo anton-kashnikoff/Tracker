@@ -18,6 +18,7 @@ delete = "Удалить";
 edit = "Редактировать";
 pin = "Закрепить";
 unpin = "Открепить";
+filters = "Фильтры";
 confirmationOfDeletion = "Уверены что хотите удалить трекер?";
 
 onboarding.title1 = "Отслеживайте только то, что хотите";
@@ -65,3 +66,8 @@ trackers.placeholder.noTrackers = "Что будем отслеживать?";
 
 statistics.placeholder.nothingToAnalyze = "Анализировать пока нечего";
 statistics.cellTitle.completedTrackers = "Трекеров завершено";
+
+filters.allTrackers = "Все трекеры";
+filters.trackersForToday = "Трекеры на сегодня";
+filters.completedTrackers = "Завершенные";
+filters.uncompletedTrackers = "Не завершенные";

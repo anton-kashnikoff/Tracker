@@ -66,7 +66,7 @@ final class TrackersViewController: UIViewController {
     private let filtersButton: UIButton = {
         let button  = UIButton()
         button.backgroundColor = .ypBlue
-        button.setTitle("Фильтры", for: .normal)
+        button.setTitle(NSLocalizedString("filters", comment: "Title fot filters button"), for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.layer.cornerRadius = 16
         button.translatesAutoresizingMaskIntoConstraints = false
