@@ -210,11 +210,11 @@ final class TrackersViewController: UIViewController {
     }
     
     private func reloadPlaceholderView() {
-        if trackerViewModel.isFetchedObjectsEmpty() && currentText != "" {
+        if trackerViewModel.isFetchedObjectsEmpty() && trackerViewModel.isPinnedFetchedObjectsEmpty() && currentText != "" {
             imageView.image = .nothingFound
             label.text = NSLocalizedString("trackers.placeholder.nothingFound", comment: "Text for placeholder view when nothing found")
             makePlaceholderViewHidden(false)
-        } else if trackerViewModel.isFetchedObjectsEmpty() {
+        } else if trackerViewModel.isFetchedObjectsEmpty() && trackerViewModel.isPinnedFetchedObjectsEmpty() {
             imageView.image = .star
             label.text = NSLocalizedString("trackers.placeholder.noTrackers", comment: "Text for placeholder view when no trackers created")
             makePlaceholderViewHidden(false)
