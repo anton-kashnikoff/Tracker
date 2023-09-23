@@ -9,8 +9,12 @@ import Foundation
 import YandexMobileMetrica
 
 struct AnalyticsService {
+    private enum Constants: String {
+        case yandexMetricaAPIKey = "e1917001-8f0b-46d2-8928-c08e8a10fe2b"
+    }
+    
     static func activate() {
-        guard let configuration = YMMYandexMetricaConfiguration(apiKey: "e1917001-8f0b-46d2-8928-c08e8a10fe2b") else {
+        guard let configuration = YMMYandexMetricaConfiguration(apiKey: Constants.yandexMetricaAPIKey.rawValue) else {
             return
         }
         

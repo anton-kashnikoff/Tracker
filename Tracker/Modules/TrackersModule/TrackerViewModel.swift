@@ -21,12 +21,10 @@ final class TrackerViewModel {
     
     func viewDidAppear() {
         analyticsService.report(event: "open", params: ["screen": "Main"])
-        print("Отправлен репорт открытия главного экрана")
     }
     
     func viewDidDisappear() {
         analyticsService.report(event: "close", params: ["screen": "Main"])
-        print("Отправлен репорт закрытия главного экрана")
     }
     
     func categorySelected() {
@@ -191,21 +189,17 @@ final class TrackerViewModel {
     
     func deleteTrackerTapped() {
         analyticsService.report(event: "click", params: ["screen": "Main", "item": "delete"])
-        print("Отправлен репорт по нажатию на кнопку удаления трекера")
     }
     
     func addTrackerTapped() {
         analyticsService.report(event: "click", params: ["screen": "Main", "item": "add_track"])
-        print("Отправлен репорт по нажатию на кнопку добавления трекера")
     }
     
     func editTrackerTapped() {
         analyticsService.report(event: "click", params: ["screen": "Main", "item": "edit"])
-        print("Отправлен репорт по нажатию на кнопку редактирования трекера")
     }
     
     func filtersTapped() {
         analyticsService.report(event: "click", params: ["screen": "Main", "item": "filter"])
-        print("Отправлен репорт по нажатию на кнопку фильтров")
     }
 }
