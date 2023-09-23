@@ -81,31 +81,7 @@ extension FiltersViewController: UITableViewDelegate {
         cell.isSelected = true
         cell.checkmarkImageView.isHidden = false
         
-        guard let trackersViewController else {
-            return
-        }
-        
-        let dayOfWeek = Schedule.getNameOfDay(Calendar.current.component(.weekday, from: trackersViewController.currentDate))
-        let text = trackersViewController.currentText ?? ""
-        
-        // устанавливаем фильтр в зависимости от выбранной ячейки
-        switch indexPath.row {
-        case 0:
-            trackersViewController.trackerViewModel.filterAllTrackers(text: text)
-        case 1:
-            trackersViewController.trackerViewModel.filterTrackersForDay(date: dayOfWeek, text: text)
-        case 2:
-            let ids = trackersViewController.trackerRecordViewModel.getTrackerRecordIDForDate(date: trackersViewController.currentDate)
-            trackersViewController.trackerViewModel.filterCompletedTrackers(dayOfWeek: dayOfWeek, text: text, completedIDs: ids)
-        case 3:
-            let ids = trackersViewController.trackerRecordViewModel.getTrackerRecordIDForDate(date: trackersViewController.currentDate)
-            trackersViewController.trackerViewModel.filterUncompletedTrackers(dayOfWeek: dayOfWeek, text: text, completedIDs: ids)
-        default:
-            break
-        }
-        
-        trackersViewController.trackerViewModel.performFetch()
-        trackersViewController.reloadData()
+        trackersViewController?.reloadData()
         
         dismiss(animated: true)
     }

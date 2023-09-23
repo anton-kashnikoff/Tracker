@@ -320,6 +320,26 @@ extension TrackersViewController: UITextFieldDelegate {
 
 extension TrackersViewController {
     func reloadData() {
+        let filterStatus = UserDefaults.standard.integer(forKey: "indexOfSelectedCell")
+        let dayOfWeek = Schedule.getNameOfDay(Calendar.current.component(.weekday, from: currentDate))
+        let text = currentText ?? ""
+        
+        switch filterStatus {
+        case 0:
+            trackerViewModel.filterAllTrackers(text: text)
+        case 1:
+            trackerViewModel.filterTrackersForDay(date: dayOfWeek, text: text)
+        case 2:
+            let ids = trackerRecordViewModel.getTrackerRecordIDForDate(date: currentDate)
+            trackerViewModel.filterCompletedTrackers(dayOfWeek: dayOfWeek, text: text, completedIDs: ids)
+        case 3:
+            let ids = trackerRecordViewModel.getTrackerRecordIDForDate(date: currentDate)
+            trackerViewModel.filterUncompletedTrackers(dayOfWeek: dayOfWeek, text: text, completedIDs: ids)
+        default:
+            break
+        }
+        
+        trackerViewModel.performFetch()
         collectionView.reloadData()
         reloadPlaceholderView()
     }
