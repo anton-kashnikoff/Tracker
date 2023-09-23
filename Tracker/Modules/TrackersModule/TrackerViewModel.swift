@@ -66,14 +66,6 @@ final class TrackerViewModel {
             store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@) AND (%K == NO)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.isPinned)))
             store.setPredicateForPinnedTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@) AND (%K == YES)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.isPinned)))
         }
-        
-        print("УСТАНОВИЛИ ПРЕДИКАТЫ")
-        
-        do {
-            try performFetch()
-        } catch {
-            print("Не смогли")
-        }
     }
     
     func filterAllTrackers(text: String) {
@@ -83,14 +75,6 @@ final class TrackerViewModel {
         } else {
             store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K == NO)", #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.isPinned)))
             store.setPredicateForPinnedTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K == YES)", #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.isPinned)))
-        }
-        
-        print("УСТАНОВИЛИ ПРЕДИКАТЫ ДЛЯ ВСЕХ ТРЕКЕРОВ")
-        
-        do {
-            try performFetch()
-        } catch {
-            print("Не смогли")
         }
     }
     
@@ -102,21 +86,25 @@ final class TrackerViewModel {
             store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@) AND (%K IN %@) AND (%K == NO)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.trackerID), completedIDs, #keyPath(TrackerCoreData.isPinned)))
             store.setPredicateForPinnedTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@) AND (%K IN %@) AND (%K == YES)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.trackerID), completedIDs, #keyPath(TrackerCoreData.isPinned)))
         }
-        
-        print("УСТАНОВИЛИ ПРЕДИКАТЫ ДЛЯ ЗАВЕРШЁННЫХ")
-        
+    }
+    
+    func filterUncompletedTrackers(dayOfWeek: String, text: String, completedIDs: [UUID]) {
+        if text.isEmpty {
+            store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND NOT (%K IN %@) AND (%K == NO)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.trackerID), completedIDs, #keyPath(TrackerCoreData.isPinned)))
+            store.setPredicateForPinnedTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND NOT (%K IN %@) AND (%K == YES)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.trackerID), completedIDs, #keyPath(TrackerCoreData.isPinned)))
+        } else {
+            store.setPredicateForTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@) AND NOT (%K IN %@) AND (%K == NO)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.trackerID), completedIDs, #keyPath(TrackerCoreData.isPinned)))
+            store.setPredicateForPinnedTrackers(NSPredicate(format: "(%K CONTAINS[cd] %@) AND (%K CONTAINS[cd] %@) AND NOT (%K IN %@) AND (%K == YES)", #keyPath(TrackerCoreData.schedule), dayOfWeek, #keyPath(TrackerCoreData.name), text, #keyPath(TrackerCoreData.trackerID), completedIDs, #keyPath(TrackerCoreData.isPinned)))
+        }
+    }
+    
+    func performFetch() {
         do {
+            try store.fetchedResultsControllerForPinnedTrackers.performFetch()
             try store.fetchedResultsController.performFetch()
         } catch {
             print("Не смогли")
         }
-        
-        print(store.fetchedResultsController.fetchedObjects)
-    }
-    
-    func performFetch() throws {
-        try store.fetchedResultsControllerForPinnedTrackers.performFetch()
-        try store.fetchedResultsController.performFetch()
     }
     
     func getObjectAt(indexPath: IndexPath) -> TrackerCoreData {

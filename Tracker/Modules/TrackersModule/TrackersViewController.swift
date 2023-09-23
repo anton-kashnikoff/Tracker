@@ -113,7 +113,10 @@ final class TrackersViewController: UIViewController {
         
         let dayOfWeek = Schedule.getNameOfDay(Calendar.current.component(.weekday, from: currentDate))
         let text = currentText ?? ""
+        
         trackerViewModel.filterTrackersForDay(date: dayOfWeek, text: text)
+        trackerViewModel.performFetch()
+        
         UserDefaults.standard.set(1, forKey: "indexOfSelectedCell")
         
         reloadData()
@@ -315,21 +318,6 @@ extension TrackersViewController: UITextFieldDelegate {
 
 extension TrackersViewController {
     func reloadData() {
-        print("reload Data starts")
-//        let dayOfWeek = Schedule.getNameOfDay(Calendar.current.component(.weekday, from: currentDate))
-//        let text = currentText ?? ""
-        
-//        trackerViewModel.setPredicate()
-//        trackerViewModel.setPredicate(date: dayOfWeek, text: text)
-//        trackerViewModel.filterTrackersForDay(date: dayOfWeek, text: text)
-        
-//        do {
-//            try trackerViewModel.performFetch()
-//            try trackerRecordViewModel.performFetch()
-//        } catch let error as NSError  {
-//            print("Error: \(error)")
-//        }
-        
         collectionView.reloadData()
         reloadPlaceholderView()
     }
