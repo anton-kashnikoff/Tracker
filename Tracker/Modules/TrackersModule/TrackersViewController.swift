@@ -286,6 +286,8 @@ final class TrackersViewController: UIViewController {
         let filtersViewController = FiltersViewController()
         filtersViewController.trackersViewController = self
         
+        trackerViewModel.filtersTapped()
+        
         let navigationController = UINavigationController(rootViewController: filtersViewController)
         present(navigationController, animated: true)
     }

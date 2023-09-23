@@ -203,4 +203,9 @@ final class TrackerViewModel {
         analyticsService.report(event: "click", params: ["screen": "Main", "item": "edit"])
         print("Отправлен репорт по нажатию на кнопку редактирования трекера")
     }
+    
+    func filtersTapped() {
+        analyticsService.report(event: "click", params: ["screen": "Main", "item": "filter"])
+        print("Отправлен репорт по нажатию на кнопку фильтров")
+    }
 }
