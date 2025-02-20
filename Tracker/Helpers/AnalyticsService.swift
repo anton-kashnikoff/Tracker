@@ -13,8 +13,10 @@ struct AnalyticsService {
     }
     
     static func activate() {
-        let configuration = AppMetricaConfiguration(apiKey: Constants.metricaAPIKey.rawValue)
-        AppMetrica.activate(with: configuration!)
+        guard let configuration = AppMetricaConfiguration(apiKey: Constants.metricaAPIKey.rawValue) else {
+            return
+        }
+        AppMetrica.activate(with: configuration)
     }
     
     func report(event: String, params: [AnyHashable: Any]) {
