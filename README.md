@@ -23,7 +23,7 @@ Tracker is an iOS application designed to help users build and maintain good hab
 To enable crash tracking, add the following dependency to your project's `Podfile`:
 
 ```ruby
-pod 'YandexMobileMetrica/Dynamic', '4.5.2'
+pod 'AppMetricaCore', '~> 5.9.0'
 ```
 Then, run:
 
@@ -35,18 +35,18 @@ System Requirements
 * iOS 13.4+
 
 **Dependencies:**
-* [YandexMobileMetrica](https://github.com/yandexmobile/metrica-sdk-ios)
+* [AppMetrica](https://github.com/appmetrica/appmetrica-sdk-ios)
 * [swift-syntax](https://github.com/apple/swift-syntax.git)
 * [swift-snapshot-testing](https://github.com/pointfreeco/swift-snapshot-testing)
 
 **Technology Stack:**
 * UIKit: UICollectionView, UITabBarController, UINavigationController
-* Concurrency: GCD
+* Concurrency: GCD (Grand Central Dispatch)
 * Networking: HTTP requests (URLSession), REST API
 * Architecture: MVVM
 * Persistence: CoreData
 * Testing: Snapshot tests (swift-snapshot-testing)
-* Analytics: YandexMobileMetrica
+* Analytics: AppMetrica
 
 **Future Improvements:**
 * Widget support for quick habit tracking
