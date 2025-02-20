@@ -6,7 +6,6 @@
 //
 
 import Foundation
-import YandexMobileMetrica
 
 final class TrackerRecordViewModel {
     private let store: TrackerRecordStore
