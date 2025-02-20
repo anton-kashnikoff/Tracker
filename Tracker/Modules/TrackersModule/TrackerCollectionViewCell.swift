@@ -29,7 +29,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     let emojiLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16)
+        label.font = .systemFont(ofSize: 16)
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -37,7 +37,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     let trackerTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = .systemFont(ofSize: 12)
         label.textColor = .white
         label.numberOfLines = 2
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -52,7 +52,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     
     let daysCountLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = .systemFont(ofSize: 12)
         label.textColor = .ypBlack
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -171,18 +171,16 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
         guard trackerRecord.date <= Calendar.current.startOfDay(for: Date()) else {
             return
         }
-        // получаем состояние для конкретного трекера на конкретную дату
+        // getting the status for a specific tracker on a specific date
         let trackerRecordState = trackerRecordViewModel?.checkTrackerRecordForDate(trackerRecord.date, id: trackerRecord.id)
         
         switch trackerRecordState {
         case .existForDate:
-            // если БД содержит текущую дату для этого трекера, то
-            // при нажатии кнопку нужно поменять на плюс, удалить запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
+            // if the database contains the current date for this tracker, then when the button is clicked, we need to change it to plus, delete the entry for this date and change the text to the current number of dates in the array for this tracker.
             completedButton.setImage(.plus?.withRenderingMode(.alwaysTemplate), for: .normal)
             trackerRecordViewModel?.toggleTrackerRecord(trackerRecord, trackerRecordState: .existForDate)
         case .notExist:
-            // если БД не содержит ни одной записи для этого трекера, то
-            // при нажатии кнопку поменять на галочку, сделать запись для этой даты и поменять текст на актуальное кол-во дат в массиве для этого трекера
+            // if the database doesn't contain any records for this tracker, then when we click the checkmark button, make an entry for this date and change the text to the current number of dates in the array for this tracker.
             completedButton.setImage(.tick?.withRenderingMode(.alwaysTemplate), for: .normal)
             trackerRecordViewModel?.toggleTrackerRecord(trackerRecord, trackerRecordState: .notExist)
         case .none:

@@ -155,14 +155,14 @@ final class TrackerViewModel {
     
     func getSectionTitle(for indexPath: IndexPath) -> String? {
         if isPinnedFetchedObjectsEmpty() {
-            //значит это по любому не закреплённый трекер
+            // it's not a pinned tracker anyway
             let trackerObject = getObjectAt(indexPath: indexPath)
             return trackerObject.category?.name
         } else if indexPath.section == 0 {
-            // если есть закреплённые трекеры и у этого трекера секция = 0, то он закреплён
+            // if there are pinned trackers and this tracker has section = 0, then it is pinned
             return NSLocalizedString("pinned", comment: "Title for pinned trackers section")
         } else {
-            // если есть закреплённые трекеры и у этого трекера секция отличная от нуля, то он не закреплён
+            // if there are pinned trackers and this tracker has a section other than zero, then it's not pinned
             let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
             let trackerObject = getObjectAt(indexPath: newIndexPath)
             return trackerObject.category?.name
@@ -171,13 +171,13 @@ final class TrackerViewModel {
     
     func getTrackerObject(at indexPath: IndexPath) -> TrackerCoreData {
         if isPinnedFetchedObjectsEmpty() {
-            //значит это по любому не закреплённый трекер
+            // it's not a pinned tracker anyway
             return getObjectAt(indexPath: indexPath)
         } else if indexPath.section == 0 {
-            // если есть закреплённые трекеры и у этого трекера секция = 0, то он закреплён
+            // if there are pinned trackers and this tracker has section = 0, then it is pinned
             return getPinnedObjectAt(indexPath: indexPath)
         } else {
-            // если есть закреплённые трекеры и у этого трекера секция отличная от нуля, то он не закреплён
+            // if there are pinned trackers and this tracker has a section other than zero, then it's not pinned
             let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
             return getObjectAt(indexPath: newIndexPath)
         }

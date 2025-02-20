@@ -25,7 +25,7 @@ final class ScheduleViewController: UIViewController {
         button.layer.cornerRadius = 16
         button.setTitle(NSLocalizedString("done", comment: "Title for button on Schedule screen"), for: .normal)
         button.setTitleColor(.ypWhite, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.titleLabel?.font = .systemFont(ofSize: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
@@ -45,7 +45,6 @@ final class ScheduleViewController: UIViewController {
     }
     
     func setupTableView() {
-        tableView.delegate = self
         tableView.dataSource = self
         view.addSubview(tableView)
         
@@ -102,9 +101,6 @@ final class ScheduleViewController: UIViewController {
     private func switchChanged(_ sender: UISwitch) {
         newTrackerViewController?.dataHelper.addDayOfWeek(index: sender.tag, isSelected: sender.isOn)
     }
-}
-
-extension ScheduleViewController: UITableViewDelegate {
 }
 
 extension ScheduleViewController: UITableViewDataSource {

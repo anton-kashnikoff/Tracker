@@ -121,11 +121,11 @@ final class DataHelper {
     }
     
     func createSchedule() throws -> Set<Schedule.DayOfWeek> {
-        var selectedDays = Set<Schedule.DayOfWeek>()
-        
         guard let daysOfWeek else {
             throw DataHelperError.failedToFindDaysOfWeek
         }
+        
+        var selectedDays = Set<Schedule.DayOfWeek>()
         
         for day in daysOfWeek {
             if day.isSelected {

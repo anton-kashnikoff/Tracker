@@ -15,7 +15,7 @@ final class TrackerTypeViewController: UIViewController {
         habitButton.layer.masksToBounds = true
         habitButton.setTitle(NSLocalizedString("trackerType.habitButton.title", comment: "Title fo habit button"), for: .normal)
         habitButton.setTitleColor(.ypWhite, for: .normal)
-        habitButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        habitButton.titleLabel?.font = .systemFont(ofSize: 16)
         habitButton.translatesAutoresizingMaskIntoConstraints = false
         return habitButton
     }()
@@ -27,7 +27,7 @@ final class TrackerTypeViewController: UIViewController {
         irregularEventButton.layer.masksToBounds = true
         irregularEventButton.setTitle(NSLocalizedString("trackerType.irregularEventButton.title", comment: "Title for irregular event button"), for: .normal)
         irregularEventButton.setTitleColor(.ypWhite, for: .normal)
-        irregularEventButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        irregularEventButton.titleLabel?.font = .systemFont(ofSize: 16)
         irregularEventButton.translatesAutoresizingMaskIntoConstraints = false
         return irregularEventButton
     }()

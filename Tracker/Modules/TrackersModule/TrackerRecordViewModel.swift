@@ -18,7 +18,7 @@ final class TrackerRecordViewModel {
     
     func completeTrackerTapped() {
         analyticsService.report(event: "click", params: ["screen": "Main", "item": "track"])
-        print("Отправлен репорт по нажатию на кнопку выполнения трекера")
+        print("A report was sent by clicking on the tracker execution button.")
     }
     
     func performFetch() throws {

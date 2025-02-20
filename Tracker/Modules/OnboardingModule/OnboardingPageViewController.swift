@@ -8,7 +8,10 @@
 import UIKit
 
 final class OnboardingPageViewController: UIPageViewController {
-    lazy var pages: [UIViewController] = [OnboardingViewController(labelText: NSLocalizedString("onboarding.title1", comment: "Title for blue onboarding page"), backgroundImage: .blueBackground!), OnboardingViewController(labelText: NSLocalizedString("onboarding.title2", comment: "Title for red onboarding page"), backgroundImage: .redBackground!)]
+    lazy var pages: [UIViewController] = [
+        OnboardingViewController(labelText: NSLocalizedString("onboarding.title1", comment: "Title for blue onboarding page"), backgroundImage: .blueBackground!),
+        OnboardingViewController(labelText: NSLocalizedString("onboarding.title2", comment: "Title for red onboarding page"), backgroundImage: .redBackground!)
+    ]
     
     lazy var pageControl: UIPageControl = {
         let pageControl = UIPageControl()

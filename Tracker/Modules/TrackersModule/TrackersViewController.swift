@@ -44,7 +44,7 @@ final class TrackersViewController: UIViewController {
         let button = UIButton()
         button.frame.size = CGSize(width: 83, height: 36)
         button.setTitle(NSLocalizedString("cancel", comment: "Search cancel button title"), for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 17)
+        button.titleLabel?.font = .systemFont(ofSize: 17)
         button.setTitleColor(.ypBlue, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -58,7 +58,7 @@ final class TrackersViewController: UIViewController {
     
     private let label: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = .systemFont(ofSize: 12)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

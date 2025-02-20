@@ -12,7 +12,7 @@ final class StatisticsTableViewCell: UITableViewCell {
     
     let numberLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 34, weight: .bold)
+        label.font = .systemFont(ofSize: 34, weight: .bold)
         label.textColor = .ypBlack
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -21,7 +21,7 @@ final class StatisticsTableViewCell: UITableViewCell {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.text = NSLocalizedString("statistics.cellTitle.completedTrackers", comment: "Title for completed trackers statistics cell")
-        label.font = UIFont.systemFont(ofSize: 12)
+        label.font = .systemFont(ofSize: 12)
         label.textColor = .ypBlack
         label.translatesAutoresizingMaskIntoConstraints = false
         return label

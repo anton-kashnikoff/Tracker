@@ -62,7 +62,7 @@ extension EmojiCollectionView: UICollectionViewDataSource {
         }
         
         cell.label.text = newHabitViewController?.emoji[indexPath.row]
-        cell.label.font = UIFont.systemFont(ofSize: 32)
+        cell.label.font = .systemFont(ofSize: 32)
 
         if cell.label.text == selectedEmoji {
             cell.backgroundColor = .ypLightGrey
@@ -86,6 +86,6 @@ extension EmojiCollectionView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        0
+        .zero
     }
 }

@@ -9,13 +9,13 @@ import Foundation
 
 struct Schedule {
     enum DayOfWeek: String, CaseIterable {
-        case monday = "Понедельник"
-        case tuesday = "Вторник"
-        case wednesday = "Среда"
-        case thursday = "Четверг"
-        case friday = "Пятница"
-        case saturday = "Суббота"
-        case sunday = "Воскресенье"
+        case monday = "Monday"
+        case tuesday = "Tuesday"
+        case wednesday = "Wednesday"
+        case thursday = "Thursday"
+        case friday = "Friday"
+        case saturday = "Saturday"
+        case sunday = "Sunday"
         
         func getIndexOfCase() -> Int {
             Self.allCases.firstIndex {
@@ -58,23 +58,25 @@ struct Schedule {
     }
     
     let daysOfWeek: Set<DayOfWeek>
-    
+}
+
+extension Schedule {
     static func getNameOfDay(_ number: Int) -> String {
         switch number {
         case 1:
-            return "Воскресенье"
+            return NSLocalizedString("schedule.dayOfWeek.sunday", comment: "Full name of Sunday")
         case 2:
-            return "Понедельник"
+            return NSLocalizedString("schedule.dayOfWeek.monday", comment: "Full name of Monday")
         case 3:
-            return "Вторник"
+            return NSLocalizedString("schedule.dayOfWeek.tuesday", comment: "Full name of Tuesday")
         case 4:
-            return "Среда"
+            return NSLocalizedString("schedule.dayOfWeek.wednesday", comment: "Full name of Wednesday")
         case 5:
-            return "Четверг"
+            return NSLocalizedString("schedule.dayOfWeek.thursday", comment: "Full name of Thursday")
         case 6:
-            return "Пятница"
+            return NSLocalizedString("schedule.dayOfWeek.friday", comment: "Full name of Friday")
         case 7:
-            return "Суббота"
+            return NSLocalizedString("schedule.dayOfWeek.saturday", comment: "Full name of Saturday")
         default:
             return ""
         }

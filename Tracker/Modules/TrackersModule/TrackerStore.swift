@@ -72,20 +72,24 @@ final class TrackerStore: NSObject {
     
     func makeTracker(from trackerObject: TrackerCoreData) -> Tracker? {
         if let id = trackerObject.trackerID, let name = trackerObject.name, let emoji = trackerObject.emoji, let colorString = trackerObject.color, let scheduleString = trackerObject.schedule {
-            let daysOfWeek = Set(scheduleString.components(separatedBy: ", ").compactMap {
-                Schedule.DayOfWeek(rawValue: $0)
-            })
+            let daysOfWeek = Set(
+                scheduleString.components(
+                    separatedBy: ", "
+                ).compactMap {
+                    Schedule.DayOfWeek(rawValue: $0)
+                }
+            )
             return Tracker(id: id, name: name, color: uiColorMarshalling.getColor(from: colorString), emoji: emoji, schedule: Schedule(daysOfWeek: daysOfWeek))
         }
         return nil
     }
     
     func numberOfSections() -> Int {
-        fetchedResultsController.sections?.count ?? 0
+        fetchedResultsController.sections?.count ?? .zero
     }
     
     func numberOfItemsInSection(_ section: Int) -> Int {
-        fetchedResultsController.sections?[section].numberOfObjects ?? 0
+        fetchedResultsController.sections?[section].numberOfObjects ?? .zero
     }
     
     func getObjectAt(indexPath: IndexPath) -> TrackerCoreData {
@@ -112,13 +116,13 @@ final class TrackerStore: NSObject {
         var trackerObject: TrackerCoreData
         
         if isPinnedFetchedObjectsEmpty() {
-            //значит это по любому не закреплённый трекер
+            // it's not a pinned tracker anyway
             trackerObject = getObjectAt(indexPath: indexPath)
         } else if indexPath.section == 0 {
-            // если есть закреплённые трекеры и у этого трекера секция = 0, то он закреплён
+            // if there are pinned trackers and this tracker has section = 0, then it is pinned
             trackerObject = getPinnedObjectAt(indexPath: indexPath)
         } else {
-            // если есть закреплённые трекеры и у этого трекера секция отличная от нуля, то он не закреплён
+            // if there are pinned trackers and this tracker has a section other than zero, then it's not pinned
             let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
             trackerObject = getObjectAt(indexPath: newIndexPath)
         }
@@ -133,11 +137,11 @@ final class TrackerStore: NSObject {
     }
     
     func getCountOfAllPinnedTrackers() -> Int {
-        fetchedResultsControllerForPinnedTrackers.fetchedObjects?.count ?? 0
+        fetchedResultsControllerForPinnedTrackers.fetchedObjects?.count ?? .zero
     }
     
     func getAllTrackerIDs() -> [UUID] {
-        // TODO: Может быть переделать через запрос
+        // TODO: Maybe redo using request
         guard let trackerObjects = fetchedResultsController.fetchedObjects, let pinnedTrackerObjects = fetchedResultsControllerForPinnedTrackers.fetchedObjects else {
             return []
         }

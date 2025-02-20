@@ -30,7 +30,7 @@ final class CategoryViewController: UIViewController {
         button.layer.cornerRadius = 16
         button.setTitle(NSLocalizedString("category.addButton.title", comment: "Title for button to add new category"), for: .normal)
         button.setTitleColor(.ypWhite, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.titleLabel?.font = .systemFont(ofSize: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

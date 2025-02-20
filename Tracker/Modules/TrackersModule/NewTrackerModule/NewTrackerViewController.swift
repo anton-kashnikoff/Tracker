@@ -23,7 +23,7 @@ final class NewTrackerViewController: UIViewController {
     lazy var dayCountLabel: UILabel = {
         let label = UILabel()
         label.isHidden = true
-        label.font = UIFont.systemFont(ofSize: 32, weight: .bold)
+        label.font = .systemFont(ofSize: 32, weight: .bold)
         label.textAlignment = .center
         label.textColor = .ypBlack
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -71,7 +71,7 @@ final class NewTrackerViewController: UIViewController {
     let emojiLabel: UILabel = {
         let emojiLabel = UILabel()
         emojiLabel.text = NSLocalizedString("newTracker.emojiLabel.title", comment: "Title for emoji collection")
-        emojiLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
+        emojiLabel.font = .systemFont(ofSize: 19, weight: .bold)
         emojiLabel.translatesAutoresizingMaskIntoConstraints = false
         return emojiLabel
     }()
@@ -79,7 +79,7 @@ final class NewTrackerViewController: UIViewController {
     let colorLabel: UILabel = {
         let colorLabel = UILabel()
         colorLabel.text = NSLocalizedString("newTracker.colorLabel.title", comment: "Title for color collection")
-        colorLabel.font = UIFont.systemFont(ofSize: 19, weight: .bold)
+        colorLabel.font = .systemFont(ofSize: 19, weight: .bold)
         colorLabel.translatesAutoresizingMaskIntoConstraints = false
         return colorLabel
     }()
@@ -102,7 +102,7 @@ final class NewTrackerViewController: UIViewController {
         let cancelButton = UIButton()
         cancelButton.backgroundColor = .ypWhite
         cancelButton.setTitle(NSLocalizedString("cancel", comment: "Cancel title"), for: .normal)
-        cancelButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        cancelButton.titleLabel?.font = .systemFont(ofSize: 16)
         cancelButton.setTitleColor(.ypRed, for: .normal)
         cancelButton.layer.borderWidth = 1
         cancelButton.layer.borderColor = UIColor.ypRed.cgColor
@@ -115,7 +115,7 @@ final class NewTrackerViewController: UIViewController {
         let createButton = UIButton()
         createButton.backgroundColor = .ypGray
         createButton.setTitle(NSLocalizedString("create", comment: "Create title"), for: .normal)
-        createButton.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        createButton.titleLabel?.font = .systemFont(ofSize: 16)
         createButton.setTitleColor(.ypWhite, for: .normal)
         createButton.layer.cornerRadius = 16
         createButton.translatesAutoresizingMaskIntoConstraints = false
@@ -489,7 +489,7 @@ extension NewTrackerViewController: UITableViewDataSource {
             cell.separatorInset = edgeInsets
         }
         
-        if #available(iOS 14.0, *) {
+        if #available(iOS 14, *) {
             var content = cell.defaultContentConfiguration()
             content.text = tableViewCells[indexPath.row]
             
@@ -499,7 +499,7 @@ extension NewTrackerViewController: UITableViewDataSource {
                 content.secondaryText = try? dataHelper.getDaysOfWeekString()
             }
             
-            content.secondaryTextProperties.font = UIFont.systemFont(ofSize: 17)
+            content.secondaryTextProperties.font = .systemFont(ofSize: 17)
             content.secondaryTextProperties.color = .ypGray
             
             cell.contentConfiguration = content

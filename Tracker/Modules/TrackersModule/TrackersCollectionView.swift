@@ -31,12 +31,14 @@ final class TrackersCollectionView: UICollectionView {
         let alertController = UIAlertController(title: nil, message: "", preferredStyle: .actionSheet)
         
         let message = NSMutableAttributedString(string: NSLocalizedString("confirmationOfDeletion", comment: "Conformation of deletion tracker"))
-        message.addAttribute(.font, value: UIFont.systemFont(ofSize: 13), range: NSRange(location: 0, length: message.length))
+        message.addAttribute(.font, value: UIFont.systemFont(ofSize: 13), range: NSRange(location: .zero, length: message.length))
         
         alertController.setValue(message, forKey: "attributedMessage")
-        alertController.addAction(UIAlertAction(title: NSLocalizedString("delete", comment: "Removing of tracker"), style: .destructive) { [weak self] _ in
-            self?.trackersViewController?.trackerViewModel.removeTracker(trackerObject)
-        })
+        alertController.addAction(
+            UIAlertAction(title: NSLocalizedString("delete", comment: "Removing of tracker"), style: .destructive) { [weak self] _ in
+                self?.trackersViewController?.trackerViewModel.removeTracker(trackerObject)
+            }
+        )
         alertController.addAction(UIAlertAction(title: NSLocalizedString("cancel", comment: "Cancel action"), style: .cancel))
         
         trackersViewController?.trackerViewModel.deleteTrackerTapped()
@@ -78,15 +80,15 @@ extension TrackersCollectionView: UICollectionViewDelegate {
         var trackerObject: TrackerCoreData
         
         if trackersViewController.trackerViewModel.isPinnedFetchedObjectsEmpty() {
-            //значит это по любому не закреплённый трекер
+            // it's not a pinned tracker anyway
             title = NSLocalizedString("pin", comment: "Pin tracker action")
             trackerObject = trackersViewController.trackerViewModel.getObjectAt(indexPath: indexPath)
         } else if indexPath.section == 0 {
-            // если есть закреплённые трекеры и у этого трекера секция = 0, то он закреплён
+            // if there are pinned trackers and this tracker has section = 0, then it is pinned
             title = NSLocalizedString("unpin", comment: "unin tracker action")
             trackerObject = trackersViewController.trackerViewModel.getPinnedObjectAt(indexPath: indexPath)
         } else {
-            // если есть закреплённые трекеры и у этого трекера секция отличная от нуля, то он не закреплён
+            // if there are pinned trackers and this tracker has a section other than zero, then it's not pinned
             title = NSLocalizedString("pin", comment: "Pin tracker action")
             let newIndexPath = IndexPath(item: indexPath.item, section: indexPath.section - 1)
             trackerObject = trackersViewController.trackerViewModel.getObjectAt(indexPath: newIndexPath)
@@ -116,7 +118,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         guard let trackersViewController else {
             print("Unable to find TrackersViewController - numberOfSections(in:)")
-            return 0
+            return .zero
         }
         
         return trackersViewController.trackerViewModel.numberOfSections()
@@ -125,7 +127,7 @@ extension TrackersCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard let trackersViewController else {
             print("Unable to find TrackersViewController - collectionView(_:numberOfItemsInSection:)")
-            return 0
+            return .zero
         }
         
         return trackersViewController.trackerViewModel.numberOfItemsInSection(section)
@@ -156,12 +158,8 @@ extension TrackersCollectionView: UICollectionViewDataSource {
         
         switch trackerRecordState {
         case .existForDate:
-            // если listOfDatesForTracker содержит текущую дату, то
-            // при отображении кнопка-галочка, текст = кол-во дат в массиве для этого трекера
             cell.completedButton.setImage(.tick?.withRenderingMode(.alwaysTemplate), for: .normal)
         case .notExist:
-            // если listOfDatesForTracker не содержит ни одной записи для этого трекера, то
-            // при отображении кнопка-плюсик, текст = кол-во дат в массиве для этого трекера, то есть 0
             cell.completedButton.setImage(.plus?.withRenderingMode(.alwaysTemplate), for: .normal)
         case .none:
             break

@@ -19,7 +19,12 @@ final class FiltersViewController: UIViewController {
         return tableView
     }()
     
-    private let filters = [NSLocalizedString("filters.allTrackers", comment: "Title for all trackers filter"), NSLocalizedString("filters.trackersForToday", comment: "Title for trackers for today filter"), NSLocalizedString("filters.completedTrackers", comment: "Title for completed trackers filter"), NSLocalizedString("filters.uncompletedTrackers", comment: "Title for uncompleted trackers filter")]
+    private let filters = [
+        NSLocalizedString("filters.allTrackers", comment: "Title for all trackers filter"),
+        NSLocalizedString("filters.trackersForToday", comment: "Title for trackers for today filter"),
+        NSLocalizedString("filters.completedTrackers", comment: "Title for completed trackers filter"),
+        NSLocalizedString("filters.uncompletedTrackers", comment: "Title for uncompleted trackers filter")
+    ]
     
     weak var trackersViewController: TrackersViewController?
     
@@ -60,7 +65,7 @@ extension FiltersViewController: UITableViewDataSource {
         cell.separatorView.isHidden = indexPath.row == filters.count - 1
         cell.titleLabel.text = filters[indexPath.row]
         
-        // по умолчанию выбран фильтр "Трекеры на сегодня"
+        // The "Trackers for Today" filter is selected by default
         if indexPath.row == UserDefaults.standard.integer(forKey: "indexOfSelectedCell") {
             cell.isSelected = true
             cell.checkmarkImageView.isHidden = false

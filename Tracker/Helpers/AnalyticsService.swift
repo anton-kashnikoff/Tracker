@@ -5,7 +5,6 @@
 //  Created by Антон Кашников on 18/09/2023.
 //
 
-import Foundation
 import YandexMobileMetrica
 
 struct AnalyticsService {

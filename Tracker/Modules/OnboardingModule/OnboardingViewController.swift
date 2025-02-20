@@ -24,7 +24,7 @@ final class OnboardingViewController: UIViewController {
         button.layer.cornerRadius = 16
         button.setTitle(NSLocalizedString("onboarding.button.title", comment: "Title for button on onboarding screen"), for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16)
+        button.titleLabel?.font = .systemFont(ofSize: 16)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()

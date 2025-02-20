@@ -48,7 +48,7 @@ extension ColorCollectionView: UICollectionViewDelegate {
 
 extension ColorCollectionView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        newHabitViewController?.colors.count ?? 0
+        newHabitViewController?.colors.count ?? .zero
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -86,6 +86,6 @@ extension ColorCollectionView: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
-        0
+        .zero
     }
 }
