@@ -4,10 +4,11 @@
 * Контроль привычек по дням недели;
 * Просмотр прогресса по привычкам;
 
-<img src="https://github.com/prostokot14/Tracker/assets/86567361/fa581fbd-125a-4f2a-9d3e-f5383eb84505" width="250">
-<img src="https://github.com/prostokot14/Tracker/assets/86567361/9fa52ba4-ae30-4c05-abf8-2d11ae07a71e" width="250">
-<img src="https://github.com/prostokot14/Tracker/assets/86567361/5ef35760-c6ad-435c-ba07-bffe1e6cc67d" width="250">
-<img src="https://github.com/prostokot14/Tracker/assets/86567361/a7c3b248-0357-4177-8031-dd85b69dd858" width="250">
+<img src="https://github.com/user-attachments/assets/252b0e2a-38e0-4ad5-bf84-056e89c81619" width="250">
+<img src="https://github.com/user-attachments/assets/ef10ebc3-ed35-43ed-baaf-f934179c3aff" width="250">
+<img src="https://github.com/user-attachments/assets/adf990af-36a9-470b-8e14-a1f1b778befa" width="250">
+<img src="https://github.com/user-attachments/assets/9ec5332b-0ad5-4dc3-bad0-f989946ec5ed" width="250">
+<img src="https://github.com/user-attachments/assets/07c5e693-3d0b-4417-8fb7-e7fd170f9a70" width="250">
 
 ## Краткое описание приложения
 * Приложение состоит из карточек-трекеров, которые создает пользователь. Он может указать название, категорию и задать расписание. Также можно выбрать эмодзи и цвет, чтобы отличать карточки друг от друга.
