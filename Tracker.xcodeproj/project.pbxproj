@@ -113,6 +113,9 @@
 		CB846D7D2A74533E00128231 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CB8B2B532AB6271F0052C553 /* DataHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
 		CB8D4D962A84462F00A9708E /* TrackerRecordState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordState.swift; sourceTree = "<group>"; };
+		CB9106C82D6787BB00751427 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = fr; path = fr.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
+		CB9106C92D6787BB00751427 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CB9106CA2D6787BB00751427 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CB94BF1C2AB878C40078AF73 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		CB94BF1E2AB88F690078AF73 /* StatisticsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsTableViewCell.swift; sourceTree = "<group>"; };
 		CBB4395B2A853FE50075BFFE /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
@@ -455,6 +458,7 @@
 				en,
 				Base,
 				ru,
+				fr,
 			);
 			mainGroup = CB846D632A74533B00128231;
 			packageReferences = (
@@ -635,6 +639,7 @@
 			children = (
 				CB1F84482AAB33EC0063D449 /* en */,
 				CB1F844A2AAB33EE0063D449 /* ru */,
+				CB9106C92D6787BB00751427 /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
@@ -644,6 +649,7 @@
 			children = (
 				CB1F844E2AAB36130063D449 /* en */,
 				CB1F84502AAB36180063D449 /* ru */,
+				CB9106CA2D6787BB00751427 /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -661,6 +667,7 @@
 			children = (
 				CBE5EFA92AAA0F3B0041F053 /* en */,
 				CBE5EFAB2AAA10700041F053 /* ru */,
+				CB9106C82D6787BB00751427 /* fr */,
 			);
 			name = Localizable.stringsdict;
 			sourceTree = "<group>";

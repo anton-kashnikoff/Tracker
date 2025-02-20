@@ -1,0 +1,74 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Антон Кашников on 08/09/2023.
+  
+*/
+
+trackersTitle = "Trackers";
+statisticsTitle = "Statistiques";
+cancel = "Annuler";
+create = "Créer";
+category = "Catégorie";
+done = "Terminé";
+search = "Rechercher";
+schedule = "Programme";
+delete = "Supprimer";
+edit = "Modifier";
+pin = "Épingler";
+unpin = "Désépingler";
+pinned = "Épinglé";
+filters = "Filtres";
+confirmationOfDeletion = "Êtes-vous sûr de vouloir supprimer le tracker ?";
+
+onboarding.title1 = "Suivez uniquement ce que vous voulez";
+onboarding.title2 = "Même si ce ne sont pas des litres d’eau et du yoga";
+onboarding.button.title = "Ce sont des technologies !";
+
+schedule.dayOfWeek.monday = "Lundi";
+schedule.dayOfWeek.tuesday = "Mardi";
+schedule.dayOfWeek.wednesday = "Mercredi";
+schedule.dayOfWeek.thursday = "Jeudi";
+schedule.dayOfWeek.friday = "Vendredi";
+schedule.dayOfWeek.saturday = "Samedi";
+schedule.dayOfWeek.sunday = "Dimanche";
+
+schedule.briefDayOfWeek.monday = "Lun";
+schedule.briefDayOfWeek.tuesday = "Mar";
+schedule.briefDayOfWeek.wednesday = "Mer";
+schedule.briefDayOfWeek.thursday = "Jeu";
+schedule.briefDayOfWeek.friday = "Ven";
+schedule.briefDayOfWeek.saturday = "Sam";
+schedule.briefDayOfWeek.sunday = "Dim";
+
+trackerType.habitButton.title = "Habitude";
+trackerType.irregularEventButton.title = "Événement irrégulier";
+trackerType.navigationItem.title = "Création d'un tracker";
+
+newTracker.textField.placeholder = "Entrez le nom du tracker";
+newTracker.emojiLabel.title = "Émoji";
+newTracker.colorLabel.title = "Couleur";
+
+newTracker.newHabit = "Nouvelle habitude";
+newTracker.editHabit = "Modification des habitudes";
+
+newTracker.schedule.everyDay = "Chaque jour";
+newTracker.restrictionLabel.title = "Limite de 38 caractères";
+
+category.placeholder.text = "Les habitudes et événements\npeuvent être regroupés par sens";
+category.addButton.title = "Ajouter une catégorie";
+
+newCategory.textField.placeholder = "Entrez le nom de la catégorie";
+newCategory.navigationItem.title = "Nouvelle catégorie";
+
+trackers.placeholder.nothingFound = "Aucun résultat trouvé";
+trackers.placeholder.noTrackers = "Que voulons-nous suivre ?";
+
+statistics.placeholder.nothingToAnalyze = "Rien à analyser pour le moment";
+statistics.cellTitle.completedTrackers = "Trackers complétés";
+
+filters.allTrackers = "Tous les trackers";
+filters.trackersForToday = "Trackers du jour";
+filters.completedTrackers = "Complétés";
+filters.uncompletedTrackers = "Non complétés";
