@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 70;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,7 +19,6 @@
 		CB40F87A2AB861A3004DBC91 /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB40F8792AB861A3004DBC91 /* AnalyticsService.swift */; };
 		CB49F1882A81135300C37A24 /* HeaderCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */; };
 		CB49F18A2A8124F100C37A24 /* GeometricParams.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB49F1892A8124F100C37A24 /* GeometricParams.swift */; };
-		CB4E5C562AB73AAF00E8E1A1 /* TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB4E5C552AB73AAF00E8E1A1 /* TrackerTests.swift */; };
 		CB4E5C5E2AB73AFF00E8E1A1 /* SnapshotTesting in Frameworks */ = {isa = PBXBuildFile; productRef = CB4E5C5D2AB73AFF00E8E1A1 /* SnapshotTesting */; };
 		CB53AF9E2AA4CF7800BCE101 /* CategoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB53AF9D2AA4CF7800BCE101 /* CategoriesViewModel.swift */; };
 		CB53AFA02AA4DF8D00BCE101 /* TrackerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB53AF9F2AA4DF8D00BCE101 /* TrackerViewModel.swift */; };
@@ -85,7 +84,6 @@
 		CB49F1872A81135300C37A24 /* HeaderCollectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderCollectionView.swift; sourceTree = "<group>"; };
 		CB49F1892A8124F100C37A24 /* GeometricParams.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeometricParams.swift; sourceTree = "<group>"; };
 		CB4E5C532AB73AAF00E8E1A1 /* TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		CB4E5C552AB73AAF00E8E1A1 /* TrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerTests.swift; sourceTree = "<group>"; };
 		CB53AF9D2AA4CF7800BCE101 /* CategoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesViewModel.swift; sourceTree = "<group>"; };
 		CB53AF9F2AA4DF8D00BCE101 /* TrackerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerViewModel.swift; sourceTree = "<group>"; };
 		CB53AFA12AA519FF00BCE101 /* TrackerRecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecordViewModel.swift; sourceTree = "<group>"; };
@@ -128,6 +126,10 @@
 		CBF3B27B2A7D0DCD00A540CA /* EmojiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmojiCollectionViewCell.swift; sourceTree = "<group>"; };
 		CBF3B27F2A7D27C300A540CA /* ColorCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		CB357E062E80050A00ABD40F /* TrackerTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = TrackerTests; sourceTree = "<group>"; };
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		CB4E5C502AB73AAF00E8E1A1 /* Frameworks */ = {
@@ -255,19 +257,11 @@
 			path = Helpers;
 			sourceTree = "<group>";
 		};
-		CB4E5C542AB73AAF00E8E1A1 /* TrackerTests */ = {
-			isa = PBXGroup;
-			children = (
-				CB4E5C552AB73AAF00E8E1A1 /* TrackerTests.swift */,
-			);
-			path = TrackerTests;
-			sourceTree = "<group>";
-		};
 		CB846D632A74533B00128231 = {
 			isa = PBXGroup;
 			children = (
 				CB846D6E2A74533B00128231 /* Tracker */,
-				CB4E5C542AB73AAF00E8E1A1 /* TrackerTests */,
+				CB357E062E80050A00ABD40F /* TrackerTests */,
 				CB846D6D2A74533B00128231 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -360,6 +354,9 @@
 			);
 			dependencies = (
 				CB4E5C582AB73AAF00E8E1A1 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				CB357E062E80050A00ABD40F /* TrackerTests */,
 			);
 			name = TrackerTests;
 			packageProductDependencies = (
@@ -455,7 +452,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CB4E5C562AB73AAF00E8E1A1 /* TrackerTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
