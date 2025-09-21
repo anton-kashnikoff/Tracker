@@ -34,6 +34,12 @@ final class StatisticsViewController: UIViewController {
     
     private var trackerViewModel: TrackerViewModel
     private var trackerRecordViewModel: TrackerRecordViewModel
+
+    private var countOfCompletedTrackers: Int {
+        trackerViewModel.getAllTrackerIDs().reduce(0) { partialResult, id in
+            partialResult + (trackerRecordViewModel.getCountOfCompletedDaysForTracker(id) ?? 0)
+        }
+    }
     
     init(trackerViewModel: TrackerViewModel, trackerRecordViewModel: TrackerRecordViewModel) {
         self.trackerViewModel = trackerViewModel
@@ -96,7 +102,7 @@ final class StatisticsViewController: UIViewController {
     }
     
     private func reloadPlaceholderView() {
-        if getCountOfCompletedTrackers() == 0 {
+        if countOfCompletedTrackers == 0 {
             imageView.image = .nothingToAnalyze
             label.text = NSLocalizedString("statistics.placeholder.nothingToAnalyze", comment: "Text for placeholder view when nothing to analyze")
             imageView.isHidden = false
@@ -106,12 +112,6 @@ final class StatisticsViewController: UIViewController {
             imageView.isHidden = true
             label.isHidden = true
             tableView.isHidden = false
-        }
-    }
-    
-    private func getCountOfCompletedTrackers() -> Int {
-        trackerViewModel.getAllTrackerIDs().reduce(0) { partialResult, id in
-            partialResult + (trackerRecordViewModel.getCountOfCompletedDaysForTracker(id) ?? 0)
         }
     }
 }
@@ -127,7 +127,7 @@ extension StatisticsViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        cell.numberLabel.text = "\(getCountOfCompletedTrackers())"
+        cell.numberLabel.text = "\(countOfCompletedTrackers)"
         
         return cell
     }

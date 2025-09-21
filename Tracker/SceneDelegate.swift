@@ -15,7 +15,7 @@ final class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             return
         }
         
-        var viewController: UIViewController!
+        let viewController: UIViewController
         
         if UserDefaults.standard.hasOnboarded {
             let tabBarController = UITabBarController()
