@@ -1,9 +1,0 @@
-/* 
-  InfoPlist.strings
-  Tracker
-
-  Created by Антон Кашников on 08/09/2023.
-  
-*/
-
-CFBundleDisplayName = "Трекер";
